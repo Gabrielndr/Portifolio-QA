@@ -6,6 +6,7 @@
 Olá! Meu nome é Gabriel e sou QA Engineer com experiência em testes manuais e automação. Minha missão é garantir a qualidade do software através de estratégias eficazes de testes, automação robusta e uma forte cultura de qualidade.
 
 Este repositório é uma curadoria Portfólio de testes manuais de controle de qualidade demonstrando minhas habilidades práticas nos principais domínios de controle de qualidade. Inclui: <br>
+
 🔹 Exemplos de testes manuais detalhados (casos de teste, checklists e relatórios). <br>
 🔹 Relatórios de bugs usando rastreamento no estilo Jira <br>
 🔹 Scripts de automação com instruções de execução. <br>
