@@ -1,0 +1,21 @@
+{
+    "request": {
+      "method": "POST",
+      "url": "/api/cars",
+      "bodyPatterns": [
+        {
+          "matchesJsonPath": "$[?(@.brand)]"
+        },
+        {
+          "matchesJsonPath": "$[?(@.year)]"
+        }
+      ]
+    },
+    "response": {
+      "status": 404,
+      "body": "{ \"message\": \"Car model not found.\" }",
+      "headers": {
+        "Content-Type": "application/json"
+      }
+    }
+  }
