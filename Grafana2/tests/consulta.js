@@ -1,8 +1,11 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
+import { htmlReport } from 'https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js';
+
+
 
 export default function () {
-    const url = 'http://localhost:8000/api/cars';  // URL da sua API simulada no Wiremock
+    const url = 'http://localhost:8080/api/cars';  // URL da sua API simulada no WGET http://localhost:8080/testapiiremock
     const response = http.get(url);
     // Verifica se o status da resposta é 200
     check(response, {
@@ -13,6 +16,10 @@ export default function () {
     });
     // Aguarda 1 segundo entre as requisições
     sleep(1);
+}
 
-
+export function handleSummary(data) {
+    return {
+        "./report/consulta.html": htmlReport(data),
+    }
 }
