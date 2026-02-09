@@ -16,11 +16,7 @@ describe('template spec', () => {
 
       // Verifica se AMBAS estão marcadas — o que não deveria acontecer!
     cy.get('input[type="radio"][value="nobug"]').should('be.checked')
-    cy.get('input[type="radio"][value="bug"]').should('be.checked') // Isso indica o bug!
-
-
-
-   
+    cy.get('input[type="radio"][value="bug"]').should('be.checked') // Isso indica o bug
 
       })
 })
