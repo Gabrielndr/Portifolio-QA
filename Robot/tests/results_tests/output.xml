@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.4.1 (Python 3.14.2 on win32)" generated="2026-02-09T16:19:16.941984" rpa="false" schemaversion="5">
+<suite id="s1" name="Test Suite" source="C:\Users\gabri.QZIN\Desktop\GIT\Robot\tests\test_suite.robot">
+<kw name="Open Browser To Login Page" type="SETUP">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-02-09T16:19:17.306403" level="INFO">Opening browser 'chrome' to base url 'https://practicetestautomation.com/practice-test-login/'.</msg>
+<arg>${URL}</arg>
+<arg>chrome</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-02-09T16:19:17.306188" elapsed="3.268716"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-02-09T16:19:20.575145" elapsed="0.031984"/>
+</kw>
+<kw name="Wait Until Page Contains Element" owner="SeleniumLibrary">
+<arg>id:username</arg>
+<doc>Waits until the element ``locator`` appears on the current page.</doc>
+<status status="PASS" start="2026-02-09T16:19:20.607301" elapsed="0.007283"/>
+</kw>
+<status status="PASS" start="2026-02-09T16:19:17.305517" elapsed="3.309183"/>
+</kw>
+<test id="s1-t1" name="Login com credenciais válidas" line="21">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-02-09T16:19:20.616337" level="INFO">Typing text 'student' into text field 'id:username'.</msg>
+<arg>id:username</arg>
+<arg>${VALID_USER}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-09T16:19:20.616103" elapsed="0.056007"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-02-09T16:19:20.672752" level="INFO">Typing text 'Password123' into text field 'id:password'.</msg>
+<arg>id:password</arg>
+<arg>${VALID_PASS}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-09T16:19:20.672432" elapsed="0.053201"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2026-02-09T16:19:20.726169" level="INFO">Clicking button 'id:submit'.</msg>
+<arg>id:submit</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-09T16:19:20.725937" elapsed="0.724351"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Logged In Successfully</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2026-02-09T16:19:21.450632" elapsed="0.009149"/>
+</kw>
+<kw name="Page Should Contain" owner="SeleniumLibrary">
+<msg time="2026-02-09T16:19:21.466620" level="INFO">Current page contains text 'Logged In Successfully'.</msg>
+<arg>Logged In Successfully</arg>
+<doc>Verifies that current page contains ``text``.</doc>
+<status status="PASS" start="2026-02-09T16:19:21.460088" elapsed="0.006616"/>
+</kw>
+<doc>Faz login com dados corretos e verifica mensagem de sucesso</doc>
+<status status="PASS" start="2026-02-09T16:19:20.615205" elapsed="0.851731"/>
+</test>
+<test id="s1-t2" name="Login com credenciais inválidas" line="29">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-02-09T16:19:21.467946" level="INFO">Typing text 'wronguser' into text field 'id:username'.</msg>
+<msg time="2026-02-09T16:19:21.533118" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-1.png"&gt;&lt;img src="selenium-screenshot-1.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2026-02-09T16:19:21.533279" level="FAIL">Element with locator 'id:username' not found.</msg>
+<arg>id:username</arg>
+<arg>${INVALID_USER}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="FAIL" start="2026-02-09T16:19:21.467750" elapsed="0.135716">Element with locator 'id:username' not found.</status>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<arg>id:password</arg>
+<arg>${INVALID_PASS}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-09T16:19:21.603781" elapsed="0.000062"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<arg>id:submit</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-09T16:19:21.604029" elapsed="0.000028"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Your username is invalid!</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="NOT RUN" start="2026-02-09T16:19:21.604201" elapsed="0.000027"/>
+</kw>
+<kw name="Page Should Contain" owner="SeleniumLibrary">
+<arg>Your username is invalid!</arg>
+<doc>Verifies that current page contains ``text``.</doc>
+<status status="NOT RUN" start="2026-02-09T16:19:21.604362" elapsed="0.000029"/>
+</kw>
+<doc>Testa login errado e verifica mensagem de erro</doc>
+<status status="FAIL" start="2026-02-09T16:19:21.467370" elapsed="0.137228">Element with locator 'id:username' not found.</status>
+</test>
+<kw name="Close Browser" owner="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-02-09T16:19:21.605245" elapsed="2.096570"/>
+</kw>
+<status status="FAIL" start="2026-02-09T16:19:16.943663" elapsed="6.758246"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Test Suite" id="s1" pass="1" fail="1" skip="0">Test Suite</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
