@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.4.1 (Python 3.14.2 on win32)" generated="2026-02-17T16:15:53.902985" rpa="false" schemaversion="5">
+<suite id="s1" name="Formulario" source="C:\Users\gabri.QZIN\Desktop\GIT\Robot\formulario.robot">
+<test id="s1-t1" name="Cenario 1: Preencher formulario" line="54">
+<kw name="Abrir navegador e Acessar site">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-02-17T16:15:54.112372" level="INFO">Opening browser 'chrome' to base url 'https://letcode.in/forms'.</msg>
+<arg>https://letcode.in/forms</arg>
+<arg>chrome</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-02-17T16:15:54.112176" elapsed="1.789703"/>
+</kw>
+<kw name="Set Selenium Speed" owner="SeleniumLibrary">
+<arg>0.5s</arg>
+<doc>Sets the delay that is waited after each Selenium command.</doc>
+<status status="PASS" start="2026-02-17T16:15:55.902125" elapsed="0.000250"/>
+</kw>
+<status status="PASS" start="2026-02-17T16:15:54.111473" elapsed="1.790991"/>
+</kw>
+<kw name="Preencher campos">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-02-17T16:15:55.903321" level="INFO">Typing text 'Gabriel' into text field 'id:firstname'.</msg>
+<arg>${input_name}</arg>
+<arg>Gabriel</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-17T16:15:55.903015" elapsed="1.587541"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-02-17T16:15:57.490966" level="INFO">Typing text 'Andrade' into text field 'id:lasttname'.</msg>
+<arg>${input_lasttname}</arg>
+<arg>Andrade</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-17T16:15:57.490740" elapsed="1.551490"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-02-17T16:15:59.042767" level="INFO">Typing text 'teste@gmail.com' into text field 'id:email'.</msg>
+<arg>${input_email}</arg>
+<arg>teste@gmail.com</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-17T16:15:59.042482" elapsed="1.556098"/>
+</kw>
+<kw name="Select From List By Value" owner="SeleniumLibrary">
+<msg time="2026-02-17T16:16:00.598995" level="INFO">Selecting options from selection list 'css:select' by value 55.</msg>
+<arg>${select_code}</arg>
+<arg>55</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<status status="PASS" start="2026-02-17T16:16:00.598766" elapsed="4.558966"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-02-17T16:16:05.158159" level="INFO">Typing text '11942528073' into text field 'id:Phno'.</msg>
+<arg>${input_Phno}</arg>
+<arg>11942528073</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-17T16:16:05.157924" elapsed="1.557172"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-02-17T16:16:06.715516" level="INFO">Typing text 'Rua asmania' into text field 'id:Addl1'.</msg>
+<arg>${input_Addl1}</arg>
+<arg>Rua asmania</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-17T16:16:06.715288" elapsed="1.569192"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-02-17T16:16:08.284924" level="INFO">Typing text 'Rua lituania' into text field 'id:Addl2'.</msg>
+<arg>${input_Addl2}</arg>
+<arg>Rua lituania</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-17T16:16:08.284683" elapsed="1.566435"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-02-17T16:16:09.851517" level="INFO">Typing text 'São Paulo' into text field 'id:state'.</msg>
+<arg>${input_state}</arg>
+<arg>São Paulo</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-17T16:16:09.851304" elapsed="1.554042"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-02-17T16:16:11.405790" level="INFO">Typing text '03554150' into text field 'id:postalcode'.</msg>
+<arg>${input_postalcode}</arg>
+<arg>03554150</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-17T16:16:11.405551" elapsed="1.549397"/>
+</kw>
+<kw name="Select From List By Value" owner="SeleniumLibrary">
+<msg time="2026-02-17T16:16:12.955353" level="INFO">Selecting options from selection list 'xpath=//label[normalize-space(.)="Country"]/following::select[1]' by value Brazil.</msg>
+<arg>${select_country}</arg>
+<arg>Brazil</arg>
+<doc>Selects options from selection list ``locator`` by ``values``.</doc>
+<status status="PASS" start="2026-02-17T16:16:12.955128" elapsed="4.049001"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-02-17T16:16:17.004536" level="INFO">Typing text '23-08-2001' into text field 'id:Date'.</msg>
+<arg>${input_date}</arg>
+<arg>23-08-2001</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-17T16:16:17.004318" elapsed="1.548962"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-02-17T16:16:18.553704" level="INFO">Clicking element 'id:male'.</msg>
+<arg>${input_male}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-17T16:16:18.553474" elapsed="1.042852"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-02-17T16:16:19.596842" level="INFO">Clicking element 'css:input[type="checkbox"]'.</msg>
+<arg>${input_check}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-17T16:16:19.596556" elapsed="1.042784"/>
+</kw>
+<status status="PASS" start="2026-02-17T16:15:55.902779" elapsed="24.736715"/>
+</kw>
+<kw name="Clicar em submit">
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-02-17T16:16:20.640477" level="INFO">Clicking element 'css:.button.is-primary'.</msg>
+<arg>${input_submit}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-17T16:16:20.640163" elapsed="1.054919"/>
+</kw>
+<status status="PASS" start="2026-02-17T16:16:20.639875" elapsed="1.055333"/>
+</kw>
+<kw name="Fechar navegador">
+<kw name="Close Browser" owner="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-02-17T16:16:21.695769" elapsed="2.587015"/>
+</kw>
+<status status="PASS" start="2026-02-17T16:16:21.695503" elapsed="2.587475"/>
+</kw>
+<status status="PASS" start="2026-02-17T16:15:54.110812" elapsed="30.172587"/>
+</test>
+<status status="PASS" start="2026-02-17T16:15:53.904685" elapsed="30.379503"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Formulario" id="s1" pass="1" fail="0" skip="0">Formulario</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
