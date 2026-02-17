@@ -10,6 +10,7 @@ Library     SeleniumLibrary
 *** Keywords ***
 Abrir site do google
     Open Browser    https://www.google.com.br  chrome
+    Set Selenium Speed    0.5s
 
 Fechar navegador
     Close Browser
