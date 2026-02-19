@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.4.1 (Python 3.14.2 on win32)" generated="2026-02-18T14:34:34.781611" rpa="false" schemaversion="5">
+<suite id="s1" name="Teste" source="C:\Users\gabri.QZIN\Desktop\GIT\Robot\teste.robot">
+<test id="s1-t1" name="TC01 - Reservando passagem de destinos dentro dos EUA na classe econômica" line="153">
+<kw name="Dado que eu acesse o php travels">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-02-18T14:34:35.119884" level="INFO">Opening browser 'chrome' to base url 'https://www.phptravels.net/'.</msg>
+<msg time="2026-02-18T14:34:35.566477" level="WARN">The chromedriver version (144.0.7559.4) detected in PATH at C:\WebDrives\chromedriver.exe might not be compatible with the detected chrome version (145.0.7632.75); currently, chromedriver 145.0.7632.76 is recommended for chrome 145.*, so it is advised to delete the driver in PATH and retry</msg>
+<arg>${URL}</arg>
+<arg>${Browser}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-02-18T14:34:35.119645" elapsed="4.296882"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-02-18T14:34:39.416824" elapsed="0.022790"/>
+</kw>
+<status status="PASS" start="2026-02-18T14:34:35.119003" elapsed="4.320780"/>
+</kw>
+<kw name="E realize o cadastro">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2026-02-18T14:34:49.777122" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-1.png"&gt;&lt;img src="selenium-screenshot-1.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2026-02-18T14:34:49.777318" level="FAIL">Element '//a[@href="https://www.phptravels.net/signup"]' not visible after 10 seconds.</msg>
+<arg>${A_Signup}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="FAIL" start="2026-02-18T14:34:39.440576" elapsed="10.380489">Element '//a[@href="https://www.phptravels.net/signup"]' not visible after 10 seconds.</status>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<arg>${A_Signup}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:34:49.821279" elapsed="0.000032"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Input_PrimeiroNome}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:34:49.821398" elapsed="0.000021"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<arg>${Input_PrimeiroNome}</arg>
+<arg>${PrimeiroNome}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:34:49.821513" elapsed="0.000020"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Input_UltimoNome}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:34:49.821615" elapsed="0.000018"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<arg>${Input_UltimoNome}</arg>
+<arg>${UltimoNome}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:34:49.821704" elapsed="0.000019"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Input_Telefone}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:34:49.821796" elapsed="0.000019"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<arg>${Input_Telefone}</arg>
+<arg>${Telefone}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:34:49.821886" elapsed="0.000018"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Input_Email}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:34:49.821974" elapsed="0.000018"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<arg>${Input_Email}</arg>
+<arg>${Email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:34:49.822062" elapsed="0.000017"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Input_Senha}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:34:49.822148" elapsed="0.000019"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<arg>${Input_Senha}</arg>
+<arg>${Senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:34:49.822238" elapsed="0.000018"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Button_Cookie}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:34:49.822325" elapsed="0.000017"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<arg>${Button_Cookie}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:34:49.822411" elapsed="0.000017"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Button_Signup}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:34:49.822492" elapsed="0.000017"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" start="2026-02-18T14:34:49.822588" elapsed="0.000019"/>
+</kw>
+<kw name="Run Keyword And Ignore Error" owner="BuiltIn">
+<arg>Click Element</arg>
+<arg>${Button_Signup}</arg>
+<doc>Runs the given keyword with the given arguments and ignores possible error.</doc>
+<status status="NOT RUN" start="2026-02-18T14:34:49.822690" elapsed="0.000019"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<arg>${Button_Signup}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:34:49.822779" elapsed="0.000017"/>
+</kw>
+<status status="FAIL" start="2026-02-18T14:34:39.440245" elapsed="10.382669">Element '//a[@href="https://www.phptravels.net/signup"]' not visible after 10 seconds.</status>
+</kw>
+<kw name="E faça o Login">
+<status status="NOT RUN" start="2026-02-18T14:34:49.823266" elapsed="0.000043"/>
+</kw>
+<kw name="Quando eu realizo uma busca de um vôo ida e volta">
+<status status="NOT RUN" start="2026-02-18T14:34:49.823552" elapsed="0.000038"/>
+</kw>
+<kw name="E saindo de Los Angeles EUA" source_name="E saindo de ${Texto}">
+<status status="NOT RUN" start="2026-02-18T14:34:49.823854" elapsed="0.000036"/>
+</kw>
+<kw name="E fecho o navegador">
+<status status="NOT RUN" start="2026-02-18T14:34:49.824087" elapsed="0.000035"/>
+</kw>
+<status status="FAIL" start="2026-02-18T14:34:35.118355" elapsed="14.705988">Element '//a[@href="https://www.phptravels.net/signup"]' not visible after 10 seconds.</status>
+</test>
+<test id="s1-t2" name="TC02 - Reservando passagens internacionais na classe econômica" line="170">
+<kw name="Dado que eu acesse o php travels">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-02-18T14:34:49.825541" level="INFO">Opening browser 'chrome' to base url 'https://www.phptravels.net/'.</msg>
+<msg time="2026-02-18T14:34:49.907285" level="WARN">The chromedriver version (144.0.7559.4) detected in PATH at C:\WebDrives\chromedriver.exe might not be compatible with the detected chrome version (145.0.7632.75); currently, chromedriver 145.0.7632.76 is recommended for chrome 145.*, so it is advised to delete the driver in PATH and retry</msg>
+<arg>${URL}</arg>
+<arg>${Browser}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-02-18T14:34:49.825343" elapsed="3.090781"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-02-18T14:34:52.916360" elapsed="0.026468"/>
+</kw>
+<status status="PASS" start="2026-02-18T14:34:49.825098" elapsed="3.117887"/>
+</kw>
+<kw name="E realize o cadastro">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2026-02-18T14:35:03.315847" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-2.png"&gt;&lt;img src="selenium-screenshot-2.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2026-02-18T14:35:03.316021" level="FAIL">Element '//a[@href="https://www.phptravels.net/signup"]' not visible after 10 seconds.</msg>
+<arg>${A_Signup}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="FAIL" start="2026-02-18T14:34:52.943728" elapsed="10.373321">Element '//a[@href="https://www.phptravels.net/signup"]' not visible after 10 seconds.</status>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<arg>${A_Signup}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:03.317270" elapsed="0.000037"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Input_PrimeiroNome}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:03.317411" elapsed="0.000024"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<arg>${Input_PrimeiroNome}</arg>
+<arg>${PrimeiroNome}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:03.317522" elapsed="0.000019"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Input_UltimoNome}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:03.317623" elapsed="0.000020"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<arg>${Input_UltimoNome}</arg>
+<arg>${UltimoNome}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:03.317719" elapsed="0.000022"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Input_Telefone}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:03.317814" elapsed="0.000017"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<arg>${Input_Telefone}</arg>
+<arg>${Telefone}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:03.317898" elapsed="0.000016"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Input_Email}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:03.317981" elapsed="0.000018"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<arg>${Input_Email}</arg>
+<arg>${Email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:03.318065" elapsed="0.000016"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Input_Senha}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:03.318147" elapsed="0.000017"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<arg>${Input_Senha}</arg>
+<arg>${Senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:03.318229" elapsed="0.000016"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Button_Cookie}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:03.318312" elapsed="0.000016"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<arg>${Button_Cookie}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:03.318393" elapsed="0.000015"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Button_Signup}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:03.318471" elapsed="0.000016"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:03.318559" elapsed="0.000018"/>
+</kw>
+<kw name="Run Keyword And Ignore Error" owner="BuiltIn">
+<arg>Click Element</arg>
+<arg>${Button_Signup}</arg>
+<doc>Runs the given keyword with the given arguments and ignores possible error.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:03.318655" elapsed="0.000018"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<arg>${Button_Signup}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:03.318741" elapsed="0.000016"/>
+</kw>
+<status status="FAIL" start="2026-02-18T14:34:52.943414" elapsed="10.375444">Element '//a[@href="https://www.phptravels.net/signup"]' not visible after 10 seconds.</status>
+</kw>
+<kw name="E faça o Login">
+<status status="NOT RUN" start="2026-02-18T14:35:03.319144" elapsed="0.000031"/>
+</kw>
+<kw name="Quando eu realizo uma busca de um vôo ida e volta">
+<status status="NOT RUN" start="2026-02-18T14:35:03.319340" elapsed="0.000025"/>
+</kw>
+<kw name="E saindo de Salvador" source_name="E saindo de ${Texto}">
+<status status="NOT RUN" start="2026-02-18T14:35:03.319528" elapsed="0.000024"/>
+</kw>
+<kw name="E fecho o navegador">
+<status status="NOT RUN" start="2026-02-18T14:35:03.319694" elapsed="0.000027"/>
+</kw>
+<status status="FAIL" start="2026-02-18T14:34:49.824754" elapsed="13.495146">Element '//a[@href="https://www.phptravels.net/signup"]' not visible after 10 seconds.</status>
+</test>
+<test id="s1-t3" name="TC03 - Solicitar visto Americano" line="188">
+<kw name="Dado que eu acesse o php travels">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-02-18T14:35:03.320964" level="INFO">Opening browser 'chrome' to base url 'https://www.phptravels.net/'.</msg>
+<msg time="2026-02-18T14:35:03.546064" level="WARN">The chromedriver version (144.0.7559.4) detected in PATH at C:\WebDrives\chromedriver.exe might not be compatible with the detected chrome version (145.0.7632.75); currently, chromedriver 145.0.7632.76 is recommended for chrome 145.*, so it is advised to delete the driver in PATH and retry</msg>
+<arg>${URL}</arg>
+<arg>${Browser}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-02-18T14:35:03.320777" elapsed="4.368714"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-02-18T14:35:07.689777" elapsed="0.026498"/>
+</kw>
+<status status="PASS" start="2026-02-18T14:35:03.320554" elapsed="4.395841"/>
+</kw>
+<kw name="E realize o cadastro">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2026-02-18T14:35:18.020828" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-3.png"&gt;&lt;img src="selenium-screenshot-3.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2026-02-18T14:35:18.020974" level="FAIL">Element '//a[@href="https://www.phptravels.net/signup"]' not visible after 10 seconds.</msg>
+<arg>${A_Signup}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="FAIL" start="2026-02-18T14:35:07.717202" elapsed="10.304706">Element '//a[@href="https://www.phptravels.net/signup"]' not visible after 10 seconds.</status>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<arg>${A_Signup}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:18.022140" elapsed="0.000036"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Input_PrimeiroNome}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:18.022317" elapsed="0.000046"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<arg>${Input_PrimeiroNome}</arg>
+<arg>${PrimeiroNome}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:18.022517" elapsed="0.000043"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Input_UltimoNome}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:18.022709" elapsed="0.000046"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<arg>${Input_UltimoNome}</arg>
+<arg>${UltimoNome}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:18.022903" elapsed="0.000024"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Input_Telefone}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:18.023022" elapsed="0.000028"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<arg>${Input_Telefone}</arg>
+<arg>${Telefone}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:18.023166" elapsed="0.000028"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Input_Email}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:18.023317" elapsed="0.000037"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<arg>${Input_Email}</arg>
+<arg>${Email}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:18.023466" elapsed="0.000022"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Input_Senha}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:18.023603" elapsed="0.000038"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<arg>${Input_Senha}</arg>
+<arg>${Senha}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:18.023749" elapsed="0.000023"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Button_Cookie}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:18.023848" elapsed="0.000019"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<arg>${Button_Cookie}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:18.023969" elapsed="0.000022"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${Button_Signup}</arg>
+<arg>10</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:18.024061" elapsed="0.000018"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:18.024173" elapsed="0.000022"/>
+</kw>
+<kw name="Run Keyword And Ignore Error" owner="BuiltIn">
+<arg>Click Element</arg>
+<arg>${Button_Signup}</arg>
+<doc>Runs the given keyword with the given arguments and ignores possible error.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:18.024276" elapsed="0.000019"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<arg>${Button_Signup}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="NOT RUN" start="2026-02-18T14:35:18.024369" elapsed="0.000017"/>
+</kw>
+<status status="FAIL" start="2026-02-18T14:35:07.716836" elapsed="10.307649">Element '//a[@href="https://www.phptravels.net/signup"]' not visible after 10 seconds.</status>
+</kw>
+<kw name="E faça o Login">
+<status status="NOT RUN" start="2026-02-18T14:35:18.024776" elapsed="0.000032"/>
+</kw>
+<kw name="E acesso a página de visto">
+<status status="NOT RUN" start="2026-02-18T14:35:18.024985" elapsed="0.000026"/>
+</kw>
+<kw name="E informo o pais de origem sendo o Brazil" source_name="E informo o pais de origem sendo o ${Texto}">
+<status status="NOT RUN" start="2026-02-18T14:35:18.025184" elapsed="0.000027"/>
+</kw>
+<kw name="E fecho o navegador">
+<status status="NOT RUN" start="2026-02-18T14:35:18.025333" elapsed="0.000021"/>
+</kw>
+<status status="FAIL" start="2026-02-18T14:35:03.320264" elapsed="14.705246">Element '//a[@href="https://www.phptravels.net/signup"]' not visible after 10 seconds.</status>
+</test>
+<status status="FAIL" start="2026-02-18T14:34:34.783247" elapsed="43.242898"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="3" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Teste" id="s1" pass="0" fail="3" skip="0">Teste</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2026-02-18T14:34:35.566477" level="WARN">The chromedriver version (144.0.7559.4) detected in PATH at C:\WebDrives\chromedriver.exe might not be compatible with the detected chrome version (145.0.7632.75); currently, chromedriver 145.0.7632.76 is recommended for chrome 145.*, so it is advised to delete the driver in PATH and retry</msg>
+<msg time="2026-02-18T14:34:49.907285" level="WARN">The chromedriver version (144.0.7559.4) detected in PATH at C:\WebDrives\chromedriver.exe might not be compatible with the detected chrome version (145.0.7632.75); currently, chromedriver 145.0.7632.76 is recommended for chrome 145.*, so it is advised to delete the driver in PATH and retry</msg>
+<msg time="2026-02-18T14:35:03.546064" level="WARN">The chromedriver version (144.0.7559.4) detected in PATH at C:\WebDrives\chromedriver.exe might not be compatible with the detected chrome version (145.0.7632.75); currently, chromedriver 145.0.7632.76 is recommended for chrome 145.*, so it is advised to delete the driver in PATH and retry</msg>
+</errors>
+</robot>
