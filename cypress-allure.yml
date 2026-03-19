@@ -1,0 +1,59 @@
+name: 🧪 Cypress Tests + Allure Report
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  cypress-tests:
+    name: Run Cypress Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: 📦 Instalar dependências
+        working-directory: Cypress
+        run: |
+          npm init -y
+          npm install cypress --save-dev
+          npm install @4tw/cypress-drag-drop --save-dev
+          npm install mocha-allure-reporter --save-dev
+
+      - name: 🌲 Rodar testes Cypress
+        working-directory: Cypress
+        run: npx cypress run --reporter mocha-allure-reporter
+        continue-on-error: true
+
+      - name: 📊 Gerar relatório Allure
+        uses: simple-elf/allure-report-action@master
+        with:
+          allure_results: Cypress/allure-results
+          allure_report: Cypress/allure-report
+          allure_history: Cypress/allure-history
+          keep_reports: 20
+
+      - name: 💾 Salvar resultados como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-allure-results
+          path: Cypress/allure-report
+          retention-days: 30
+
+      - name: 🚀 Publicar no GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: Cypress/allure-report
+          destination_dir: cypress
