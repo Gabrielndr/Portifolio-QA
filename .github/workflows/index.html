@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gabriel da Silva | QA Portfolio</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    header h1 {
+      font-size: 2.4rem;
+      color: #58a6ff;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      color: #8b949e;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 16px;
+    }
+
+    .badge {
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 0.8rem;
+      color: #58a6ff;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 28px;
+      transition: border-color 0.2s, transform 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card:hover {
+      border-color: #58a6ff;
+      transform: translateY(-4px);
+    }
+
+    .card-icon { font-size: 2rem; }
+
+    .card h2 {
+      font-size: 1.2rem;
+      color: #e6edf3;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: #8b949e;
+      line-height: 1.5;
+    }
+
+    .card .tag {
+      display: inline-block;
+      background: #1f6feb33;
+      border: 1px solid #1f6feb;
+      color: #58a6ff;
+      border-radius: 6px;
+      padding: 2px 10px;
+      font-size: 0.75rem;
+      margin-top: auto;
+      width: fit-content;
+    }
+
+    .links {
+      display: flex;
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .links a {
+      color: #58a6ff;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border: 1px solid #30363d;
+      padding: 8px 20px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .links a:hover { background: #21262d; }
+
+    footer {
+      margin-top: 60px;
+      color: #484f58;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Gabriel da Silva</h1>
+    <p>QA Engineer · Automação de Testes · Qualidade de Software</p>
+    <div class="badges">
+      <span class="badge">Cypress</span>
+      <span class="badge">Robot Framework</span>
+      <span class="badge">Postman</span>
+      <span class="badge">K6</span>
+      <span class="badge">WireMock</span>
+      <span class="badge">BDD / Gherkin</span>
+      <span class="badge">GitHub Actions</span>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <a class="card" href="./cypress/index.html">
+      <div class="card-icon">🌲</div>
+      <h2>Cypress — Relatório Allure</h2>
+      <p>Testes E2E automatizados cobrindo login, formulários, dropdowns, drag & drop e fluxo de compra.</p>
+      <span class="tag">Ver Relatório →</span>
+    </a>
+
+    <a class="card" href="./robot/index.html">
+      <div class="card-icon">🤖</div>
+      <h2>Robot Framework — Relatório Allure</h2>
+      <p>Testes BDD com SeleniumLibrary cobrindo YouTube, formulários e navegação em sites reais.</p>
+      <span class="tag">Ver Relatório →</span>
+    </a>
+
+    <a class="card" href="https://github.com/Gabrielndr/Portifolio-QA/tree/main/Postman">
+      <div class="card-icon">📬</div>
+      <h2>Postman — API REST</h2>
+      <p>CRUD completo de Produtos e Usuários com autenticação JWT na API ServeRest.</p>
+      <span class="tag">Ver no GitHub →</span>
+    </a>
+
+    <a class="card" href="https://github.com/Gabrielndr/Portifolio-QA/tree/main/K6%20%2B%20Mock">
+      <div class="card-icon">⚡</div>
+      <h2>K6 + WireMock — Performance</h2>
+      <p>Testes de carga e stress com até 500 VUs simultâneos em API mockada com WireMock.</p>
+      <span class="tag">Ver no GitHub →</span>
+    </a>
+
+    <a class="card" href="https://github.com/Gabrielndr/Portifolio-QA/tree/main/BDD">
+      <div class="card-icon">📋</div>
+      <h2>BDD — Cenários Gherkin</h2>
+      <p>37 cenários documentados em português cobrindo login, API, formulários e performance.</p>
+      <span class="tag">Ver no GitHub →</span>
+    </a>
+
+  </div>
+
+  <div class="links">
+    <a href="https://www.linkedin.com/in/gabrielsndr/" target="_blank">LinkedIn</a>
+    <a href="https://github.com/Gabrielndr/Portifolio-QA" target="_blank">GitHub</a>
+  </div>
+
+  <footer>© 2026 Gabriel da Silva · QA Portfolio</footer>
+
+</body>
+</html>

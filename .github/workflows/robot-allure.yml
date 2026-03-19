@@ -1,0 +1,67 @@
+name: 🤖 Robot Framework Tests + Allure Report
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  robot-tests:
+    name: Run Robot Framework Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Instalar dependências
+        run: |
+          pip install robotframework
+          pip install robotframework-seleniumlibrary
+          pip install allure-robotframework
+
+      - name: 🌐 Setup Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: 🚗 Setup ChromeDriver
+        uses: nanasess/setup-chromedriver@v2
+
+      - name: 🤖 Rodar testes Robot Framework
+        run: |
+          robot \
+            --listener allure_robotframework \
+            --outputdir Robot/results \
+            Robot/formulario.robot \
+            Robot/bdd.robot
+        continue-on-error: true
+
+      - name: 📊 Gerar relatório Allure
+        uses: simple-elf/allure-report-action@master
+        with:
+          allure_results: Robot/results/allure-results
+          allure_report: Robot/allure-report
+          allure_history: Robot/allure-history
+          keep_reports: 20
+
+      - name: 💾 Salvar resultados como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-allure-results
+          path: Robot/allure-report
+          retention-days: 30
+
+      - name: 🚀 Publicar no GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: Robot/allure-report
+          destination_dir: robot
