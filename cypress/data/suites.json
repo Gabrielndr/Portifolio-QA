@@ -1,1 +1,1 @@
-{"uid":"98d3104e051c652961429bf95fa0b5d6","children":[{"name":"template spec","children":[{"name":"passes","uid":"1c31470a37498784","parentUid":"f944be1fcc4e5d638f069238c7b33328","status":"passed","time":{"start":1774034728242,"stop":1774034730660,"duration":2418},"flaky":false,"newFailed":false,"newPassed":false,"newBroken":false,"retriesCount":7,"retriesStatusChange":true,"parameters":[],"tags":[]}],"uid":"f944be1fcc4e5d638f069238c7b33328"}],"name":"suites"}
+{"uid":"98d3104e051c652961429bf95fa0b5d6","children":[],"name":"suites"}
