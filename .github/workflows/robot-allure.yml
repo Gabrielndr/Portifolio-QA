@@ -24,22 +24,15 @@ jobs:
       - name: 📦 Instalar dependências
         run: |
           pip install robotframework
-          pip install robotframework-seleniumlibrary
           pip install allure-robotframework
-
-      - name: 🌐 Setup Chrome
-        uses: browser-actions/setup-chrome@v1
-
-      - name: 🚗 Setup ChromeDriver
-        uses: nanasess/setup-chromedriver@v2
 
       - name: 🤖 Rodar testes Robot Framework
         run: |
           robot \
+            --dryrun \
             --listener allure_robotframework \
             --outputdir Robot/results \
-            Robot/formulario.robot \
-            Robot/bdd.robot
+            Robot/
         continue-on-error: true
 
       - name: 📊 Gerar relatório Allure
@@ -47,7 +40,6 @@ jobs:
         with:
           allure_results: Robot/results/allure-results
           allure_report: Robot/allure-report
-          allure_history: Robot/allure-history
           keep_reports: 20
 
       - name: 💾 Salvar resultados como artefato
