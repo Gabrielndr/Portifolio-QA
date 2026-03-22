@@ -6,19 +6,26 @@ describe('template spec', () => {
 
     cy.get('#fullName').type('Gabriel da Silva Andrade')
     cy.wait(2000)
+
     cy.get('#join').clear()
     cy.wait(2000)
+
     cy.get('#join').type('Treinando')
     cy.wait(2000)
-    cy.press(Cypress.Keyboard.Keys.TAB) 
+
+    cy.get('#join').trigger('keydown', { keyCode: 9 })
     cy.wait(2000)
+
     cy.get('#getMe').should('have.value', 'ortonikc')
     cy.wait(2000)
+
     cy.get('#clearMe').clear()
     cy.wait(2000)
+
     cy.get('#noEdit').should('not.have.attr', 'readonly')
-     cy.wait(2000)
+    cy.wait(2000)
+
     cy.get('#dontwrite').should('have.attr', 'readonly')
-    
+
   })
 })
