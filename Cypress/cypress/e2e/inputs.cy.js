@@ -1,4 +1,4 @@
-describe('template spec', () => {
+javascriptdescribe('template spec', () => {
   it('passes', () => {
 
     cy.viewport(1920, 1080)
