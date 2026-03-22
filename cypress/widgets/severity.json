@@ -1,1 +1,1 @@
-[{"uid":"b7d836d2e3d9f764","name":"passes","time":{"start":1774198499115,"stop":1774198501241,"duration":2126},"status":"passed","severity":"normal"}]
+[{"uid":"e0c9e7ee9f44227f","name":"An uncaught error was detected outside of a test","time":{"start":1774198520507,"stop":1774198520714,"duration":207},"status":"broken","severity":"normal"},{"uid":"b029b03290273ba7","name":"passes","time":{"start":1774198522837,"stop":1774198524853,"duration":2016},"status":"passed","severity":"normal"}]
