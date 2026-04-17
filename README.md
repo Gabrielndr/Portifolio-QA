@@ -1,9 +1,5 @@
 # 🎯 Portfólio QA — Gabriel da Silva
 
-[![Cypress Tests](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/cypress-allure.yml/badge.svg)](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/cypress-allure.yml)
-[![Robot Framework](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/robot-allure.yml/badge.svg)](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/robot-allure.yml)
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen)](https://gabrielndr.github.io/Portifolio-QA)
-
 Bem-vindo ao meu portfólio de QA! Aqui você encontrará uma coleção organizada de testes automatizados, testes de API, testes de performance e cenários BDD, utilizando as principais ferramentas do mercado.
 
 ---
@@ -14,15 +10,13 @@ Olá! Sou **Gabriel da Silva**, QA Engineer com mais de 5 anos de experiência e
 
 Minha missão é garantir a qualidade do software por meio de estratégias eficazes de testes, automação robusta e uma forte cultura de qualidade.
 
-🔗 [LinkedIn](https://www.linkedin.com/in/gabrielsndr/) • [GitHub](https://github.com/Gabrielndr) • [gabrielsandrade.2001.2308@gmail.com](mailto:gabrielsandrade.2001.2308@gmail.com)
-
 ---
 
 ## 📁 Estrutura do Portfólio
 
 ```
 Portifolio-QA/
-├── 📂 BDD/          # Cenários BDD em Gherkin (37 cenários)
+├── 📂 BDD/          # Cenários BDD em Gherkin
 ├── 📂 Cypress/      # Testes E2E automatizados
 ├── 📂 K6 + Mock/    # Testes de performance e carga
 ├── 📂 Postman/      # Testes de API REST
@@ -35,7 +29,7 @@ Portifolio-QA/
 
 | Ferramenta | Tipo de Teste | Detalhes |
 |---|---|---|
-| ![Cypress](https://img.shields.io/badge/Cypress-17D9CE?style=flat&logo=cypress&logoColor=white) | E2E / UI | 8 specs cobrindo login, formulários, drag & drop |
+| ![Cypress](https://img.shields.io/badge/Cypress-17D9CE?style=flat&logo=cypress&logoColor=white) | E2E / UI | Cobrindo login, formulários, drag & drop |
 | ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=flat&logo=postman&logoColor=white) | API REST | CRUD completo com autenticação JWT |
 | ![K6](https://img.shields.io/badge/K6-7D64FF?style=flat&logo=k6&logoColor=white) | Performance | Até 500 VUs com WireMock |
 | ![Robot](https://img.shields.io/badge/Robot_Framework-000000?style=flat&logo=robot-framework&logoColor=white) | BDD / UI | SeleniumLibrary com Given/When/Then |
