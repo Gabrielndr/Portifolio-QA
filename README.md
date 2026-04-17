@@ -6,17 +6,15 @@
 
 Bem-vindo ao meu portfólio de QA! Aqui você encontrará uma coleção organizada de testes automatizados, testes de API, testes de performance e cenários BDD, utilizando as principais ferramentas do mercado.
 
-> 💼 **QA Engineer** com experiência em testes manuais e automação, projetos reais como **Smiles**, **GOL App** e **Cielo POS/TEF**.
-
 ---
 
 ## 👨‍💻 Sobre Mim
 
-Olá! Sou Gabriel da Silva, QA Engineer com mais de 5 anos de experiência em qualidade de software. Tenho atuado em projetos de grande escala nos setores financeiro e de aviação, garantindo a qualidade de aplicações mobile, web e APIs.
+Olá! Sou **Gabriel da Silva**, QA Engineer com mais de 5 anos de experiência em qualidade de software. Atuei em projetos de grande escala nos setores financeiro e de aviação, garantindo a qualidade de aplicações mobile, web e APIs — com destaque para projetos como **Smiles**, **GOL App** e **Cielo POS/TEF**.
 
-Minha missão é garantir a qualidade do software através de estratégias eficazes de testes, automação robusta e uma forte cultura de qualidade.
+Minha missão é garantir a qualidade do software por meio de estratégias eficazes de testes, automação robusta e uma forte cultura de qualidade.
 
-🔗 [LinkedIn](https://www.linkedin.com/in/gabrielsndr/) • [GitHub](https://github.com/Gabrielndr)
+🔗 [LinkedIn](https://www.linkedin.com/in/gabrielsndr/) • [GitHub](https://github.com/Gabrielndr) • [gabrielsandrade.2001.2308@gmail.com](mailto:gabrielsandrade.2001.2308@gmail.com)
 
 ---
 
@@ -24,11 +22,11 @@ Minha missão é garantir a qualidade do software através de estratégias efica
 
 ```
 Portifolio-QA/
-├── 📂 BDD/               # Cenários BDD em Gherkin (37 cenários)
-├── 📂 Cypress/           # Testes E2E automatizados
-├── 📂 K6 + Mock/         # Testes de performance e carga
-├── 📂 Postman/           # Testes de API REST
-└── 📂 Robot/             # Testes com Robot Framework
+├── 📂 BDD/          # Cenários BDD em Gherkin (37 cenários)
+├── 📂 Cypress/      # Testes E2E automatizados
+├── 📂 K6 + Mock/    # Testes de performance e carga
+├── 📂 Postman/      # Testes de API REST
+└── 📂 Robot/        # Testes com Robot Framework
 ```
 
 ---
@@ -65,15 +63,16 @@ Cenários escritos em português seguindo o padrão **Given / When / Then**, cob
 
 Automação de testes End-to-End com **Cypress 13**, cobrindo os principais tipos de interação com interfaces web.
 
-**Specs:**
-- `button.cy.js` — Validação de botões e CSS
-- `Login.cy.js` — Fluxo de autenticação
-- `forms.cy.js` — Preenchimento de formulários
-- `dropdown.cy.js` — Seleção em dropdowns
-- `inputs.cy.js` — Validação de campos
-- `Compra.cy.js` — Fluxo de compra E2E
-- `sortable.cy.js` — Drag and Drop
-- `pai.cy.js` — Navegação site Enel SP
+| Spec | Descrição |
+|---|---|
+| `button.cy.js` | Validação de botões e CSS |
+| `Login.cy.js` | Fluxo de autenticação |
+| `forms.cy.js` | Preenchimento de formulários |
+| `dropdown.cy.js` | Seleção em dropdowns |
+| `inputs.cy.js` | Validação de campos |
+| `Compra.cy.js` | Fluxo de compra E2E |
+| `sortable.cy.js` | Drag and Drop |
+| `pai.cy.js` | Navegação no site Enel SP |
 
 📊 [Ver Relatório Allure](https://gabrielndr.github.io/Portifolio-QA/cypress)
 
@@ -82,8 +81,6 @@ Automação de testes End-to-End com **Cypress 13**, cobrindo os principais tipo
 ## 📬 Postman — Testes de API REST
 
 CRUD completo de **Produtos** e **Usuários** na API [ServeRest](https://serverest.dev) com autenticação **JWT Bearer Token**.
-
-**Endpoints testados:**
 
 | Método | Endpoint | Status |
 |---|---|---|
@@ -100,7 +97,7 @@ CRUD completo de **Produtos** e **Usuários** na API [ServeRest](https://servere
 
 ## ⚡ K6 + WireMock — Testes de Performance
 
-Testes de carga e stress em API mockada com **WireMock**, gerando relatórios HTML automáticos.
+Testes de carga e stress em API mockada com **WireMock**, com geração automática de relatórios HTML.
 
 | Script | Tipo | Configuração |
 |---|---|---|
@@ -109,6 +106,7 @@ Testes de carga e stress em API mockada com **WireMock**, gerando relatórios HT
 | `testsucess.js` | Stress | Rampa até 500 VUs |
 
 **Mocks configurados:**
+
 - `GET /api/cars` → 200 com lista de 5 carros
 - `POST /api/cars` (fusca) → 201 Created
 - `POST /api/cars` (up tsi) → 500 Error
@@ -174,8 +172,7 @@ https://gabrielndr.github.io/Portifolio-QA
 
 ## 📬 Contato
 
-**Gabriel da Silva**
-QA Engineer
+**Gabriel da Silva** — QA Engineer
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-gabrielsndr-0077B5?style=flat&logo=linkedin)](https://www.linkedin.com/in/gabrielsndr/)
 [![GitHub](https://img.shields.io/badge/GitHub-Gabrielndr-181717?style=flat&logo=github)](https://github.com/Gabrielndr)
