@@ -1,1 +1,1 @@
-[]
+[{"uid":"48aa079bb398806f","name":"passes","time":{"start":1776794049487,"stop":1776794051867,"duration":2380},"status":"passed","severity":"normal"},{"uid":"8286d1a70d970447","name":"An uncaught error was detected outside of a test","time":{"start":1776794047034,"stop":1776794047180,"duration":146},"status":"broken","severity":"normal"}]
