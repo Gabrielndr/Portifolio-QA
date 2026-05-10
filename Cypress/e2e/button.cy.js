@@ -1,33 +1,56 @@
-describe('template spec', () => {
-  it('passes', () => {
+const BUTTON_PAGE = 'https://letcode.in/button'
 
-    cy.viewport(1920, 1080)
-    cy.visit('https://letcode.in/button')
+const selectors = {
+  home: '#home',
+  position: '#position',
+  color: '#color',
+  property: '#property',
+  disabled: '#isDisabled',
+}
 
+describe('LetCode - botoes', () => {
+  beforeEach(() => {
+    cy.viewport(1366, 768)
+    cy.visit(BUTTON_PAGE)
+  })
 
-    cy.get('#home').click()
-    cy.wait(2000)
+  it('deve navegar para a home e voltar para a pagina de botoes', () => {
+    cy.get(selectors.home)
+      .should('be.visible')
+      .and('not.be.disabled')
+      .click()
+
+    cy.location('pathname').should('not.eq', '/button')
 
     cy.go('back')
-    cy.wait(2000)
 
-    cy.get('#color').should('have.css', 'background-color', 'rgb(42, 157, 144)')
-    cy.wait(2000)
+    cy.location('pathname').should('eq', '/button')
+    cy.get(selectors.home).should('be.visible')
+  })
 
-    cy.get('#property').then($el => {
-        const largura = $el.width();
-        const altura = $el.height();
-    cy.log(`Largura: ${largura}px — Altura: ${altura}px`)
-  
-        expect(largura).to.be.greaterThan(0)
-        expect(altura).to.be.greaterThan(0)
+  it('deve exibir posicao, cor e dimensoes esperadas dos botoes', () => {
+    cy.get(selectors.position).should(($button) => {
+      const { x, y } = $button[0].getBoundingClientRect()
+
+      expect(x, 'posicao horizontal').to.be.greaterThan(0)
+      expect(y, 'posicao vertical').to.be.greaterThan(0)
     })
 
-    cy.get(':nth-child(6) > .control > #isDisabled').trigger('mousedown', { button: 0 })
-    cy.wait(1000)
-    
-    cy.get(':nth-child(6) > .control > #isDisabled').trigger('mouseup')
-    
+    cy.get(selectors.color)
+      .should('be.visible')
+      .and('have.css', 'background-color', 'rgb(42, 157, 144)')
 
+    cy.get(selectors.property).should(($button) => {
+      const { width, height } = $button[0].getBoundingClientRect()
+
+      expect(width, 'largura').to.be.greaterThan(0)
+      expect(height, 'altura').to.be.greaterThan(0)
+    })
+  })
+
+  it('deve manter o botao desabilitado sem permitir clique do usuario', () => {
+    cy.get(selectors.disabled)
+      .should('be.visible')
+      .and('be.disabled')
   })
 })

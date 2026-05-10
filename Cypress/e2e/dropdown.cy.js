@@ -1,32 +1,61 @@
+const DROPDOWN_PAGE = 'https://letcode.in/dropdowns'
 
+const selectors = {
+  fruits: '#fruits',
+  superHeroes: '#superheros',
+  language: '#lang',
+  country: '#country',
+}
 
-describe('template spec', () => {
-  it('passes', () => {
+const selectedOptions = (selector) => cy.get(selector).find('option:selected')
 
-    cy.viewport(1920, 1080)
-    cy.visit('https://letcode.in/dropdowns')
+describe('LetCode - dropdowns', () => {
+  beforeEach(() => {
+    cy.viewport(1366, 768)
+    cy.visit(DROPDOWN_PAGE)
+    cy.contains('h1', 'Dropdown').should('be.visible')
+  })
 
-    cy.get('#fruits').select('Mango')
+  it('deve selecionar uma fruta pelo texto visivel', () => {
+    cy.get(selectors.fruits)
+      .should('be.visible')
+      .select('Mango')
+      .should('have.value', '1')
 
-    cy.get('#superheros').select('The Avengers')
+    selectedOptions(selectors.fruits).should('have.text', 'Mango')
+  })
 
-    cy.get('#lang').select('Python').then(($select) => {
-        const valorSelecionado = $select.val(); // Pega o valor da opção atualmente selecionada
-    cy.wrap($select).find('option').each(($option, index) => {
-        const valor = $option.attr('value')
-        const texto = $option.text() 
-          if (valor === valorSelecionado) { 
-              cy.log(`👉 Opção ${index + 1}: "${texto}" (selecionada)`)
-          } else {
-               cy.log(`Opção ${index + 1}: "${texto}"`)
-          }
-      })
-    })
-    cy.get('#country').select('Brazil') .invoke('val').then((valorSelecionado) => {
-    cy.log('País selecionado: ' + valorSelecionado)
+  it('deve permitir selecao multipla de super-herois', () => {
+    const heroes = ['The Avengers', 'Batman', 'Iron Man']
+
+    cy.get(selectors.superHeroes)
+      .should('be.visible')
+      .and('have.attr', 'multiple')
+
+    cy.get(selectors.superHeroes)
+      .select(['ta', 'bt', 'im'])
+
+    selectedOptions(selectors.superHeroes).then(($options) => {
+      const selectedLabels = [...$options].map((option) => option.text.trim())
+
+      expect(selectedLabels).to.include.members(heroes)
+      expect(selectedLabels).to.have.length(heroes.length)
     })
   })
+
+  it('deve selecionar a ultima linguagem e o pais pelo valor correto', () => {
+    cy.get(selectors.language)
+      .should('be.visible')
+      .select('sharp')
+      .should('have.value', 'sharp')
+
+    selectedOptions(selectors.language).should('have.text', 'C#')
+
+    cy.get(selectors.country)
+      .should('be.visible')
+      .select('India')
+      .should('have.value', 'India')
+
+    selectedOptions(selectors.country).should('have.text', 'India')
+  })
 })
-
-
-

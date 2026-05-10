@@ -1,15 +1,32 @@
 import '@4tw/cypress-drag-drop'
 
-describe('template spec', () => {
-  it('passes', () => {
+const dragAndDropPageUrl = 'https://commitquality.com/practice-drag-and-drop'
 
-    cy.viewport(1920, 1080)
-    cy.visit('https://commitquality.com/practice-drag-and-drop')
+const selectors = {
+  smallBox: '[data-testid="small-box"]',
+  largeBox: '[data-testid="large-box"]',
+}
 
-    cy.get('[data-testid="small-box"]').drag('[data-testid="large-box"]')
+describe('CommitQuality - drag and drop', () => {
+  beforeEach(() => {
+    cy.viewport(1366, 768)
+    cy.visit(dragAndDropPageUrl)
+  })
 
-    //cy.get('#cdk-drop-list-0 > :nth-child(4)').drag('#cdk-drop-list-1')
+  it('deve soltar a caixa pequena na area correta', () => {
+    cy.get(selectors.smallBox)
+      .should('be.visible')
+      .and('have.attr', 'draggable', 'true')
 
-    
+    cy.get(selectors.largeBox)
+      .should('be.visible')
+      .and('have.text', 'Drag the small box here.')
+      .and('not.have.class', 'inside')
+
+    cy.get(selectors.smallBox).drag(selectors.largeBox)
+
+    cy.get(selectors.largeBox)
+      .should('have.class', 'inside')
+      .and('have.text', 'Success!')
   })
 })

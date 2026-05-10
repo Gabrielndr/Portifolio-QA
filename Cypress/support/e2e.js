@@ -15,3 +15,11 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
+
+Cypress.on('uncaught:exception', (error) => {
+  const isKnownLetCodeBootError = error.message.includes(
+    "Cannot read properties of null (reading 'document')",
+  )
+
+  return !isKnownLetCodeBootError
+})
