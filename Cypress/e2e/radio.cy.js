@@ -1,4 +1,4 @@
-const radioPageUrl = 'https://letcode.in/radio'
+const radioPageUrl = '/radio'
 
 const selectors = {
   pageTitle: 'h1.title',
@@ -19,8 +19,7 @@ const selectors = {
 
 describe('LetCode - radio buttons e checkboxes', () => {
   beforeEach(() => {
-    cy.viewport(1366, 768)
-    cy.visit(radioPageUrl)
+    cy.visitLetCode(radioPageUrl)
     cy.get(selectors.pageTitle).should('contain.text', 'Radio & Checkbox')
   })
 

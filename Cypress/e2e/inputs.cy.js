@@ -1,4 +1,4 @@
-const editPageUrl = 'https://letcode.in/edit'
+const editPageUrl = '/edit'
 
 const selectors = {
   pageTitle: 'h1.title',
@@ -12,8 +12,7 @@ const selectors = {
 
 describe('LetCode - campos de input', () => {
   beforeEach(() => {
-    cy.viewport(1366, 768)
-    cy.visit(editPageUrl)
+    cy.visitLetCode(editPageUrl)
     cy.get(selectors.pageTitle).should('contain.text', 'Input')
   })
 

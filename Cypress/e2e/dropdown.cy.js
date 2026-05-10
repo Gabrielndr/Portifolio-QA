@@ -1,4 +1,4 @@
-const DROPDOWN_PAGE = 'https://letcode.in/dropdowns'
+const DROPDOWN_PAGE = '/dropdowns'
 
 const selectors = {
   fruits: '#fruits',
@@ -11,8 +11,7 @@ const selectedOptions = (selector) => cy.get(selector).find('option:selected')
 
 describe('LetCode - dropdowns', () => {
   beforeEach(() => {
-    cy.viewport(1366, 768)
-    cy.visit(DROPDOWN_PAGE)
+    cy.visitLetCode(DROPDOWN_PAGE)
     cy.contains('h1', 'Dropdown').should('be.visible')
   })
 

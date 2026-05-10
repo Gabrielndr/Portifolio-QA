@@ -55,18 +55,28 @@ Cenários escritos em português seguindo o padrão **Given / When / Then**, cob
 
 ## 🌲 Cypress — Testes E2E
 
-Automação de testes End-to-End com **Cypress 13**, cobrindo os principais tipos de interação com interfaces web.
+Automação de testes End-to-End com **Cypress 14**, cobrindo fluxos web com configuração centralizada, fixtures, interceptação de APIs externas e execução em CI.
 
 | Spec | Descrição |
 |---|---|
-| `button.cy.js` | Validação de botões e CSS |
-| `Login.cy.js` | Fluxo de autenticação |
-| `forms.cy.js` | Preenchimento de formulários |
-| `dropdown.cy.js` | Seleção em dropdowns |
-| `inputs.cy.js` | Validação de campos |
-| `Compra.cy.js` | Fluxo de compra E2E |
+| `button.cy.js` | Validação de botões, navegação e CSS |
+| `auth.cy.js` | Login válido e inválido com `cy.intercept()` |
+| `forms.cy.js` | Formulário válido, obrigatórios e email inválido |
+| `dropdown.cy.js` | Dropdown simples, múltiplo e seleção por valor |
+| `inputs.cy.js` | Campos de texto, foco, readonly e disabled |
+| `checkout.cy.js` | Produto, carrinho e checkout com fixture da Fake Store |
+| `radio.cy.js` | Radio buttons, bug conhecido e checkboxes |
 | `sortable.cy.js` | Drag and Drop |
-| `pai.cy.js` | Navegação no site Enel SP |
+
+**Como executar localmente:**
+
+```bash
+cd Cypress
+npm install
+npm run cy:open
+npm run cy:run
+npm run cy:run:allure
+```
 
 📊 [Ver Relatório Allure](https://gabrielndr.github.io/Portifolio-QA/cypress)
 

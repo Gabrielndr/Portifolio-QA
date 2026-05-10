@@ -1,4 +1,4 @@
-const FORM_PAGE = 'https://letcode.in/forms'
+const FORM_PAGE = '/forms'
 
 const selectors = {
   firstName: '#firstname',
@@ -58,8 +58,7 @@ const fillValidForm = () => {
 
 describe('LetCode - formulario de cadastro', () => {
   beforeEach(() => {
-    cy.viewport(1366, 768)
-    cy.visit(FORM_PAGE)
+    cy.visitLetCode(FORM_PAGE)
     cy.contains('h1', 'Form').should('be.visible')
   })
 
@@ -85,7 +84,7 @@ describe('LetCode - formulario de cadastro', () => {
       .and('be.enabled')
       .click()
 
-    cy.location('pathname').should('eq', '/forms')
+    cy.assertPath('/forms')
   })
 
   it('deve bloquear envio quando campos obrigatorios estao vazios', () => {

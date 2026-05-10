@@ -1,4 +1,4 @@
-const BUTTON_PAGE = 'https://letcode.in/button'
+const BUTTON_PAGE = '/button'
 
 const selectors = {
   home: '#home',
@@ -10,8 +10,7 @@ const selectors = {
 
 describe('LetCode - botoes', () => {
   beforeEach(() => {
-    cy.viewport(1366, 768)
-    cy.visit(BUTTON_PAGE)
+    cy.visitLetCode(BUTTON_PAGE)
   })
 
   it('deve navegar para a home e voltar para a pagina de botoes', () => {
@@ -24,7 +23,7 @@ describe('LetCode - botoes', () => {
 
     cy.go('back')
 
-    cy.location('pathname').should('eq', '/button')
+    cy.assertPath('/button')
     cy.get(selectors.home).should('be.visible')
   })
 

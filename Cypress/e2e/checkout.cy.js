@@ -1,4 +1,5 @@
-const STORE_PAGE = 'https://letcode.in/home'
+const STORE_PAGE = '/home'
+const PRODUCTS_API = 'https://fakestoreapi.com/products'
 
 const product = {
   id: 1,
@@ -17,7 +18,7 @@ const openFirstProduct = () => {
         .click()
     })
 
-  cy.location('pathname').should('eq', `/product/${product.id}`)
+  cy.assertPath(`/product/${product.id}`)
   cy.contains('.title', product.fullTitle).should('be.visible')
 }
 
@@ -50,14 +51,18 @@ const goToCart = () => {
     .should('be.visible')
     .click()
 
-  cy.location('pathname').should('eq', '/cart')
+  cy.assertPath('/cart')
   cy.contains('h2', 'Shopping Cart').should('be.visible')
 }
 
 describe('LetCode - fluxo de compra', () => {
   beforeEach(() => {
-    cy.viewport(1366, 768)
-    cy.visit(STORE_PAGE, {
+    cy.fixture('products').then((products) => {
+      cy.intercept('GET', PRODUCTS_API, products).as('getProducts')
+      cy.intercept('GET', `${PRODUCTS_API}/${product.id}`, products[0]).as('getProduct')
+    })
+
+    cy.visitLetCode(STORE_PAGE, {
       onBeforeLoad(win) {
         win.localStorage.clear()
       },

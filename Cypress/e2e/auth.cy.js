@@ -1,4 +1,4 @@
-const loginPageUrl = 'https://letcode.in/login/'
+const loginPageUrl = '/login/'
 const authUrl = 'https://fakestoreapi.com/auth/login'
 
 const selectors = {
@@ -20,13 +20,12 @@ const corsHeaders = {
 
 describe('LetCode - login Fake Store', () => {
   beforeEach(() => {
-    cy.viewport(1366, 768)
     cy.intercept('OPTIONS', authUrl, {
       statusCode: 204,
       headers: corsHeaders,
     })
 
-    cy.visit(loginPageUrl, {
+    cy.visitLetCode(loginPageUrl, {
       onBeforeLoad(win) {
         win.localStorage.clear()
       },
@@ -56,7 +55,7 @@ describe('LetCode - login Fake Store', () => {
       expect(body).to.deep.equal(credentials)
     })
 
-    cy.location('pathname', { timeout: 10000 }).should('eq', '/home')
+    cy.assertPath('/home')
     cy.window().then((win) => {
       expect(win.localStorage.getItem('auth_token')).to.eq(authToken)
       expect(JSON.parse(win.localStorage.getItem('user_data'))).to.deep.eq({
@@ -77,7 +76,7 @@ describe('LetCode - login Fake Store', () => {
     cy.get(selectors.loginButton).click()
 
     cy.wait('@loginFailed')
-    cy.location('pathname').should('eq', '/login')
+    cy.assertPath('/login')
     cy.window().then((win) => {
       expect(win.localStorage.getItem('auth_token')).to.be.null
       expect(win.localStorage.getItem('user_data')).to.be.null

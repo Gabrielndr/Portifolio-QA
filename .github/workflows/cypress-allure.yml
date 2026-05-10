@@ -1,4 +1,4 @@
-name: 🧪 Cypress Tests + Allure Report
+name: Cypress Tests + Allure Report
 
 on:
   push:
@@ -9,25 +9,34 @@ on:
 
 jobs:
   cypress-tests:
-    name: Run Cypress Tests
+    name: Run Cypress E2E
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: Cypress
+
     steps:
-      - name: 📥 Checkout do repositório
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: 📦 Instalar dependências
-        working-directory: Cypress
-        run: npm install
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: Cypress/package-lock.json
 
-      - name: 🌲 Rodar testes Cypress
-        working-directory: Cypress
-        run: npx cypress run --reporter mocha-allure-reporter
-        continue-on-error: true
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Cypress with Allure reporter
+        run: npm run cy:run:allure
         env:
           CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
 
-      - name: 📊 Gerar relatório Allure
+      - name: Generate Allure report
+        if: always()
         uses: simple-elf/allure-report-action@master
         with:
           allure_results: Cypress/allure-results
@@ -35,16 +44,17 @@ jobs:
           allure_history: Cypress/allure-history
           keep_reports: 20
 
-      - name: 💾 Salvar resultados como artefato
+      - name: Upload Allure artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-allure-results
+          name: cypress-allure-report
           path: Cypress/allure-report
           retention-days: 30
 
-      - name: 🚀 Publicar no GitHub Pages
+      - name: Publish Allure report to GitHub Pages
+        if: github.ref == 'refs/heads/main' && always()
         uses: peaceiris/actions-gh-pages@v3
-        if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
