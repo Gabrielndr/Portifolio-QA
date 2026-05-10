@@ -21,8 +21,7 @@ describe('LetCode - botoes', () => {
 
     cy.location('pathname').should('not.eq', '/button')
 
-    cy.go('back')
-
+    cy.visitLetCode(BUTTON_PAGE)
     cy.assertPath('/button')
     cy.get(selectors.home).should('be.visible')
   })

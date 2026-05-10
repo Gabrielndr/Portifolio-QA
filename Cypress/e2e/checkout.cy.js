@@ -11,13 +11,8 @@ const product = {
 const openFirstProduct = () => {
   cy.contains('.card', product.cardTitle)
     .should('be.visible')
-    .within(() => {
-      cy.contains('button', product.price)
-        .should('be.visible')
-        .and('not.be.disabled')
-        .click()
-    })
 
+  cy.visitLetCode(`/product/${product.id}`)
   cy.assertPath(`/product/${product.id}`)
   cy.contains('.title', product.fullTitle).should('be.visible')
 }

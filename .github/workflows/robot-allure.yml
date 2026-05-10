@@ -1,4 +1,4 @@
-name: 🤖 Robot Framework Tests + Allure Report
+name: Robot Framework Tests + Allure Report
 
 on:
   push:
@@ -7,51 +7,60 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
+concurrency:
+  group: robot-allure-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   robot-tests:
     name: Run Robot Framework Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-      - name: 📥 Checkout do repositório
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: 🐍 Setup Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: 📦 Instalar dependências
+      - name: Install dependencies
         run: |
           pip install robotframework
           pip install allure-robotframework
 
-      - name: 🤖 Rodar testes Robot Framework
+      - name: Run Robot Framework dry run
         run: |
           robot \
             --dryrun \
             --listener allure_robotframework \
             --outputdir Robot/results \
             Robot/
-        continue-on-error: true
 
-      - name: 📊 Gerar relatório Allure
+      - name: Generate Allure report
+        if: always()
         uses: simple-elf/allure-report-action@master
         with:
           allure_results: Robot/results/allure-results
           allure_report: Robot/allure-report
           keep_reports: 20
 
-      - name: 💾 Salvar resultados como artefato
+      - name: Upload Allure artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: robot-allure-results
           path: Robot/allure-report
           retention-days: 30
 
-      - name: 🚀 Publicar no GitHub Pages
+      - name: Publish Allure report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
