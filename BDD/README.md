@@ -1,138 +1,78 @@
-# 📋 BDD - Behavior Driven Development
+# BDD - Behavior Driven Development
 
-Cenários de teste escritos em **Gherkin** seguindo o padrão **BDD (Behavior Driven Development)**. Os arquivos `.feature` documentam o comportamento esperado do sistema de forma legível para toda a equipe — QA, Dev e negócio.
+Esta pasta documenta regras de negócio e critérios de aceite em Gherkin. O objetivo é servir como ponte entre QA, desenvolvimento e negócio, mantendo os cenários claros o suficiente para revisão manual e estruturados o suficiente para automação futura com Cucumber, Cypress ou Robot Framework.
 
----
+## Estrutura
 
-## 📁 Estrutura de Arquivos
-
-```
+```text
 BDD/
-├── login.feature       # Cenários de autenticação e login
-├── produtos.feature    # CRUD completo de produtos via API
-├── usuarios.feature    # CRUD completo de usuários via API
-├── formulario.feature  # Preenchimento e validação de formulário web
-└── cars_api.feature    # API de carros com mock WireMock + testes de carga K6
+├── login.feature       # Login web no Fake Store
+├── formulario.feature  # Formulário web LetCode
+├── produtos.feature    # API ServeRest - produtos
+├── usuarios.feature    # API ServeRest - usuários
+└── cars_api.feature    # API mockada com WireMock + performance K6
 ```
 
----
+## Cobertura
 
-## 🧪 Funcionalidades Cobertas
+| Arquivo | Área | Foco |
+|---|---|---|
+| `login.feature` | Web | Autenticação, sessão e senha mascarada |
+| `formulario.feature` | Web | Cadastro, obrigatórios, e-mail e termos |
+| `produtos.feature` | API | CRUD, validação e autenticação |
+| `usuarios.feature` | API | Cadastro, login, listagem e exclusão |
+| `cars_api.feature` | API/Performance | Contratos mockados, carga e stress |
 
-| Arquivo | Funcionalidade | Cenários | Tags |
-|---|---|---|---|
-| `login.feature` | Login e Autenticação | 7 | `@login` `@sucesso` `@falha` `@seguranca` |
-| `produtos.feature` | Gerenciamento de Produtos | 8 | `@produtos` `@cadastro` `@edicao` `@exclusao` |
-| `usuarios.feature` | Gerenciamento de Usuários | 8 | `@usuarios` `@login` `@cadastro` `@exclusao` |
-| `formulario.feature` | Formulário Web | 7 | `@formulario` `@validacao` `@dropdown` |
-| `cars_api.feature` | API de Carros + Performance | 7 | `@cars` `@performance` `@stress` `@carga` |
+## Tags
 
-**Total: 37 cenários documentados**
+| Tag | Uso |
+|---|---|
+| `@web` | Cenários de interface |
+| `@api` | Cenários de API |
+| `@mock` | Cenários dependentes de WireMock |
+| `@performance` | Cenários de K6, carga ou stress |
+| `@critico` | Fluxos essenciais para regressão |
+| `@sucesso` | Caminho feliz |
+| `@falha` ou `@erro` | Erro esperado |
+| `@validacao` | Validação de campo ou regra |
+| `@seguranca` | Token, senha, sessão ou permissão |
+| `@tabela` | Cenários data-driven |
 
----
+## Convenções
 
-## 📐 Padrão Gherkin Utilizado
+- Escreva cenários no idioma do negócio, sem detalhes de seletor CSS ou implementação.
+- Use `Contexto` apenas para pré-condições realmente comuns.
+- Evite ids fixos de massa. Prefira dados criados no próprio cenário ou placeholders como `<timestamp>`.
+- Separe escopos: formulário não deve conter cenários de dropdowns ou inputs de outra tela.
+- Use tags por camada, objetivo e criticidade.
+- Mantenha cada cenário independente, com pré-condição e resultado verificável.
+
+## Exemplo de padrão
 
 ```gherkin
-Funcionalidade: Descrição da funcionalidade
-  Como um [perfil de usuário]
-  Quero [ação desejada]
-  Para [benefício/objetivo]
+# language: pt
+
+@bdd @api @critico
+Funcionalidade: Exemplo
+  Como usuário do sistema
+  Quero executar uma ação relevante
+  Para obter um benefício mensurável
 
   Contexto:
-    Dado [pré-condição comum a todos os cenários]
+    Dado que a aplicação está disponível
 
-  @tag
-  Cenário: Descrição do cenário
-    Dado [pré-condição]
-    Quando [ação executada]
-    E [ação adicional]
-    Então [resultado esperado]
-
-  Esquema do Cenário: Teste com múltiplos dados
-    Quando [ação com "<variavel>"]
-    Então [resultado "<esperado>"]
-
-    Exemplos:
-      | variavel | esperado |
-      | valor1   | result1  |
+  @sucesso
+  Cenário: Executar ação com dados válidos
+    Quando envio dados válidos
+    Então devo receber uma resposta de sucesso
 ```
 
----
+## Automação futura
 
-## 🔖 Sistema de Tags
+Para automatizar com Cypress + Cucumber, instale um pré-processador de Gherkin e aponte o `specPattern` para os arquivos `.feature`. A automação deve implementar steps reutilizáveis por domínio, por exemplo:
 
-| Tag | Descrição |
-|---|---|
-| `@sucesso` | Cenários de caminho feliz (happy path) |
-| `@falha` | Cenários de erro esperado |
-| `@validacao` | Validações de campos e regras de negócio |
-| `@seguranca` | Cenários relacionados à segurança |
-| `@performance` | Testes de carga e stress |
-| `@carga` | Testes com múltiplos usuários simultâneos |
-| `@stress` | Testes com rampa de usuários |
-| `@tabela` | Cenários com Esquema do Cenário (data-driven) |
+- `Dado que a API ServeRest está disponível`
+- `Quando envio uma requisição POST para "/produtos" com o body:`
+- `Então o status da resposta deve ser 201`
 
----
-
-## 🚀 Como Integrar com Cypress + Cucumber
-
-**1. Instale o plugin**
-```bash
-npm install @badeball/cypress-cucumber-preprocessor --save-dev
-npm install @bahmutov/cypress-esbuild-preprocessor --save-dev
-```
-
-**2. Configure o cypress.config.js**
-```javascript
-const { defineConfig } = require('cypress');
-const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
-const { addCucumberPreprocessorPlugin } = require('@badeball/cypress-cucumber-preprocessor');
-
-module.exports = defineConfig({
-  e2e: {
-    specPattern: 'BDD/**/*.feature',
-    async setupNodeEvents(on, config) {
-      await addCucumberPreprocessorPlugin(on, config);
-      on('file:preprocessor', createBundler());
-      return config;
-    },
-  },
-});
-```
-
-**3. Execute os testes**
-```bash
-npx cypress run --spec "BDD/login.feature"
-npx cypress run --spec "BDD/**/*.feature"
-```
-
----
-
-## 🚀 Como Integrar com Robot Framework
-
-Os cenários BDD também são compatíveis com Robot Framework usando a estrutura **Given/When/Then** já presente nos arquivos `.robot` do projeto.
-
-```bash
-robot --include sucesso BDD/
-robot --include performance BDD/
-```
-
----
-
-## 📌 Boas Práticas Aplicadas
-
-- ✅ Linguagem em português (`# language: pt`)
-- ✅ Estrutura Given/When/And/Then clara e objetiva
-- ✅ `Contexto` para pré-condições compartilhadas
-- ✅ `Esquema do Cenário` para testes orientados a dados (data-driven)
-- ✅ Tags organizadas por tipo de teste e resultado esperado
-- ✅ Cenários independentes entre si
-- ✅ Nomenclatura descritiva e orientada ao comportamento do usuário
-
----
-
-## 👨‍💻 Autor
-
-**Gabriel da Silva**  
-QA Engineer | [LinkedIn](https://www.linkedin.com/in/gabrielsndr/) | [GitHub](https://github.com/Gabrielndr)
+Para Robot Framework, os cenários podem orientar keywords Given/When/Then equivalentes nos arquivos `.robot`.

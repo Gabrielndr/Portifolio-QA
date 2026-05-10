@@ -1,24 +1,25 @@
 # language: pt
 
-Funcionalidade: API de Carros - Mock e Performance
-  Como um engenheiro de QA
-  Quero validar o comportamento da API de carros
-  Para garantir respostas corretas em diferentes cenários
+@bdd @api @mock @performance @cars
+Funcionalidade: API de carros com WireMock e K6
+  Como engenheiro de QA
+  Quero validar contratos mockados e comportamento sob carga
+  Para garantir previsibilidade funcional e limites mínimos de performance
 
   Contexto:
-    Dado que o servidor WireMock está rodando em "http://localhost:8080"
+    Dado que o WireMock está rodando em "http://localhost:8080"
     E o endpoint base é "/api/cars"
 
-  @cars @consulta @sucesso
-  Cenário: Listar todos os carros cadastrados
+  @cars @consulta @sucesso @contrato
+  Cenário: Listar carros mockados
     Quando envio uma requisição GET para "/api/cars"
     Então o status da resposta deve ser 200
     E a lista deve conter exatamente 5 carros
+    E cada carro deve possuir os campos "brand", "model" e "year"
     E o primeiro carro deve ser "Toyota Corolla"
-    E o último carro deve ser "BMW M3"
 
-  @cars @cadastro @sucesso
-  Cenário: Cadastrar um carro permitido com sucesso
+  @cars @cadastro @sucesso @contrato
+  Cenário: Cadastrar modelo permitido
     Quando envio uma requisição POST para "/api/cars" com o body:
       """
       {
@@ -31,8 +32,8 @@ Funcionalidade: API de Carros - Mock e Performance
     E o body deve conter a mensagem "Car successfully registered!"
     E o body deve conter o campo "carId" com valor 6
 
-  @cars @cadastro @erro
-  Cenário: Tentar cadastrar modelo não permitido - erro 500
+  @cars @cadastro @erro @contrato
+  Cenário: Retornar erro controlado para modelo não permitido
     Quando envio uma requisição POST para "/api/cars" com o body:
       """
       {
@@ -44,8 +45,8 @@ Funcionalidade: API de Carros - Mock e Performance
     Então o status da resposta deve ser 500
     E o body deve conter a mensagem "Internal server error: model 'up tsi' is not allowed."
 
-  @cars @cadastro @erro
-  Cenário: Tentar cadastrar modelo desconhecido - erro 404
+  @cars @cadastro @erro @contrato
+  Cenário: Retornar não encontrado para modelo ausente
     Quando envio uma requisição POST para "/api/cars" com o body:
       """
       {
@@ -57,31 +58,32 @@ Funcionalidade: API de Carros - Mock e Performance
     E o body deve conter a mensagem "Car model not found."
 
   @cars @performance @carga
-  Cenário: Teste de carga com 10 usuários simultâneos por 30 segundos
-    Dado que o K6 está configurado com 10 VUs e duração de 30 segundos
-    Quando executo o teste de carga no endpoint POST "/api/cars"
-    Então todos os requests devem retornar status 500 para o modelo "up tsi"
-    E a taxa de sucesso dos checks deve ser de 100%
+  Cenário: Executar carga com 10 usuários simultâneos
+    Dado que o K6 está configurado com 10 VUs por 30 segundos
+    Quando executo o teste de carga no endpoint POST "/api/cars" para o modelo "up tsi"
+    Então todos os checks funcionais devem passar
+    E a taxa de falha HTTP esperada deve permanecer controlada pelo contrato do mock
+    E o tempo de resposta p95 deve permanecer abaixo de 500 ms
 
   @cars @performance @stress
-  Cenário: Teste de stress com rampa de até 500 usuários
-    Dado que o K6 está configurado com os seguintes stages:
+  Cenário: Executar stress com rampa até 500 usuários
+    Dado que o K6 está configurado com os seguintes estágios:
       | duração | usuarios |
       | 5s      | 100      |
       | 10s     | 500      |
       | 5s      | 100      |
-    Quando executo o teste de stress no endpoint POST "/api/cars"
-    Então o sistema deve responder com status 201 para o modelo "fusca"
-    E a mensagem de retorno deve ser "Car successfully registered!"
+    Quando executo o teste de stress no endpoint POST "/api/cars" para o modelo "fusca"
+    Então todos os checks funcionais devem passar
+    E o sistema deve manter resposta 201 para o contrato de cadastro permitido
 
-  @cars @tabela
-  Esquema do Cenário: Validar respostas para diferentes modelos de carro
-    Quando envio POST para "/api/cars" com brand "<marca>", model "<modelo>" e year <ano>
+  @cars @tabela @contrato
+  Esquema do Cenário: Validar respostas por modelo de carro
+    Quando envio uma requisição POST para "/api/cars" com marca "<marca>", modelo "<modelo>" e ano <ano>
     Então o status da resposta deve ser <status>
     E a mensagem deve ser "<mensagem>"
 
     Exemplos:
-      | marca      | modelo  | ano  | status | mensagem                                              |
-      | Volkswagen | fusca   | 1965 | 201    | Car successfully registered!                          |
-      | Volkswagen | up tsi  | 2020 | 500    | Internal server error: model 'up tsi' is not allowed. |
-      | Fiat       | uno     | 2010 | 404    | Car model not found.                                  |
+      | marca      | modelo | ano  | status | mensagem                                              |
+      | Volkswagen | fusca  | 1965 | 201    | Car successfully registered!                          |
+      | Volkswagen | up tsi | 2020 | 500    | Internal server error: model 'up tsi' is not allowed. |
+      | Fiat       | uno    | 2010 | 404    | Car model not found.                                  |

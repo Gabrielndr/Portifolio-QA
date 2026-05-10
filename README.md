@@ -39,17 +39,17 @@ Portifolio-QA/
 
 ## 📋 BDD — Cenários Gherkin
 
-Cenários escritos em português seguindo o padrão **Given / When / Then**, cobrindo todas as funcionalidades do portfólio.
+Cenários escritos em português seguindo o padrão **Given / When / Then**, com escopos separados por camada, dados menos frágeis e critérios de aceite preparados para automação futura.
 
 | Arquivo | Funcionalidade | Cenários |
 |---|---|---|
-| `login.feature` | Autenticação e Login | 7 |
-| `produtos.feature` | CRUD de Produtos | 8 |
-| `usuarios.feature` | CRUD de Usuários | 8 |
-| `formulario.feature` | Formulário Web | 7 |
-| `cars_api.feature` | API + Performance | 7 |
+| `login.feature` | Login Web Fake Store | 5 |
+| `produtos.feature` | API ServeRest - Produtos | 7 |
+| `usuarios.feature` | API ServeRest - Usuários | 7 |
+| `formulario.feature` | Formulário Web LetCode | 5 |
+| `cars_api.feature` | API de Carros + Performance | 7 |
 
-**Total: 37 cenários documentados**
+**Total: 31 cenários documentados**
 
 ---
 

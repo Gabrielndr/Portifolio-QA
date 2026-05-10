@@ -1,63 +1,55 @@
 # language: pt
 
-Funcionalidade: Login e Autenticação
-  Como um usuário da plataforma
-  Quero realizar login com minhas credenciais
-  Para acessar as funcionalidades do sistema
+@bdd @web @auth
+Funcionalidade: Login no Fake Store
+  Como cliente do Fake Store
+  Quero autenticar minha conta
+  Para acessar a loja com uma sessão válida
 
   Contexto:
-    Dado que estou na página de login
+    Dado que estou na página de login do Fake Store
+    E não existe sessão ativa no navegador
 
-  @login @sucesso
-  Cenário: Login com credenciais válidas
-    Quando preencho o campo "usuário" com "mor_2314"
-    E preencho o campo "senha" com "83r5^_"
-    E clico no botão "Entrar"
-    Então devo ser redirecionado para a página inicial
-    E devo ver a mensagem de boas-vindas
+  @login @sucesso @critico
+  Cenário: Autenticar com credenciais válidas
+    Quando informo o usuário "mor_2314"
+    E informo a senha "83r5^_"
+    E solicito o login
+    Então devo ser redirecionado para a página inicial da loja
+    E o token de autenticação deve ser salvo na sessão local
+    E os dados do usuário autenticado devem ser persistidos
 
-  @login @falha
-  Cenário: Login com senha incorreta
-    Quando preencho o campo "usuário" com "mor_2314"
-    E preencho o campo "senha" com "senhaerrada"
-    E clico no botão "Entrar"
-    Então devo ver a mensagem de erro "Usuário e/ou senha inválidos"
-    E devo permanecer na página de login
+  @login @falha @seguranca
+  Cenário: Bloquear autenticação com senha inválida
+    Quando informo o usuário "mor_2314"
+    E informo a senha "senha_invalida"
+    E solicito o login
+    Então devo permanecer na página de login
+    E nenhum token de autenticação deve ser salvo
 
-  @login @falha
-  Cenário: Login com campos em branco
-    Quando deixo o campo "usuário" em branco
-    E deixo o campo "senha" em branco
-    E clico no botão "Entrar"
-    Então devo ver a mensagem de erro "Usuário e/ou senha inválidos"
-
-  @login @falha
-  Cenário: Login com usuário inexistente
-    Quando preencho o campo "usuário" com "usuario_inexistente"
-    E preencho o campo "senha" com "qualquersenha"
-    E clico no botão "Entrar"
-    Então devo ver a mensagem de erro "Usuário e/ou senha inválidos"
-
-  @login @seguranca
-  Cenário: Verificar se a senha está mascarada
-    Quando preencho o campo "senha" com "83r5^_"
-    Então o campo de senha deve exibir caracteres mascarados
-
-  @login @esqueci-senha
-  Cenário: Recuperação de senha
-    Quando clico no link "Esqueceu a senha?"
-    Então devo ser redirecionado para a página de recuperação de senha
-    E devo ver o campo para inserir o e-mail
-
-  @login @tabela
-  Esquema do Cenário: Login com múltiplas credenciais
-    Quando preencho o campo "usuário" com "<usuario>"
-    E preencho o campo "senha" com "<senha>"
-    E clico no botão "Entrar"
-    Então devo ver o resultado "<resultado>"
+  @login @falha @validacao
+  Esquema do Cenário: Validar tentativas de login inválidas
+    Quando informo o usuário "<usuario>"
+    E informo a senha "<senha>"
+    E solicito o login
+    Então devo permanecer na página de login
+    E nenhum token de autenticação deve ser salvo
 
     Exemplos:
-      | usuario           | senha      | resultado                        |
-      | mor_2314          | 83r5^_     | Redirecionado para home          |
-      | usuario_invalido  | 83r5^_     | Usuário e/ou senha inválidos     |
-      | mor_2314          | senha_errada | Usuário e/ou senha inválidos   |
+      | usuario            | senha          |
+      | usuario_invalido   | 83r5^_         |
+      | mor_2314           | senha_errada   |
+      | usuario_invalido   | senha_errada   |
+
+  @login @seguranca
+  Cenário: Exibir senha de forma mascarada
+    Quando informo a senha "83r5^_"
+    Então o campo de senha deve manter o tipo "password"
+    E o valor digitado não deve ser exibido como texto claro
+
+  @login @sessao
+  Cenário: Limpar sessão antes de iniciar novo login
+    Dado que existe um token salvo no navegador
+    Quando acesso novamente a página de login
+    Então a sessão anterior deve ser removida
+    E devo visualizar o formulário de autenticação
