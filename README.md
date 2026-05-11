@@ -38,7 +38,7 @@ Portifolio-QA/
 | K6 + WireMock | Performance / contrato | Smoke, carga, erro esperado e stress sobre API mockada |
 | Robot Framework | UI / BDD | SeleniumLibrary com recursos reutilizáveis e cenários organizados por domínio |
 | Gherkin | BDD | Critérios de aceite em português para web, API e performance |
-| GitHub Actions | CI/CD | Execução automatizada de Cypress, Robot e Postman/Newman, além da publicação do portal |
+| GitHub Actions | CI/CD | Execução automatizada de Cypress, Robot, Postman/Newman e K6, além da publicação do portal |
 | Allure Report | Relatórios | Publicação de relatórios de Cypress e Robot no GitHub Pages |
 
 ---
@@ -203,6 +203,7 @@ Pipelines configurados para execução automatizada e publicação de relatório
 | `.github/workflows/cypress-allure.yml` | Executa Cypress e publica relatório Allure |
 | `.github/workflows/robot-allure.yml` | Executa Robot Framework e publica relatório Allure |
 | `.github/workflows/postman-newman.yml` | Executa a collection Postman com Newman e publica artefatos |
+| `.github/workflows/k6-wiremock.yml` | Executa a suíte K6 em perfil de CI com WireMock |
 | `.github/workflows/deploy-index.yml` | Publica a página inicial do portfólio no GitHub Pages |
 
 Fluxo geral:
