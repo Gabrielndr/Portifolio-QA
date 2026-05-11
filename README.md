@@ -1,5 +1,11 @@
 # Portfólio QA - Gabriel da Silva
 
+[![Cypress](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/cypress-allure.yml/badge.svg)](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/cypress-allure.yml)
+[![Robot Framework](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/robot-allure.yml/badge.svg)](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/robot-allure.yml)
+[![Postman Newman](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/postman-newman.yml/badge.svg)](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/postman-newman.yml)
+[![K6 WireMock](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/k6-wiremock.yml/badge.svg)](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/k6-wiremock.yml)
+[![GitHub Pages](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/deploy-index.yml/badge.svg)](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/deploy-index.yml)
+
 Bem-vindo ao meu portfólio de Quality Assurance. Este repositório reúne testes automatizados de UI, API, performance, BDD, Robot Framework, Postman/Newman e pipelines de CI/CD.
 
 O objetivo é demonstrar organização de suíte, clareza de cenários, boas práticas de automação, evidência de execução e capacidade de estruturar testes para diferentes camadas de uma aplicação.
@@ -24,6 +30,8 @@ Portifolio-QA/
 |-- Postman/          # Testes de API REST com Postman e Newman
 |-- Robot/            # Testes web com Robot Framework e SeleniumLibrary
 |-- .github/workflows # Pipelines de CI/CD
+|-- QA_STRATEGY.md    # Estratégia de testes e critérios de risco
+|-- run-all.ps1       # Execução local unificada das suítes
 `-- README.md
 ```
 
@@ -40,6 +48,32 @@ Portifolio-QA/
 | Gherkin | BDD | Critérios de aceite em português para web, API e performance |
 | GitHub Actions | CI/CD | Execução automatizada de Cypress, Robot, Postman/Newman e K6, além da publicação do portal |
 | Allure Report | Relatórios | Publicação de relatórios de Cypress e Robot no GitHub Pages |
+
+---
+
+## Estratégia e Execução Unificada
+
+A estratégia geral de qualidade está documentada em [QA_STRATEGY.md](QA_STRATEGY.md), cobrindo pirâmide de testes, critérios de risco, tipos de teste e o papel de cada ferramenta.
+
+Para executar as suítes principais por um único comando:
+
+```powershell
+.\run-all.ps1 -Install
+```
+
+Opções úteis:
+
+```powershell
+.\run-all.ps1                       # Executa Cypress, Postman, K6 smoke e Robot
+.\run-all.ps1 -FullK6               # Executa o perfil completo do K6
+.\run-all.ps1 -SkipCypress          # Ignora Cypress
+.\run-all.ps1 -SkipPostman          # Ignora Postman/Newman
+.\run-all.ps1 -SkipK6               # Ignora K6/WireMock
+.\run-all.ps1 -SkipRobot            # Ignora Robot Framework
+.\run-all.ps1 -ContinueOnError      # Continua mesmo se uma suíte falhar
+```
+
+Por padrão, o K6 roda em perfil smoke para manter a execução local rápida. O perfil completo pode ser acionado com `-FullK6`.
 
 ---
 
@@ -179,8 +213,9 @@ Automação com **Robot Framework** e **SeleniumLibrary**, organizada em `tests/
 | `Robot/tests/inputs.robot` | 4 |
 | `Robot/tests/navegacao.robot` | 3 |
 | `Robot/tests/radio_checkbox.robot` | 5 |
+| `Robot/tests/smoke_ci.robot` | 1 |
 
-**Total: 20 cenários Robot.**
+**Total: 20 cenários funcionais Robot + 1 smoke real headless de CI.**
 
 Execução local:
 
@@ -201,7 +236,7 @@ Pipelines configurados para execução automatizada e publicação de relatório
 | Workflow | Objetivo |
 |---|---|
 | `.github/workflows/cypress-allure.yml` | Executa Cypress e publica relatório Allure |
-| `.github/workflows/robot-allure.yml` | Executa Robot Framework e publica relatório Allure |
+| `.github/workflows/robot-allure.yml` | Executa smoke real headless do Robot, valida a suíte completa por dry-run e publica relatório Allure |
 | `.github/workflows/postman-newman.yml` | Executa a collection Postman com Newman e publica artefatos |
 | `.github/workflows/k6-wiremock.yml` | Executa a suíte K6 em perfil de CI com WireMock |
 | `.github/workflows/deploy-index.yml` | Publica a página inicial do portfólio no GitHub Pages |
@@ -238,6 +273,8 @@ Push ou pull request
 - Relatórios gerados fora do versionamento.
 - Workflows de CI/CD dedicados por suíte.
 - Documentação complementar por módulo.
+- Estratégia de QA documentada em `QA_STRATEGY.md`.
+- Execução local centralizada em `run-all.ps1`.
 
 ---
 

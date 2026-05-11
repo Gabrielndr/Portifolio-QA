@@ -1,53 +1,56 @@
 # Robot Framework - Testes Web
 
-Esta pasta contém uma suíte Robot Framework organizada para testes web com SeleniumLibrary. A estrutura foi separada entre testes e recursos reutilizáveis para facilitar manutenção, execução local e integração com GitHub Actions.
+Esta pasta contem uma suite Robot Framework organizada para testes web com SeleniumLibrary. A estrutura foi separada entre testes e recursos reutilizaveis para facilitar manutencao, execucao local e integracao com GitHub Actions.
 
 ## Estrutura
 
 ```text
 Robot/
-├── Robot_README.md
-├── resources/
-│   ├── common.resource
-│   ├── dropdowns.resource
-│   ├── formulario.resource
-│   ├── inputs.resource
-│   ├── navegacao.resource
-│   └── radio.resource
-└── tests/
-    ├── bdd_formulario.robot
-    ├── dropdowns.robot
-    ├── formulario.robot
-    ├── inputs.robot
-    ├── navegacao.robot
-    └── radio_checkbox.robot
+|-- Robot_README.md
+|-- resources/
+|   |-- common.resource
+|   |-- dropdowns.resource
+|   |-- formulario.resource
+|   |-- inputs.resource
+|   |-- navegacao.resource
+|   `-- radio.resource
+`-- tests/
+    |-- bdd_formulario.robot
+    |-- dropdowns.robot
+    |-- formulario.robot
+    |-- inputs.robot
+    |-- navegacao.robot
+    |-- radio_checkbox.robot
+    `-- smoke_ci.robot
 ```
 
 ## Cobertura
 
-| Arquivo | Foco | Cenários |
+| Arquivo | Foco | Cenarios |
 |---|---|---:|
-| `tests/bdd_formulario.robot` | Fluxo BDD do formulário LetCode | 1 |
-| `tests/dropdowns.robot` | Dropdown simples, múltiplo, linguagem e país | 4 |
-| `tests/formulario.robot` | Formulário válido, obrigatórios e e-mail inválido | 3 |
+| `tests/bdd_formulario.robot` | Fluxo BDD do formulario LetCode | 1 |
+| `tests/dropdowns.robot` | Dropdown simples, multiplo, linguagem e pais | 4 |
+| `tests/formulario.robot` | Formulario valido, obrigatorios e e-mail invalido | 3 |
 | `tests/inputs.robot` | Preenchimento, TAB, limpeza, disabled e readonly | 4 |
-| `tests/navegacao.robot` | Navegação, botão desabilitado e propriedades visuais | 3 |
+| `tests/navegacao.robot` | Navegacao, botao desabilitado e propriedades visuais | 3 |
 | `tests/radio_checkbox.robot` | Radio buttons, bug conhecido e checkboxes | 5 |
+| `tests/smoke_ci.robot` | Smoke real headless usado pelo GitHub Actions | 1 |
 
-**Total: 20 cenários Robot.**
+**Total: 20 cenarios funcionais + 1 smoke real headless de CI.**
 
-## Padrões Aplicados
+## Padroes Aplicados
 
 - Testes ficam em `Robot/tests`.
 - Keywords e locators ficam em `Robot/resources`.
-- Dados de teste ficam centralizados em variáveis.
-- Não há `Sleep`; os testes usam esperas explícitas.
-- O navegador é aberto uma vez por suíte e fechado no `Suite Teardown`.
-- Relatórios gerados não devem ser versionados.
+- Dados de teste ficam centralizados em variaveis.
+- Nao ha `Sleep`; os testes usam esperas explicitas.
+- O navegador e aberto uma vez por suite e fechado no `Suite Teardown`.
+- A janela usa tamanho fixo para estabilidade em execucao headless.
+- Relatorios gerados nao devem ser versionados.
 
 ## Como Executar
 
-Instale as dependências:
+Instale as dependencias:
 
 ```bash
 pip install robotframework robotframework-seleniumlibrary allure-robotframework
@@ -71,6 +74,12 @@ Executar em Chrome headless:
 robot --variable BROWSER:headlesschrome --outputdir Robot/results Robot/tests
 ```
 
+Executar somente o smoke real usado no CI:
+
+```bash
+robot --include ci_smoke --variable BROWSER:headlesschrome --outputdir Robot/results Robot/tests
+```
+
 Executar por tag:
 
 ```bash
@@ -84,8 +93,8 @@ robot --include radio --outputdir Robot/results Robot/tests
 
 ## GitHub Actions
 
-O workflow `Robot Framework Tests + Allure Report` executa `robot --dryrun` para validar estrutura, imports e keywords sem depender de browser no ambiente de CI. O relatório Allure é publicado em GitHub Pages quando o workflow roda na branch `main`.
+O workflow `Robot Framework Tests + Allure Report` executa um smoke real em Chrome headless usando a tag `ci_smoke` e, em seguida, roda `robot --dryrun` no restante da suite para validar estrutura, imports e keywords. O relatorio Allure e publicado em GitHub Pages quando o workflow roda na branch `main`.
 
-## Observação Local
+## Observacao Local
 
-Se a execução real falhar com erro de versão do ChromeDriver, remova drivers antigos do `PATH` ou atualize o ChromeDriver para a mesma versão do Chrome. Com Selenium 4, o Selenium Manager consegue resolver o driver correto quando não existe um driver incompatível no `PATH`.
+Se a execucao real falhar com erro de versao do ChromeDriver, remova drivers antigos do `PATH` ou atualize o ChromeDriver para a mesma versao do Chrome. Com Selenium 4, o Selenium Manager consegue resolver o driver correto quando nao existe um driver incompatível no `PATH`.

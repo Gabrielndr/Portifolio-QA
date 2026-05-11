@@ -7,7 +7,9 @@ Cypress/allure-report/
 Cypress/allure-history/
 Robot/results/
 Robot/results_tests/
+Robot/dryrun-results/
 Robot/allure-report/
+output/
 K6 + Mock/tests/report/
 K6 + Mock/tests/reports/*
 !K6 + Mock/tests/reports/.gitkeep

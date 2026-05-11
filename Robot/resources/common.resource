@@ -12,7 +12,7 @@ ${SELENIUM_SPEED}        0s
 *** Keywords ***
 Abrir Navegador LetCode
     Open Browser    ${BASE_URL}    ${BROWSER}
-    Maximize Browser Window
+    Set Window Size    1366    768
     Set Selenium Speed    ${SELENIUM_SPEED}
     Set Selenium Timeout    ${DEFAULT_TIMEOUT}
 
