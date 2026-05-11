@@ -120,15 +120,18 @@ Testes de carga e stress em API mockada com **WireMock**, com geração automát
 
 ## 🤖 Robot Framework — Testes Web
 
-Automação com **SeleniumLibrary** organizada em `tests/` e `resources/`, com cenários de formulário, navegação e um fluxo BDD em Given/When/Then.
+Automação com **SeleniumLibrary** organizada em `tests/` e `resources/`, cobrindo formulário, inputs, dropdowns, navegação, radio/checkbox e um fluxo BDD em Given/When/Then.
 
 | Arquivo | Cenários |
 |---|---:|
 | `tests/bdd_formulario.robot` | 1 |
+| `tests/dropdowns.robot` | 4 |
 | `tests/formulario.robot` | 3 |
+| `tests/inputs.robot` | 4 |
 | `tests/navegacao.robot` | 3 |
+| `tests/radio_checkbox.robot` | 5 |
 
-**Total: 7 cenários Robot.**
+**Total: 20 cenários Robot.**
 
 📊 [Ver Relatório Allure](https://gabrielndr.github.io/Portifolio-QA/robot)
 

@@ -9,12 +9,18 @@ Robot/
 ├── Robot_README.md
 ├── resources/
 │   ├── common.resource
+│   ├── dropdowns.resource
 │   ├── formulario.resource
-│   └── navegacao.resource
+│   ├── inputs.resource
+│   ├── navegacao.resource
+│   └── radio.resource
 └── tests/
     ├── bdd_formulario.robot
+    ├── dropdowns.robot
     ├── formulario.robot
-    └── navegacao.robot
+    ├── inputs.robot
+    ├── navegacao.robot
+    └── radio_checkbox.robot
 ```
 
 ## Cobertura
@@ -22,10 +28,13 @@ Robot/
 | Arquivo | Foco | Cenários |
 |---|---|---:|
 | `tests/bdd_formulario.robot` | Fluxo BDD do formulário LetCode | 1 |
+| `tests/dropdowns.robot` | Dropdown simples, múltiplo, linguagem e país | 4 |
 | `tests/formulario.robot` | Formulário válido, obrigatórios e e-mail inválido | 3 |
+| `tests/inputs.robot` | Preenchimento, TAB, limpeza, disabled e readonly | 4 |
 | `tests/navegacao.robot` | Navegação, botão desabilitado e propriedades visuais | 3 |
+| `tests/radio_checkbox.robot` | Radio buttons, bug conhecido e checkboxes | 5 |
 
-**Total: 7 cenários Robot.**
+**Total: 20 cenários Robot.**
 
 ## Padrões Aplicados
 
@@ -68,6 +77,9 @@ Executar por tag:
 robot --include critico --outputdir Robot/results Robot/tests
 robot --include formulario --outputdir Robot/results Robot/tests
 robot --include navegacao --outputdir Robot/results Robot/tests
+robot --include inputs --outputdir Robot/results Robot/tests
+robot --include dropdown --outputdir Robot/results Robot/tests
+robot --include radio --outputdir Robot/results Robot/tests
 ```
 
 ## GitHub Actions
