@@ -1,21 +1,16 @@
 {
-    "request": {
-      "method": "POST",
-      "url": "/api/cars",
-      "bodyPatterns": [
-        {
-          "matchesJsonPath": "$[?(@.brand)]"
-        },
-        {
-          "matchesJsonPath": "$[?(@.year)]"
-        }
-      ]
+  "priority": 10,
+  "request": {
+    "method": "POST",
+    "urlPath": "/api/cars"
+  },
+  "response": {
+    "status": 404,
+    "jsonBody": {
+      "message": "Car model not found."
     },
-    "response": {
-      "status": 404,
-      "body": "{ \"message\": \"Car model not found.\" }",
-      "headers": {
-        "Content-Type": "application/json"
-      }
+    "headers": {
+      "Content-Type": "application/json"
     }
   }
+}

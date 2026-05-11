@@ -105,9 +105,10 @@ Testes de carga e stress em API mockada com **WireMock**, com geração automát
 
 | Script | Tipo | Configuração |
 |---|---|---|
-| `consulta.js` | Funcional | 1 VU — GET /api/cars |
-| `script.js` | Carga | 10 VUs × 30s — POST erro 500 |
-| `testsucess.js` | Stress | Rampa até 500 VUs |
+| `smoke_contract.js` | Smoke/contrato | GET 200, POST 201, POST 500 esperado e fallback 404 |
+| `load_get_cars.js` | Carga | Consulta GET com VUs e duração parametrizáveis |
+| `load_post_error.js` | Carga negativa | POST 500 esperado sem falso negativo técnico |
+| `stress_post_success.js` | Stress | Rampa até 500 VUs no POST 201 |
 
 **Mocks configurados:**
 

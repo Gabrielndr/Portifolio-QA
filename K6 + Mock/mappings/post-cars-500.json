@@ -1,24 +1,27 @@
 {
-    "request": {
-      "method": "POST",
-      "url": "/api/cars",
-      "bodyPatterns": [
-        {
-            "matchesJsonPath": "$[?(@.brand)]"
-        },
-        {
-          "matchesJsonPath": "$[?(@.model == 'up tsi')]"
-        },
-        {
-            "matchesJsonPath": "$[?(@.year)]"
-        }
-      ]
-    },
-    "response": {
-      "status": 500,
-      "body": "{ \"message\": \"Internal server error: model 'up tsi' is not allowed.\" }",
-      "headers": {
-        "Content-Type": "application/json"
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/api/cars",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$[?(@.brand == 'Volkswagen')]"
+      },
+      {
+        "matchesJsonPath": "$[?(@.model == 'up tsi')]"
+      },
+      {
+        "matchesJsonPath": "$[?(@.year == 2020)]"
       }
+    ]
+  },
+  "response": {
+    "status": 500,
+    "jsonBody": {
+      "message": "Internal server error: model 'up tsi' is not allowed."
+    },
+    "headers": {
+      "Content-Type": "application/json"
     }
   }
+}
