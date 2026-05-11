@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   robot-tests:
-    name: Run Robot Framework Tests
+    name: Run Robot Framework Smoke + Validation
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -29,18 +29,47 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Setup Chrome
+        id: setup-chrome
+        uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: stable
+          install-chromedriver: true
+          install-dependencies: true
+
+      - name: Add Chrome and ChromeDriver to PATH
+        run: |
+          echo "$(dirname "${{ steps.setup-chrome.outputs.chrome-path }}")" >> "$GITHUB_PATH"
+          echo "$(dirname "${{ steps.setup-chrome.outputs.chromedriver-path }}")" >> "$GITHUB_PATH"
+
+      - name: Show browser versions
+        run: |
+          "${{ steps.setup-chrome.outputs.chrome-path }}" --version
+          "${{ steps.setup-chrome.outputs.chromedriver-path }}" --version
+
       - name: Install dependencies
         run: |
+          python -m pip install --upgrade pip
           pip install robotframework
           pip install robotframework-seleniumlibrary
           pip install allure-robotframework
 
-      - name: Run Robot Framework dry run
+      - name: Run Robot Framework smoke tests in headless Chrome
+        run: |
+          robot \
+            --include ci_smoke \
+            --variable BROWSER:headlesschrome \
+            --listener allure_robotframework \
+            --outputdir Robot/results \
+            Robot/tests
+
+      - name: Validate full Robot suite structure
+        if: always()
         run: |
           robot \
             --dryrun \
-            --listener allure_robotframework \
-            --outputdir Robot/results \
+            --exclude ci_smoke \
+            --outputdir Robot/dryrun-results \
             Robot/tests
 
       - name: Generate Allure report
@@ -56,7 +85,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: robot-allure-results
-          path: Robot/allure-report
+          path: |
+            Robot/allure-report
+            Robot/results
+            Robot/dryrun-results
           retention-days: 30
 
       - name: Publish Allure report to GitHub Pages
