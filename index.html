@@ -2,192 +2,213 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gabriel da Silva | QA Portfolio</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: "Segoe UI", Arial, sans-serif;
       background: #0d1117;
       color: #c9d1d9;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       padding: 40px 20px;
     }
 
+    main {
+      width: min(1080px, 100%);
+      margin: 0 auto;
+    }
+
     header {
-      text-align: center;
-      margin-bottom: 48px;
+      margin-bottom: 40px;
     }
 
     header h1 {
-      font-size: 2.4rem;
-      color: #58a6ff;
-      margin-bottom: 8px;
+      color: #e6edf3;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.1;
+      margin-bottom: 12px;
     }
 
     header p {
-      font-size: 1.1rem;
       color: #8b949e;
+      font-size: 1rem;
+      line-height: 1.6;
+      max-width: 760px;
     }
 
     .badges {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      justify-content: center;
-      margin-top: 16px;
+      margin-top: 20px;
     }
 
     .badge {
       background: #21262d;
       border: 1px solid #30363d;
-      border-radius: 20px;
-      padding: 4px 14px;
-      font-size: 0.8rem;
+      border-radius: 999px;
       color: #58a6ff;
+      font-size: 0.82rem;
+      padding: 6px 12px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-      max-width: 1000px;
-      width: 100%;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
     }
 
     .card {
       background: #161b22;
       border: 1px solid #30363d;
-      border-radius: 12px;
-      padding: 28px;
-      transition: border-color 0.2s, transform 0.2s;
-      text-decoration: none;
+      border-radius: 8px;
       color: inherit;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      min-height: 190px;
+      padding: 22px;
+      text-decoration: none;
+      transition: border-color 0.2s ease, transform 0.2s ease;
     }
 
     .card:hover {
       border-color: #58a6ff;
-      transform: translateY(-4px);
+      transform: translateY(-3px);
     }
 
-    .card-icon { font-size: 2rem; }
+    .card-kicker {
+      color: #58a6ff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
 
     .card h2 {
-      font-size: 1.2rem;
       color: #e6edf3;
+      font-size: 1.12rem;
+      line-height: 1.3;
+      margin-bottom: 10px;
     }
 
     .card p {
-      font-size: 0.9rem;
       color: #8b949e;
+      font-size: 0.92rem;
       line-height: 1.5;
     }
 
-    .card .tag {
-      display: inline-block;
-      background: #1f6feb33;
+    .tag {
+      align-self: flex-start;
+      background: rgba(31, 111, 235, 0.2);
       border: 1px solid #1f6feb;
-      color: #58a6ff;
       border-radius: 6px;
-      padding: 2px 10px;
-      font-size: 0.75rem;
+      color: #58a6ff;
+      font-size: 0.78rem;
       margin-top: auto;
-      width: fit-content;
+      padding: 5px 10px;
     }
 
     .links {
       display: flex;
-      gap: 16px;
-      margin-top: 32px;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
     }
 
     .links a {
-      color: #58a6ff;
-      text-decoration: none;
-      font-size: 0.95rem;
       border: 1px solid #30363d;
-      padding: 8px 20px;
       border-radius: 8px;
-      transition: background 0.2s;
+      color: #58a6ff;
+      font-size: 0.92rem;
+      padding: 8px 16px;
+      text-decoration: none;
     }
 
-    .links a:hover { background: #21262d; }
+    .links a:hover {
+      background: #21262d;
+    }
 
     footer {
-      margin-top: 60px;
-      color: #484f58;
+      color: #6e7681;
       font-size: 0.85rem;
+      margin-top: 44px;
     }
   </style>
 </head>
 <body>
+  <main>
+    <header>
+      <h1>Gabriel da Silva</h1>
+      <p>QA Engineer com portfólio de automação web, API, BDD, performance, mocks e pipelines de CI/CD. Este portal centraliza os relatórios publicados e os módulos técnicos do repositório.</p>
+      <div class="badges">
+        <span class="badge">Cypress</span>
+        <span class="badge">Robot Framework</span>
+        <span class="badge">Postman + Newman</span>
+        <span class="badge">K6</span>
+        <span class="badge">WireMock</span>
+        <span class="badge">BDD / Gherkin</span>
+        <span class="badge">GitHub Actions</span>
+      </div>
+    </header>
 
-  <header>
-    <h1>Gabriel da Silva</h1>
-    <p>QA Engineer · Automação de Testes · Qualidade de Software</p>
-    <div class="badges">
-      <span class="badge">Cypress</span>
-      <span class="badge">Robot Framework</span>
-      <span class="badge">Postman</span>
-      <span class="badge">K6</span>
-      <span class="badge">WireMock</span>
-      <span class="badge">BDD / Gherkin</span>
-      <span class="badge">GitHub Actions</span>
-    </div>
-  </header>
+    <section class="grid" aria-label="Áreas do portfólio">
+      <a class="card" href="./cypress/index.html">
+        <span class="card-kicker">E2E</span>
+        <h2>Cypress - Relatório Allure</h2>
+        <p>Testes automatizados cobrindo login, formulários, dropdowns, inputs, checkout, botões, radio/checkbox e drag and drop.</p>
+        <span class="tag">Ver relatório</span>
+      </a>
 
-  <div class="grid">
+      <a class="card" href="./robot/index.html">
+        <span class="card-kicker">UI</span>
+        <h2>Robot Framework - Relatório Allure</h2>
+        <p>Automação web com SeleniumLibrary, resources reutilizáveis e 20 cenários distribuídos por domínio funcional.</p>
+        <span class="tag">Ver relatório</span>
+      </a>
 
-    <a class="card" href="./cypress/index.html">
-      <div class="card-icon">🌲</div>
-      <h2>Cypress — Relatório Allure</h2>
-      <p>Testes E2E automatizados cobrindo login, formulários, dropdowns, drag & drop e fluxo de compra.</p>
-      <span class="tag">Ver Relatório →</span>
-    </a>
+      <a class="card" href="https://github.com/Gabrielndr/Portifolio-QA/tree/main/Postman">
+        <span class="card-kicker">API</span>
+        <h2>Postman + Newman</h2>
+        <p>Collection da ServeRest com environment, token dinâmico, fluxos positivos e negativos, 11 requests e 46 assertions.</p>
+        <span class="tag">Ver no GitHub</span>
+      </a>
 
-    <a class="card" href="./robot/index.html">
-      <div class="card-icon">🤖</div>
-      <h2>Robot Framework — Relatório Allure</h2>
-      <p>Testes BDD com SeleniumLibrary cobrindo YouTube, formulários e navegação em sites reais.</p>
-      <span class="tag">Ver Relatório →</span>
-    </a>
+      <a class="card" href="https://github.com/Gabrielndr/Portifolio-QA/tree/main/K6%20%2B%20Mock">
+        <span class="card-kicker">Performance</span>
+        <h2>K6 + WireMock</h2>
+        <p>Suíte com smoke de contrato, carga GET, carga negativa e stress sobre API mockada com WireMock.</p>
+        <span class="tag">Ver no GitHub</span>
+      </a>
 
-    <a class="card" href="https://github.com/Gabrielndr/Portifolio-QA/tree/main/Postman">
-      <div class="card-icon">📬</div>
-      <h2>Postman — API REST</h2>
-      <p>CRUD completo de Produtos e Usuários com autenticação JWT na API ServeRest.</p>
-      <span class="tag">Ver no GitHub →</span>
-    </a>
+      <a class="card" href="https://github.com/Gabrielndr/Portifolio-QA/tree/main/BDD">
+        <span class="card-kicker">BDD</span>
+        <h2>Cenários Gherkin</h2>
+        <p>31 cenários documentados em português cobrindo login, APIs da ServeRest, formulário LetCode e API de carros.</p>
+        <span class="tag">Ver no GitHub</span>
+      </a>
 
-    <a class="card" href="https://github.com/Gabrielndr/Portifolio-QA/tree/main/K6%20%2B%20Mock">
-      <div class="card-icon">⚡</div>
-      <h2>K6 + WireMock — Performance</h2>
-      <p>Testes de carga e stress com até 500 VUs simultâneos em API mockada com WireMock.</p>
-      <span class="tag">Ver no GitHub →</span>
-    </a>
+      <a class="card" href="https://github.com/Gabrielndr/Portifolio-QA/actions">
+        <span class="card-kicker">CI/CD</span>
+        <h2>GitHub Actions</h2>
+        <p>Workflows para Cypress, Robot Framework, Postman/Newman, K6/WireMock e publicação do portal no GitHub Pages.</p>
+        <span class="tag">Ver pipelines</span>
+      </a>
+    </section>
 
-    <a class="card" href="https://github.com/Gabrielndr/Portifolio-QA/tree/main/BDD">
-      <div class="card-icon">📋</div>
-      <h2>BDD — Cenários Gherkin</h2>
-      <p>37 cenários documentados em português cobrindo login, API, formulários e performance.</p>
-      <span class="tag">Ver no GitHub →</span>
-    </a>
+    <nav class="links" aria-label="Links externos">
+      <a href="https://github.com/Gabrielndr/Portifolio-QA" target="_blank" rel="noreferrer">Repositório</a>
+      <a href="https://github.com/Gabrielndr/Portifolio-QA/actions" target="_blank" rel="noreferrer">Actions</a>
+      <a href="https://www.linkedin.com/in/gabrielsndr/" target="_blank" rel="noreferrer">LinkedIn</a>
+    </nav>
 
-  </div>
-
-  <div class="links">
-    <a href="https://www.linkedin.com/in/gabrielsndr/" target="_blank">LinkedIn</a>
-    <a href="https://github.com/Gabrielndr/Portifolio-QA" target="_blank">GitHub</a>
-  </div>
-
-  <footer>© 2026 Gabriel da Silva · QA Portfolio</footer>
-
+    <footer>2026 Gabriel da Silva - QA Portfolio</footer>
+  </main>
 </body>
 </html>

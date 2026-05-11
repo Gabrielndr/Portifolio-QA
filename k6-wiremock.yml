@@ -1,0 +1,97 @@
+name: K6 WireMock Tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'K6 + Mock/**'
+      - '.github/workflows/k6-wiremock.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'K6 + Mock/**'
+      - '.github/workflows/k6-wiremock.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: k6-wiremock-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  k6-wiremock:
+    name: Run K6 with WireMock
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    defaults:
+      run:
+        working-directory: K6 + Mock
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Setup k6
+        uses: grafana/setup-k6-action@v1
+
+      - name: Prepare reports directory
+        run: mkdir -p tests/reports
+
+      - name: Start WireMock
+        run: |
+          java -jar wiremock-standalone-3.13.2.jar --port 8080 --root-dir . > wiremock.log 2>&1 &
+          echo $! > wiremock.pid
+
+      - name: Wait for WireMock
+        run: |
+          for attempt in {1..30}; do
+            if curl --silent --fail http://localhost:8080/api/cars > /dev/null; then
+              echo "WireMock is ready"
+              exit 0
+            fi
+            sleep 1
+          done
+
+          echo "WireMock did not become ready"
+          cat wiremock.log
+          exit 1
+
+      - name: Run K6 suite in CI profile
+        env:
+          BASE_URL: http://localhost:8080
+          REPORT_DIR: tests/reports
+          VUS: 1
+          DURATION: 3s
+          PROFILE: smoke
+        run: |
+          k6 run tests/smoke_contract.js
+          k6 run tests/load_get_cars.js
+          k6 run tests/load_post_error.js
+          k6 run tests/stress_post_success.js
+
+      - name: Stop WireMock
+        if: always()
+        run: |
+          if [ -f wiremock.pid ]; then
+            kill "$(cat wiremock.pid)" || true
+          fi
+
+      - name: Upload K6 reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-wiremock-reports
+          path: |
+            K6 + Mock/tests/reports/
+            K6 + Mock/wiremock.log
+          if-no-files-found: ignore
+          retention-days: 30
