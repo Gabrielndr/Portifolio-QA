@@ -1,273 +1,93 @@
-# 📮 Postman - Testes de API REST
+# Postman - Testes de API REST com Newman
 
-Testes de API REST utilizando **Postman**, cobrindo o CRUD completo de uma aplicação com autenticação JWT. A collection cobre dois módulos principais: **Produtos** e **Usuários**, com validação de status codes e respostas JSON.
+Suite de API para a ServeRest, cobrindo criacao de usuario admin, login, CRUD de produtos, consulta/delecao de usuario e cenarios negativos.
 
----
+Antes, esta pasta tinha apenas prints e documentacao manual. Agora ela tambem tem uma collection versionada, environment, execucao por Newman e workflow no GitHub Actions.
 
-## 📁 Estrutura da Collection
+## Estrutura
 
-```
-Serverst Teste/
-├── 📂 Produtos
-│   ├── POST   Adicionar produto
-│   ├── GET    Listar produtos
-│   ├── PUT    Editar produto
-│   └── DEL    Deletar produto
-│
-└── 📂 Usuarios
-    ├── POST   Criar usuario
-    ├── POST   Login
-    ├── GET    Listar usuarios
-    └── DEL    Deletar usuario
+```text
+Postman/
+├── collections/
+│   └── serverest.postman_collection.json
+├── environments/
+│   └── serverest.postman_environment.json
+├── scripts/
+│   └── ensure-reports-dir.js
+├── reports/
+├── package.json
+└── Postman_README.md
 ```
 
----
+Os arquivos `.png` continuam na pasta como evidencia visual das execucoes manuais.
 
-## 🔐 Autenticação
+## Cobertura
 
-A API utiliza **JWT (Bearer Token)**. O token é retornado no endpoint de Login e deve ser incluído no header `Authorization` das requisições protegidas.
-
-```
-Authorization: Bearer <token>
-```
-
-**Variável de ambiente utilizada:**
-```
-{{Base_URL}} → URL base da API
-```
-
----
-
-## 📋 Endpoints Documentados
-
-### 📦 Produtos
-
-#### ➕ Adicionar Produto
-| Campo | Valor |
-|---|---|
-| Método | `POST` |
-| Endpoint | `{{Base_URL}}/produtos` |
-| Status esperado | `201 Created` |
-
-**Body (JSON):**
-```json
-{
-  "nome": "Mouse Razer Viper Mini",
-  "preco": 480,
-  "descricao": "House",
-  "quantidade": 120
-}
-```
-
-**Resposta:**
-```json
-{
-  "message": "Cadastro realizado com sucesso",
-  "_id": "pyk0JKg86ceb00T9"
-}
-```
-
----
-
-#### 📋 Listar Produtos
-| Campo | Valor |
-|---|---|
-| Método | `GET` |
-| Endpoint | `{{Base_URL}}/produtos` |
-| Status esperado | `200 OK` |
-
-**Resposta:** Array com todos os produtos cadastrados (nome, preço, descrição, quantidade, _id)
-
----
-
-#### ✏️ Editar Produto
-| Campo | Valor |
-|---|---|
-| Método | `PUT` |
-| Endpoint | `{{Base_URL}}/produtos/{id}` |
-| Status esperado | `200 OK` |
-
-**Body (JSON):**
-```json
-{
-  "nome": "Mouse Razer Viper Mini3",
-  "preco": 450,
-  "descricao": "House",
-  "quantidade": 120
-}
-```
-
-**Resposta:**
-```json
-{
-  "message": "Registro alterado com sucesso"
-}
-```
-
----
-
-#### 🗑️ Deletar Produto
-| Campo | Valor |
-|---|---|
-| Método | `DELETE` |
-| Endpoint | `{{Base_URL}}/produtos/{id}` |
-| Status esperado | `200 OK` |
-
-**Resposta:**
-```json
-{
-  "message": "Registro excluído com sucesso"
-}
-```
-
----
-
-### 👤 Usuários
-
-#### ➕ Criar Usuário
-| Campo | Valor |
-|---|---|
-| Método | `POST` |
-| Endpoint | `{{Base_URL}}/usuarios` |
-| Status esperado | `201 Created` |
-
-**Body (JSON):**
-```json
-{
-  "nome": "Qzin andrade",
-  "email": "qzin@qa.com.br",
-  "password": "teste",
-  "administrador": "true"
-}
-```
-
-**Resposta:**
-```json
-{
-  "message": "Cadastro realizado com sucesso",
-  "_id": "PNeX31c09hgNBReJ"
-}
-```
-
----
-
-#### 🔐 Login
-| Campo | Valor |
-|---|---|
-| Método | `POST` |
-| Endpoint | `{{Base_URL}}/login` |
-| Status esperado | `200 OK` |
-
-**Body (JSON):**
-```json
-{
-  "email": "qzin@qa.com.br",
-  "password": "teste"
-}
-```
-
-**Resposta:**
-```json
-{
-  "message": "Login realizado com sucesso",
-  "authorization": "Bearer eyJhbGci..."
-}
-```
-
----
-
-#### 📋 Listar Usuários
-| Campo | Valor |
-|---|---|
-| Método | `GET` |
-| Endpoint | `{{Base_URL}}/usuarios` |
-| Status esperado | `200 OK` |
-
-**Resposta:** Array com todos os usuários (nome, email, password, administrador, _id)
-
----
-
-#### 🗑️ Deletar Usuário
-| Campo | Valor |
-|---|---|
-| Método | `DELETE` |
-| Endpoint | `{{Base_URL}}/usuarios/{id}` |
-| Status esperado | `200 OK` |
-
-**Resposta:**
-```json
-{
-  "message": "Registro excluído com sucesso"
-}
-```
-
----
-
-## ⚙️ Como Importar e Executar
-
-**1. Instale o Postman**
-
-Baixe em: https://www.postman.com/downloads/
-
-**2. Importe a collection**
-
-- Abra o Postman
-- Clique em **Import**
-- Selecione o arquivo `.json` da collection
-
-**3. Configure o Environment**
-
-- Clique em **Environments → Add**
-- Crie uma variável:
-
-| Variável | Valor |
-|---|---|
-| `Base_URL` | URL da API (ex: `https://serverest.dev`) |
-
-**4. Execute os testes**
-
-- Manualmente: clique em **Send** em cada requisição
-- Em lote: clique em **Runner** → selecione a collection → **Run**
-
----
-
-## 📊 Resultados Observados
-
-| Endpoint | Método | Status Obtido | Tempo |
+| Fluxo | Metodo | Endpoint | Validacoes |
 |---|---|---|---|
-| /produtos | POST | 201 Created | 168ms |
-| /produtos | GET | 200 OK | 731ms |
-| /produtos/{id} | PUT | 200 OK | 177ms |
-| /produtos/{id} | DELETE | 200 OK | 172ms |
-| /usuarios | POST | 201 Created | 186ms |
-| /login | POST | 200 OK | 341ms |
-| /usuarios | GET | 200 OK | 529ms |
-| /usuarios/{id} | DELETE | 200 OK | 393ms |
+| Cadastrar usuario admin | `POST` | `/usuarios` | status `201`, mensagem e `_id` |
+| Login | `POST` | `/login` | status `200`, mensagem e token Bearer |
+| Cadastrar produto | `POST` | `/produtos` | status `201`, mensagem e `_id` |
+| Listar produtos | `GET` | `/produtos` | contrato basico e produto criado na lista |
+| Editar produto | `PUT` | `/produtos/{{productId}}` | status `200` e mensagem |
+| Deletar produto | `DELETE` | `/produtos/{{productId}}` | status `200` e mensagem |
+| Listar usuarios | `GET` | `/usuarios` | contrato basico e usuario criado na lista |
+| Deletar usuario | `DELETE` | `/usuarios/{{userId}}` | status `200` e mensagem |
+| Login invalido | `POST` | `/login` | status `401` |
+| Produto sem token | `POST` | `/produtos` | status `401` |
+| Produto inexistente | `GET` | `/produtos/0000000000000000` | status `400` |
 
----
+## Variaveis
 
-## 🛠️ Tecnologias Utilizadas
+| Variavel | Origem | Uso |
+|---|---|---|
+| `baseUrl` | environment | URL da API, por padrao `https://serverest.dev` |
+| `userEmail` / `userPassword` | pre-request | credenciais dinamicas do usuario criado |
+| `userId` | teste de cadastro | delecao e validacao de lista |
+| `token` | teste de login | rotas protegidas de produto |
+| `productName` / `productId` | pre-request/teste de produto | CRUD de produto |
 
-| Tecnologia | Finalidade |
-|---|---|
-| Postman | Client de testes de API |
-| JWT | Autenticação via Bearer Token |
-| JSON | Formato de envio e resposta |
-| ServeRest | API REST de teste utilizada |
+## Como importar no Postman
 
----
+1. Abra o Postman.
+2. Importe `collections/serverest.postman_collection.json`.
+3. Importe `environments/serverest.postman_environment.json`.
+4. Selecione o environment `ServeRest - Public`.
+5. Execute a collection pelo Runner.
 
-## 📌 Boas Práticas Aplicadas
+## Como rodar por linha de comando
 
-- ✅ Uso de variável de ambiente `{{Base_URL}}` para facilitar troca de ambiente
-- ✅ Autenticação JWT aplicada nas rotas protegidas
-- ✅ Validação de status codes (200, 201)
-- ✅ Organização em pastas por módulo (Produtos / Usuários)
-- ✅ Testes cobrindo CRUD completo
+Instale as dependencias:
 
----
+```powershell
+cd "C:\Users\gabri.QZIN\Desktop\GIT\Postman"
+npm install
+```
 
-## 👨‍💻 Autor
+Rode com relatorio CLI + JSON:
 
-**Gabriel da Silva**  
-QA Engineer | [LinkedIn](https://www.linkedin.com/in/gabrielsndr/) | [GitHub](https://github.com/Gabrielndr)
+```powershell
+npm test
+```
+
+Rode com relatorio HTML:
+
+```powershell
+npm run test:html
+```
+
+Os relatorios ficam em `Postman/reports/` e nao entram no versionamento.
+
+## CI
+
+O workflow `.github/workflows/postman-newman.yml` executa a collection com Newman em push, pull request e manualmente pelo GitHub Actions.
+
+## Boas praticas aplicadas
+
+- Collection exportada e versionada.
+- Environment separado da collection.
+- Massa dinamica para evitar conflito de email/produto ja existente.
+- Token salvo automaticamente apos login.
+- Testes positivos e negativos.
+- Assertions de status, contrato basico, mensagem e tempo de resposta.
+- Execucao local por Newman e execucao automatica em CI.

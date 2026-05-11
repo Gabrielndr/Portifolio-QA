@@ -84,7 +84,7 @@ npm run cy:run:allure
 
 ## 📬 Postman — Testes de API REST
 
-CRUD completo de **Produtos** e **Usuários** na API [ServeRest](https://serverest.dev) com autenticação **JWT Bearer Token**.
+CRUD completo de **Produtos** e **Usuários** na API [ServeRest](https://serverest.dev) com autenticação **JWT Bearer Token**, collection exportada, environment e execução por **Newman**.
 
 | Método | Endpoint | Status |
 |---|---|---|
@@ -96,6 +96,17 @@ CRUD completo de **Produtos** e **Usuários** na API [ServeRest](https://servere
 | POST | `/login` | ✅ 200 OK |
 | GET | `/usuarios` | ✅ 200 OK |
 | DELETE | `/usuarios/:id` | ✅ 200 OK |
+| POST | `/login` inválido | ✅ 401 Unauthorized |
+| POST | `/produtos` sem token | ✅ 401 Unauthorized |
+| GET | `/produtos/:id` inexistente | ✅ 400 Bad Request |
+
+**Execução local:**
+
+```powershell
+cd Postman
+npm install
+npm test
+```
 
 ---
 
