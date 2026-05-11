@@ -1,4 +1,4 @@
-# BDD - Behavior Driven Development
+python -m robot --outputdir Robot\results Robot\tests# BDD - Behavior Driven Development
 
 Esta pasta documenta regras de negócio e critérios de aceite em Gherkin. O objetivo é servir como ponte entre QA, desenvolvimento e negócio, mantendo os cenários claros o suficiente para revisão manual e estruturados o suficiente para automação futura com Cucumber, Cypress ou Robot Framework.
 

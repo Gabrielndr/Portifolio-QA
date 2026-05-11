@@ -1,179 +1,79 @@
-# 🤖 Robot Framework - Testes Automatizados
+# Robot Framework - Testes Web
 
-Automação de testes utilizando **Robot Framework** com **SeleniumLibrary**, cobrindo testes de interface web com estrutura BDD (Given/When/Then), preenchimento de formulários e navegação entre sites.
+Esta pasta contém uma suíte Robot Framework organizada para testes web com SeleniumLibrary. A estrutura foi separada entre testes e recursos reutilizáveis para facilitar manutenção, execução local e integração com GitHub Actions.
 
----
+## Estrutura
 
-## 📁 Estrutura de Arquivos
-
-```
+```text
 Robot/
-├── bdd.robot          # Teste BDD de busca e execução de vídeo no YouTube
-├── estrutura.robot    # Estrutura básica de abertura e fechamento de navegador
-├── formulario.robot   # Preenchimento completo de formulário web
-├── log.html           # Log detalhado da última execução
-├── output.xml         # Resultado da execução em formato XML
-└── report.html        # Relatório visual da última execução
+├── Robot_README.md
+├── resources/
+│   ├── common.resource
+│   ├── formulario.resource
+│   └── navegacao.resource
+└── tests/
+    ├── bdd_formulario.robot
+    ├── formulario.robot
+    └── navegacao.robot
 ```
 
----
+## Cobertura
 
-## 🧪 Cenários Cobertos
+| Arquivo | Foco | Cenários |
+|---|---|---:|
+| `tests/bdd_formulario.robot` | Fluxo BDD do formulário LetCode | 1 |
+| `tests/formulario.robot` | Formulário válido, obrigatórios e e-mail inválido | 3 |
+| `tests/navegacao.robot` | Navegação, botão desabilitado e propriedades visuais | 3 |
 
-### 🎬 bdd.robot — Busca no YouTube (BDD)
-Teste escrito no padrão **Given / When / And / Then**, simulando um usuário buscando e assistindo um vídeo.
+**Total: 7 cenários Robot.**
 
-| Passo | Keyword | Ação |
-|---|---|---|
-| Given | Que eu acesso o site do youtube | Abre o browser e acessa o YouTube |
-| When | Digito o nome da música | Digita "Natiruts Quero ser feliz" no campo de busca |
-| And | Clico no botão buscar | Clica no botão de pesquisa |
-| And | Clico na primeira opção da lista | Seleciona o segundo resultado da busca |
-| Then | O video é executado | Valida que o título do vídeo contém "Quero Ser Feliz" |
+## Padrões Aplicados
 
-**Cenário:**
-```
-Cenario 1: Executar video do site do youtube
-    Given Que eu acesso o site do youtube
-    When Digito o nome da música
-    And Clico no botão buscar
-    And Clico na primeira opção da lista
-    Then O video é executado
-```
+- Testes ficam em `Robot/tests`.
+- Keywords e locators ficam em `Robot/resources`.
+- Dados de teste ficam centralizados em variáveis.
+- Não há `Sleep`; os testes usam esperas explícitas.
+- O navegador é aberto uma vez por suíte e fechado no `Suite Teardown`.
+- Relatórios gerados não devem ser versionados.
 
----
+## Como Executar
 
-### 🌐 estrutura.robot — Navegação Básica
-Demonstração da estrutura base do Robot Framework com abertura e fechamento de navegador.
+Instale as dependências:
 
-| Cenário | Site | Ação |
-|---|---|---|
-| Cenario 1 | google.com.br | Abre e fecha o Google |
-| Cenario 2 | globo.com | Abre e fecha o site da Globo |
-
----
-
-### 📝 formulario.robot — Preenchimento de Formulário
-Teste completo de formulário na plataforma [LetCode.in/forms](https://letcode.in/forms), cobrindo todos os tipos de campos.
-
-| Campo | Tipo | Valor Usado |
-|---|---|---|
-| First Name | Input text | Gabriel |
-| Last Name | Input text | Andrade |
-| Email | Input text | teste@gmail.com |
-| DDI | Select (by value) | 55 (Brasil) |
-| Phone | Input text | 11942528073 |
-| Address Line 1 | Input text | Rua asmania |
-| Address Line 2 | Input text | Rua lituania |
-| State | Input text | São Paulo |
-| Postal Code | Input text | 03554150 |
-| Country | Select (by value) | Brazil |
-| Date | Input text | 23-08-2001 |
-| Gender | Radio button | Male |
-| Terms | Checkbox | Marcado |
-| Submit | Button click | Enviado |
-
-**Cenário:**
-```
-Cenario 1: Preencher formulário
-    Abrir navegador e Acessar site
-    Preencher campos
-    Clicar em submit
-    Fechar navegador
-```
-
----
-
-## ⚙️ Pré-requisitos
-
-- Python 3.8+
-- Google Chrome instalado
-- ChromeDriver compatível com a versão do Chrome
-
----
-
-## 🚀 Como Instalar e Executar
-
-**1. Clone o repositório**
 ```bash
-git clone https://github.com/Gabrielndr/Portifolio-QA.git
-cd Portifolio-QA/Robot
+pip install robotframework robotframework-seleniumlibrary allure-robotframework
 ```
 
-**2. Instale o Robot Framework e SeleniumLibrary**
+Validar sintaxe sem abrir navegador:
+
 ```bash
-pip install robotframework
-pip install robotframework-seleniumlibrary
+robot --dryrun --outputdir Robot/results Robot/tests
 ```
 
-**3. Instale o WebDriver Manager (opcional, facilita o setup)**
+Executar os testes:
+
 ```bash
-pip install webdrivermanager
-webdrivermanager chrome
+robot --outputdir Robot/results Robot/tests
 ```
 
-**4. Execute um teste específico**
+Executar em Chrome headless:
+
 ```bash
-robot bdd.robot
-robot formulario.robot
-robot estrutura.robot
+robot --variable BROWSER:headlesschrome --outputdir Robot/results Robot/tests
 ```
 
-**5. Execute todos os testes da pasta**
+Executar por tag:
+
 ```bash
-robot .
+robot --include critico --outputdir Robot/results Robot/tests
+robot --include formulario --outputdir Robot/results Robot/tests
+robot --include navegacao --outputdir Robot/results Robot/tests
 ```
 
-**6. Gerar relatório em pasta específica**
-```bash
-robot --outputdir results/ .
-```
+## GitHub Actions
 
----
+O workflow `Robot Framework Tests + Allure Report` executa `robot --dryrun` para validar estrutura, imports e keywords sem depender de browser no ambiente de CI. O relatório Allure é publicado em GitHub Pages quando o workflow roda na branch `main`.
 
-## 📊 Relatórios
+## Observação Local
 
-Após a execução, o Robot Framework gera automaticamente 3 arquivos:
-
-| Arquivo | Descrição |
-|---|---|
-| `report.html` | Relatório visual com resumo dos testes (abrir no browser) |
-| `log.html` | Log detalhado de cada step executado |
-| `output.xml` | Resultado bruto em XML para integrações CI/CD |
-
-Para visualizar:
-```bash
-# Abrir relatório no navegador
-start report.html       # Windows
-open report.html        # Mac
-xdg-open report.html    # Linux
-```
-
----
-
-## 🛠️ Tecnologias Utilizadas
-
-| Tecnologia | Versão | Finalidade |
-|---|---|---|
-| Robot Framework | 6.x+ | Framework de automação |
-| SeleniumLibrary | 6.x+ | Automação de browser |
-| Python | 3.8+ | Linguagem base |
-| ChromeDriver | Compatível com Chrome | Driver do navegador |
-
----
-
-## 📌 Boas Práticas Aplicadas
-
-- ✅ Estrutura BDD (Given/When/And/Then) para legibilidade
-- ✅ Keywords reutilizáveis e com nomes descritivos em português
-- ✅ Variáveis centralizadas na seção `*** Variables ***`
-- ✅ Uso de locators por `id`, `xpath` e `css` de forma organizada
-- ✅ `Set Selenium Speed` para estabilidade da execução
-- ✅ Relatórios HTML gerados automaticamente
-
----
-
-## 👨‍💻 Autor
-
-**Gabriel da Silva**  
-QA Engineer | [LinkedIn](https://www.linkedin.com/in/gabrielsndr/) | [GitHub](https://github.com/Gabrielndr)
+Se a execução real falhar com erro de versão do ChromeDriver, remova drivers antigos do `PATH` ou atualize o ChromeDriver para a mesma versão do Chrome. Com Selenium 4, o Selenium Manager consegue resolver o driver correto quando não existe um driver incompatível no `PATH`.

@@ -5,3 +5,6 @@ Cypress/downloads/
 Cypress/allure-results/
 Cypress/allure-report/
 Cypress/allure-history/
+Robot/results/
+Robot/results_tests/
+Robot/allure-report/

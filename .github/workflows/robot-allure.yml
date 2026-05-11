@@ -32,6 +32,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install robotframework
+          pip install robotframework-seleniumlibrary
           pip install allure-robotframework
 
       - name: Run Robot Framework dry run
@@ -40,7 +41,7 @@ jobs:
             --dryrun \
             --listener allure_robotframework \
             --outputdir Robot/results \
-            Robot/
+            Robot/tests
 
       - name: Generate Allure report
         if: always()
