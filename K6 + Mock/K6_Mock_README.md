@@ -6,7 +6,7 @@ Suite de testes de API usando K6 com WireMock como mock server. A ideia aqui e s
 
 ```text
 K6 + Mock/
-├── __Files/
+├── __files/
 │   └── cars.json
 ├── mappings/
 │   ├── api-cars.json
@@ -40,7 +40,7 @@ K6 + Mock/
 
 | Metodo | Endpoint | Condicao | Status |
 |---|---|---|---|
-| `GET` | `/api/cars` | lista fixa em `__Files/cars.json` | `200` |
+| `GET` | `/api/cars` | lista fixa em `__files/cars.json` | `200` |
 | `POST` | `/api/cars` | `model = fusca` e `year = 1965` | `201` |
 | `POST` | `/api/cars` | `model = up tsi` e `year = 2020` | `500` |
 | `POST` | `/api/cars` | qualquer outro payload | `404` |
