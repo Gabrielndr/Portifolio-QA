@@ -48,26 +48,42 @@ jobs:
 
       - name: Start WireMock
         run: |
-          java -jar wiremock-standalone-3.13.2.jar --port 8080 --root-dir . > wiremock.log 2>&1 &
+          nohup java -jar wiremock-standalone-3.13.2.jar --port 8080 --root-dir "$PWD" > wiremock.log 2>&1 &
           echo $! > wiremock.pid
 
       - name: Wait for WireMock
         run: |
+          WIREMOCK_URL="http://127.0.0.1:8080"
+          WIREMOCK_PID="$(cat wiremock.pid)"
+
           for attempt in {1..30}; do
-            if curl --silent --fail http://localhost:8080/api/cars > /dev/null; then
-              echo "WireMock is ready"
-              exit 0
+            if ! kill -0 "$WIREMOCK_PID" 2>/dev/null; then
+              echo "WireMock process stopped before becoming ready"
+              cat wiremock.log
+              exit 1
             fi
+
+            if curl --silent --fail "$WIREMOCK_URL/__admin/mappings" > /tmp/wiremock-mappings.json; then
+              if curl --silent --fail "$WIREMOCK_URL/api/cars" > /tmp/wiremock-cars.json; then
+                echo "WireMock is ready"
+                cat /tmp/wiremock-cars.json
+                exit 0
+              fi
+            fi
+
             sleep 1
           done
 
           echo "WireMock did not become ready"
+          echo "Loaded mappings:"
+          cat /tmp/wiremock-mappings.json || true
+          echo "WireMock log:"
           cat wiremock.log
           exit 1
 
       - name: Run K6 suite in CI profile
         env:
-          BASE_URL: http://localhost:8080
+          BASE_URL: http://127.0.0.1:8080
           REPORT_DIR: tests/reports
           VUS: 1
           DURATION: 3s

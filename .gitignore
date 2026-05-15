@@ -13,4 +13,5 @@ output/
 K6 + Mock/tests/report/
 K6 + Mock/tests/reports/*
 !K6 + Mock/tests/reports/.gitkeep
+K6 + Mock/*.log
 Postman/reports/
