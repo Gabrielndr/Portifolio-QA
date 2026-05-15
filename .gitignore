@@ -2,6 +2,7 @@ node_modules/
 Cypress/videos/
 Cypress/screenshots/
 Cypress/downloads/
+Cypress/cypress/
 Cypress/allure-results/
 Cypress/allure-report/
 Cypress/allure-history/

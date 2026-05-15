@@ -16,6 +16,17 @@
 // Import commands.js using ES2015 syntax:
 import './commands'
 
+beforeEach(() => {
+  [
+    '**://www.google-analytics.com/**',
+    '**://www.googletagmanager.com/**',
+    '**://*.googlesyndication.com/**',
+    '**://*.doubleclick.net/**',
+  ].forEach((url) => {
+    cy.intercept(url, { statusCode: 204, body: '' })
+  })
+})
+
 Cypress.on('uncaught:exception', (error) => {
   // LetCode occasionally throws this during Angular hydration. It is unrelated to the user flow under test.
   const isKnownLetCodeBootError = error.message.includes(

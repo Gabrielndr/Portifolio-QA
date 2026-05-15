@@ -1,5 +1,5 @@
 const loginPageUrl = '/login/'
-const authUrl = 'https://fakestoreapi.com/auth/login'
+const authUrl = '**/auth/login*'
 
 const selectors = {
   username: 'input[placeholder="Enter Username"]',
@@ -45,7 +45,7 @@ describe('LetCode - login Fake Store', () => {
 
     cy.get(selectors.username).clear().type(credentials.username)
     cy.get(selectors.password).clear().type(credentials.password, { log: false })
-    cy.get(selectors.loginButton).should('be.enabled').click()
+    cy.get(selectors.loginButton).scrollIntoView().should('be.visible').and('be.enabled').click()
 
     cy.wait('@login').then(({ request }) => {
       const body = typeof request.body === 'string'
@@ -73,7 +73,7 @@ describe('LetCode - login Fake Store', () => {
 
     cy.get(selectors.username).clear().type('usuario_invalido')
     cy.get(selectors.password).clear().type('senha_invalida', { log: false })
-    cy.get(selectors.loginButton).click()
+    cy.get(selectors.loginButton).scrollIntoView().should('be.visible').and('be.enabled').click()
 
     cy.wait('@loginFailed')
     cy.assertPath('/login')

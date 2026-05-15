@@ -8,6 +8,7 @@ module.exports = defineConfig({
     fixturesFolder: 'fixtures',
     screenshotsFolder: 'screenshots',
     videosFolder: 'videos',
+    downloadsFolder: 'downloads',
     viewportWidth: 1366,
     viewportHeight: 768,
     defaultCommandTimeout: 8000,
@@ -21,6 +22,20 @@ module.exports = defineConfig({
     video: true,
     screenshotOnRunFailure: true,
     setupNodeEvents(on, config) {
+      on('before:browser:launch', (browser, launchOptions) => {
+        if (browser.family === 'chromium' && Array.isArray(launchOptions.args)) {
+          launchOptions.args.push('--disable-gpu')
+          launchOptions.args.push('--disable-dev-shm-usage')
+          launchOptions.args.push('--enable-unsafe-swiftshader')
+
+          if (process.env.CI) {
+            launchOptions.args.push('--no-sandbox')
+          }
+        }
+
+        return launchOptions
+      })
+
       return config
     },
   },

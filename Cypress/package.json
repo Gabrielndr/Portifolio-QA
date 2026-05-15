@@ -6,7 +6,7 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "cy:run:chrome": "cypress run --browser chrome",
-    "cy:run:allure": "cypress run --reporter mocha-allure-reporter"
+    "cy:run:allure": "cypress run --browser chrome --headless --reporter mocha-allure-reporter"
   },
   "devDependencies": {
     "@4tw/cypress-drag-drop": "^2.3.0",
