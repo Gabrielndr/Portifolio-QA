@@ -80,6 +80,12 @@ Executar somente o smoke real usado no CI:
 robot --include ci_smoke --variable BROWSER:headlesschrome --outputdir Robot/results Robot/tests
 ```
 
+Executar o smoke gerando resultados para Allure:
+
+```bash
+robot --include ci_smoke --variable BROWSER:headlesschrome --listener allure_robotframework:Robot/results/allure-results --outputdir Robot/results Robot/tests
+```
+
 Executar por tag:
 
 ```bash
@@ -93,7 +99,7 @@ robot --include radio --outputdir Robot/results Robot/tests
 
 ## GitHub Actions
 
-O workflow `Robot Framework Tests + Allure Report` executa um smoke real em Chrome headless usando a tag `ci_smoke` e, em seguida, roda `robot --dryrun` no restante da suite para validar estrutura, imports e keywords. O relatorio Allure e publicado em GitHub Pages quando o workflow roda na branch `main`.
+O workflow `Robot Framework Tests + Allure Report` executa um smoke real em Chrome headless usando a tag `ci_smoke` com o listener `allure_robotframework:Robot/results/allure-results`. Em seguida, roda `robot --dryrun` no restante da suite para validar estrutura, imports e keywords. O relatorio Allure e publicado em GitHub Pages quando o workflow roda na branch `main`.
 
 ## Observacao Local
 

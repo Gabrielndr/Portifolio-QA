@@ -160,7 +160,7 @@ function Invoke-RobotSuite {
 
     Push-Location $RepoRoot
     try {
-      python -m robot --include ci_smoke --variable BROWSER:headlesschrome --outputdir Robot\results Robot\tests
+      python -m robot --include ci_smoke --variable BROWSER:headlesschrome --listener allure_robotframework:Robot\results\allure-results --outputdir Robot\results Robot\tests
       python -m robot --dryrun --exclude ci_smoke --outputdir Robot\dryrun-results Robot\tests
     }
     finally {

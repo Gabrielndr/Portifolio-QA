@@ -54,14 +54,26 @@ jobs:
           pip install robotframework-seleniumlibrary
           pip install allure-robotframework
 
+      - name: Prepare Robot result directories
+        run: |
+          rm -rf Robot/results Robot/dryrun-results Robot/allure-report
+          mkdir -p Robot/results/allure-results Robot/dryrun-results Robot/allure-report
+
       - name: Run Robot Framework smoke tests in headless Chrome
         run: |
           robot \
             --include ci_smoke \
             --variable BROWSER:headlesschrome \
-            --listener allure_robotframework \
+            --listener allure_robotframework:Robot/results/allure-results \
             --outputdir Robot/results \
             Robot/tests
+
+      - name: Check Allure result files
+        if: always()
+        run: |
+          find Robot/results/allure-results -maxdepth 1 -type f -print
+          result_count="$(find Robot/results/allure-results -maxdepth 1 -type f | wc -l)"
+          test "$result_count" -gt 0
 
       - name: Validate full Robot suite structure
         if: always()
