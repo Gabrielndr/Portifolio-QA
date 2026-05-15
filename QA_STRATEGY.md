@@ -52,7 +52,7 @@ Neste portfólio, a base de critérios fica nos arquivos BDD. A validação auto
 
 **Smoke**
 
-Suíte curta para responder rapidamente se o ambiente e o fluxo principal estão saudáveis. No Robot, o smoke real abre o navegador headless no CI. No K6, o smoke valida GET, POST de sucesso, erro esperado e fallback.
+Suíte curta para responder rapidamente se o ambiente e o fluxo principal estão saudáveis. No Robot, existe um cenário smoke para validação rápida, mas o CI publica a suíte completa no Allure. No K6, o smoke valida GET, POST de sucesso, erro esperado e fallback.
 
 **Regressão**
 
@@ -71,7 +71,7 @@ Validação de tempo de resposta, estabilidade sob carga e comportamento em cen�
 | Suíte | Critério de sucesso |
 |---|---|
 | Cypress | Specs E2E passam e relatório Allure é gerado |
-| Robot | Smoke headless passa e dry-run da suíte completa não encontra erro estrutural |
+| Robot | Suíte completa headless passa e gera resultados Allure |
 | Postman/Newman | Collection passa com 0 falhas e gera artefatos |
 | K6/WireMock | Smoke/carga curta passam com thresholds e artefatos publicados |
 | GitHub Pages | Portal e relatórios são publicados |

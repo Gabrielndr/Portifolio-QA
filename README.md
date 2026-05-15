@@ -215,7 +215,7 @@ Automação com **Robot Framework** e **SeleniumLibrary**, organizada em `tests/
 | `Robot/tests/radio_checkbox.robot` | 5 |
 | `Robot/tests/smoke_ci.robot` | 1 |
 
-**Total: 20 cenários funcionais Robot + 1 smoke real headless de CI.**
+**Total: 21 cenários Robot executáveis em modo headless.**
 
 Execução local:
 
@@ -236,7 +236,7 @@ Pipelines configurados para execução automatizada e publicação de relatório
 | Workflow | Objetivo |
 |---|---|
 | `.github/workflows/cypress-allure.yml` | Executa Cypress e publica relatório Allure |
-| `.github/workflows/robot-allure.yml` | Executa smoke real headless do Robot, valida a suíte completa por dry-run e publica relatório Allure |
+| `.github/workflows/robot-allure.yml` | Executa a suíte Robot completa em headless e publica relatório Allure |
 | `.github/workflows/postman-newman.yml` | Executa a collection Postman com Newman e publica artefatos |
 | `.github/workflows/k6-wiremock.yml` | Executa a suíte K6 em perfil de CI com WireMock |
 | `.github/workflows/deploy-index.yml` | Publica a página inicial do portfólio no GitHub Pages |

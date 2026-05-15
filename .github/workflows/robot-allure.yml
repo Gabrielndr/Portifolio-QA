@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   robot-tests:
-    name: Run Robot Framework Smoke + Validation
+    name: Run Robot Framework Full Suite
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -54,13 +54,12 @@ jobs:
 
       - name: Prepare Robot result directories
         run: |
-          rm -rf Robot/results Robot/dryrun-results Robot/allure-report
-          mkdir -p Robot/results/allure-results Robot/dryrun-results Robot/allure-report
+          rm -rf Robot/results Robot/allure-report
+          mkdir -p Robot/results/allure-results Robot/allure-report
 
-      - name: Run Robot Framework smoke tests in headless Chrome
+      - name: Run Robot Framework tests in headless Chrome
         run: |
           robot \
-            --include ci_smoke \
             --variable BROWSER:headlesschrome \
             --listener allure_robotframework:Robot/results/allure-results \
             --outputdir Robot/results \
@@ -72,15 +71,6 @@ jobs:
           find Robot/results/allure-results -maxdepth 1 -type f -print
           result_count="$(find Robot/results/allure-results -maxdepth 1 -type f | wc -l)"
           test "$result_count" -gt 0
-
-      - name: Validate full Robot suite structure
-        if: always()
-        run: |
-          robot \
-            --dryrun \
-            --exclude ci_smoke \
-            --outputdir Robot/dryrun-results \
-            Robot/tests
 
       - name: Generate Allure report
         if: always()
@@ -98,7 +88,6 @@ jobs:
           path: |
             Robot/allure-report
             Robot/results
-            Robot/dryrun-results
           retention-days: 30
 
       - name: Publish Allure report to GitHub Pages
