@@ -29,28 +29,26 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Setup Chrome
-        id: setup-chrome
-        uses: browser-actions/setup-chrome@v2
-        with:
-          chrome-version: stable
-          install-chromedriver: true
-          install-dependencies: true
-
-      - name: Add Chrome and ChromeDriver to PATH
-        run: |
-          echo "$(dirname "${{ steps.setup-chrome.outputs.chrome-path }}")" >> "$GITHUB_PATH"
-          echo "$(dirname "${{ steps.setup-chrome.outputs.chromedriver-path }}")" >> "$GITHUB_PATH"
-
       - name: Show browser versions
         run: |
-          "${{ steps.setup-chrome.outputs.chrome-path }}" --version
-          "${{ steps.setup-chrome.outputs.chromedriver-path }}" --version
+          which google-chrome || true
+          google-chrome --version
+          which chromedriver || true
+          chromedriver --version || true
+
+      - name: Remove preinstalled ChromeDriver from PATH
+        run: |
+          if command -v chromedriver >/dev/null 2>&1; then
+            CHROMEDRIVER_PATH="$(command -v chromedriver)"
+            echo "Removing ChromeDriver from PATH: $CHROMEDRIVER_PATH"
+            sudo rm -f "$CHROMEDRIVER_PATH" || rm -f "$CHROMEDRIVER_PATH" || true
+          fi
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install robotframework
+          pip install --upgrade selenium
           pip install robotframework-seleniumlibrary
           pip install allure-robotframework
 

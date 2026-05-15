@@ -99,7 +99,7 @@ robot --include radio --outputdir Robot/results Robot/tests
 
 ## GitHub Actions
 
-O workflow `Robot Framework Tests + Allure Report` executa um smoke real em Chrome headless usando a tag `ci_smoke` com o listener `allure_robotframework:Robot/results/allure-results`. Em seguida, roda `robot --dryrun` no restante da suite para validar estrutura, imports e keywords. O relatorio Allure e publicado em GitHub Pages quando o workflow roda na branch `main`.
+O workflow `Robot Framework Tests + Allure Report` executa um smoke real em Chrome headless usando a tag `ci_smoke` com o listener `allure_robotframework:Robot/results/allure-results`. Em seguida, roda `robot --dryrun` no restante da suite para validar estrutura, imports e keywords. No CI, o ChromeDriver nao e instalado manualmente; o Selenium Manager resolve o driver compativel com o Chrome disponivel no runner. O relatorio Allure e publicado em GitHub Pages quando o workflow roda na branch `main`.
 
 ## Observacao Local
 
