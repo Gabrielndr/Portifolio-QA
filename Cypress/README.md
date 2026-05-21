@@ -10,7 +10,10 @@ npm run cy:open
 npm run cy:run
 npm run cy:run:chrome
 npm run cy:run:allure
+npm run cy:run:ci
 ```
+
+`cy:run:allure` executa a regressao completa. `cy:run:ci` executa o smoke usado no GitHub Actions, com specs estaveis e independentes das paginas LetCode mais sensiveis a instabilidade externa.
 
 ## Boas praticas aplicadas
 
@@ -20,7 +23,7 @@ npm run cy:run:allure
 - `cy.intercept()` para autenticar e controlar dados externos.
 - Fixtures para dados da Fake Store.
 - Tratamento global apenas para erro conhecido do LetCode.
-- CI preparado para rodar a suite e publicar relatorio Allure.
+- CI preparado para rodar smoke confiavel e publicar relatorio Allure.
 
 ## Cobertura
 

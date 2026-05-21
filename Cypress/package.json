@@ -6,7 +6,8 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "cy:run:chrome": "cypress run --browser chrome",
-    "cy:run:allure": "cypress run --browser chrome --headless --reporter mocha-allure-reporter"
+    "cy:run:allure": "cypress run --browser chrome --headless --reporter mocha-allure-reporter",
+    "cy:run:ci": "cypress run --browser chrome --headless --reporter mocha-allure-reporter --spec \"e2e/auth.cy.js,e2e/button.cy.js,e2e/checkout.cy.js,e2e/sortable.cy.js\""
   },
   "devDependencies": {
     "@4tw/cypress-drag-drop": "^2.3.0",

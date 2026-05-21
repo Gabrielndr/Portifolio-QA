@@ -118,7 +118,10 @@ npm install
 npm run cy:open
 npm run cy:run
 npm run cy:run:allure
+npm run cy:run:ci
 ```
+
+No GitHub Actions, o Cypress executa uma suíte smoke estável com `auth`, `button`, `checkout` e `sortable`. A regressão completa continua disponível em `npm run cy:run:allure` para execução local/manual, incluindo cenários LetCode mais sensíveis a instabilidade externa.
 
 Relatório publicado: [Cypress Allure](https://gabrielndr.github.io/Portifolio-QA/cypress)
 
@@ -235,7 +238,7 @@ Pipelines configurados para execução automatizada e publicação de relatório
 
 | Workflow | Objetivo |
 |---|---|
-| `.github/workflows/cypress-allure.yml` | Executa Cypress e publica relatório Allure |
+| `.github/workflows/cypress-allure.yml` | Executa smoke Cypress estável e publica relatório Allure |
 | `.github/workflows/robot-allure.yml` | Executa a suíte Robot completa em headless e publica relatório Allure |
 | `.github/workflows/postman-newman.yml` | Executa a collection Postman com Newman e publica artefatos |
 | `.github/workflows/k6-wiremock.yml` | Executa a suíte K6 em perfil de CI com WireMock |
