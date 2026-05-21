@@ -38,10 +38,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Cypress with Allure reporter
-        run: npm run cy:run:allure
+      - name: Run Cypress CI smoke with Allure reporter
+        run: npm run cy:run:ci
         env:
           CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+          TERM: xterm
 
       - name: Upload Cypress debug artifacts
         if: failure()
