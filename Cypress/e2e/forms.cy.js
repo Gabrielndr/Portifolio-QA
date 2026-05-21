@@ -1,112 +1,92 @@
-const FORM_PAGE = '/forms'
-
 const selectors = {
-  firstName: '#firstname',
-  lastName: '#lasttname',
-  email: '#email',
-  phone: '#Phno',
-  addressLine1: '#Addl1',
-  addressLine2: '#Addl2',
-  state: '#state',
-  postalCode: '#postalcode',
-  birthDate: '#Date',
-  female: '#female',
-  terms: '.checkbox input[type="checkbox"]',
-  submit: 'input[type="submit"]',
+  form: 'form[action="submitted-form.html"]',
+  text: '#my-text-id',
+  password: 'input[name="my-password"]',
+  textarea: 'textarea[name="my-textarea"]',
+  select: 'select[name="my-select"]',
+  datalist: 'input[name="my-datalist"]',
+  checkedCheckbox: '#my-check-1',
+  defaultCheckbox: '#my-check-2',
+  checkedRadio: '#my-radio-1',
+  defaultRadio: '#my-radio-2',
+  date: 'input[name="my-date"]',
+  range: 'input[name="my-range"]',
+  submit: 'button[type="submit"]',
 }
 
 const validUser = {
-  firstName: 'Gabriel',
-  lastName: 'da Silva Andrade',
-  email: 'gabriel.qa@example.com',
-  countryCode: '55',
-  phone: '1194258073',
-  addressLine1: 'Rua das Flores',
-  addressLine2: 'Apto 12',
-  state: 'Sao Paulo',
-  postalCode: '03554150',
-  country: 'Brazil',
-  birthDate: '2001-08-23',
+  name: 'Gabriel Andrade',
+  password: 'senha-segura',
+  notes: 'Teste automatizado com Cypress',
+  city: 'Seattle',
+  date: '05/21/2026',
+  range: '8',
 }
-
-const invalidEmail = 'email-sem-arroba'
-
-const selectByLabel = (label) => (
-  cy.contains('label', new RegExp(`^${label}$`))
-    .parents('.field')
-    .find('select')
-)
 
 const fillValidForm = () => {
-  cy.get(selectors.firstName).clear().type(validUser.firstName)
-  cy.get(selectors.lastName).clear().type(validUser.lastName)
-  cy.get(selectors.email).clear().type(validUser.email)
-
-  selectByLabel('Country code').select(validUser.countryCode)
-  cy.get(selectors.phone).clear().type(validUser.phone)
-
-  cy.get(selectors.addressLine1).clear().type(validUser.addressLine1)
-  cy.get(selectors.addressLine2).clear().type(validUser.addressLine2)
-  cy.get(selectors.state).clear().type(validUser.state)
-  cy.get(selectors.postalCode).clear().type(validUser.postalCode)
-
-  selectByLabel('Country').select(validUser.country)
-  cy.get(selectors.birthDate).clear().type(validUser.birthDate)
-  cy.get(selectors.female).check()
-  cy.get(selectors.terms).check()
+  cy.get(selectors.text).clear().type(validUser.name)
+  cy.get(selectors.password).clear().type(validUser.password, { log: false })
+  cy.get(selectors.textarea).clear().type(validUser.notes)
+  cy.get(selectors.select).select('Two')
+  cy.get(selectors.datalist).clear().type(validUser.city)
+  cy.get(selectors.defaultCheckbox).check()
+  cy.get(selectors.defaultRadio).check()
+  cy.get(selectors.date).clear().type(validUser.date).blur()
+  cy.get(selectors.range)
+    .invoke('val', validUser.range)
+    .trigger('input', { force: true })
+    .trigger('change', { force: true })
 }
 
-describe('LetCode - formulario de cadastro', () => {
+describe('Selenium Web Form - formulario', () => {
   beforeEach(() => {
-    cy.visitLetCode(FORM_PAGE)
-    cy.contains('h1', 'Form').should('be.visible')
+    cy.visitSeleniumPage('web-form.html')
+    cy.contains('h1', 'Web form').should('be.visible')
   })
 
   it('deve preencher e enviar o formulario com dados validos', () => {
     fillValidForm()
 
-    cy.get(selectors.firstName).should('have.value', validUser.firstName)
-    cy.get(selectors.lastName).should('have.value', validUser.lastName)
-    cy.get(selectors.email).should('have.value', validUser.email)
-    cy.get(selectors.phone).should('have.value', validUser.phone)
-    cy.get(selectors.female).should('be.checked')
-    cy.get(selectors.terms).should('be.checked')
+    cy.get(selectors.text).should('have.value', validUser.name)
+    cy.get(selectors.password).should('have.value', validUser.password)
+    cy.get(selectors.textarea).should('have.value', validUser.notes)
+    cy.get(selectors.select).should('have.value', '2')
+    cy.get(selectors.datalist).should('have.value', validUser.city)
+    cy.get(selectors.defaultCheckbox).should('be.checked')
+    cy.get(selectors.defaultRadio).should('be.checked')
+    cy.get(selectors.date).should('have.value', validUser.date)
+    cy.get(selectors.range).should('have.value', validUser.range)
 
-    selectByLabel('Country code').should('have.value', validUser.countryCode)
-    selectByLabel('Country').should('have.value', validUser.country)
+    cy.get(selectors.submit).click()
 
-    cy.get('form').then(($form) => {
-      expect($form[0].checkValidity(), 'validade do formulario').to.eq(true)
-    })
-
-    cy.get(selectors.submit)
-      .should('be.visible')
-      .and('be.enabled')
-      .click()
-
-    cy.assertPath('/forms')
+    cy.contains('h1', 'Form submitted').should('be.visible')
+    cy.get('#message').should('have.text', 'Received!')
   })
 
-  it('deve bloquear envio quando campos obrigatorios estao vazios', () => {
-    cy.get('form').then(($form) => {
-      expect($form[0].checkValidity(), 'validade do formulario vazio').to.eq(false)
-    })
+  it('deve enviar os campos preenchidos na query string', () => {
+    fillValidForm()
+    cy.get(selectors.submit).click()
 
-    cy.get('form :invalid')
-      .its('length')
-      .should('be.greaterThan', 0)
+    cy.location('search').then((search) => {
+      const params = new URLSearchParams(search)
+
+      expect(params.get('my-text')).to.eq(validUser.name)
+      expect(params.get('my-password')).to.eq(validUser.password)
+      expect(params.get('my-textarea')).to.eq(validUser.notes)
+      expect(params.get('my-select')).to.eq('2')
+      expect(params.get('my-datalist')).to.eq(validUser.city)
+      expect(params.get('my-date')).to.eq(validUser.date)
+      expect(params.get('my-range')).to.eq(validUser.range)
+    })
   })
 
-  it('deve marcar email invalido como campo inconsistente', () => {
-    cy.get(selectors.firstName).clear().type(validUser.firstName)
-    cy.get(selectors.email).clear().type(invalidEmail)
+  it('deve manter metadados essenciais do formulario', () => {
+    cy.get(selectors.form)
+      .should('have.attr', 'method', 'get')
+      .and('have.attr', 'action')
+      .and('include', 'submitted-form.html')
 
-    cy.get(selectors.email)
-      .should('have.value', invalidEmail)
-      .and('have.attr', 'type', 'email')
-      .then(($input) => {
-        expect($input[0].checkValidity(), 'validade do email').to.eq(false)
-        expect($input[0].validationMessage, 'mensagem nativa').to.not.eq('')
-      })
+    cy.get(selectors.checkedCheckbox).should('be.checked')
+    cy.get(selectors.checkedRadio).should('be.checked')
   })
 })

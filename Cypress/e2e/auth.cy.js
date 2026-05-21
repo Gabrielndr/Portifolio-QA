@@ -1,85 +1,41 @@
-const loginPageUrl = '/login/'
-const authUrl = '**/auth/login*'
+const LOGIN_URL = 'https://the-internet.herokuapp.com/login'
 
 const selectors = {
-  username: 'input[placeholder="Enter Username"]',
-  password: 'input[placeholder="Enter Password"]',
-  loginButton: 'button.button.is-primary',
+  username: '#username',
+  password: '#password',
+  loginButton: 'button[type="submit"]',
+  flash: '#flash',
+  logout: 'a[href="/logout"]',
 }
 
 const credentials = {
-  username: 'mor_2314',
-  password: '83r5^_',
+  username: 'tomsmith',
+  password: 'SuperSecretPassword!',
 }
 
-const corsHeaders = {
-  'access-control-allow-origin': '*',
-  'access-control-allow-methods': 'POST, OPTIONS',
-  'access-control-allow-headers': 'content-type',
-}
-
-describe('LetCode - login Fake Store', () => {
+describe('The Internet - login', () => {
   beforeEach(() => {
-    cy.intercept('OPTIONS', authUrl, {
-      statusCode: 204,
-      headers: corsHeaders,
-    })
-
-    cy.visitLetCode(loginPageUrl, {
-      onBeforeLoad(win) {
-        win.localStorage.clear()
-      },
-    })
-
-    cy.contains('h2.title', 'Login').should('be.visible')
+    cy.visit(LOGIN_URL)
+    cy.contains('h2', 'Login Page').should('be.visible')
   })
 
-  it('deve autenticar com credenciais validas e persistir o token', () => {
-    const authToken = 'qa-token'
-
-    cy.intercept('POST', authUrl, {
-      statusCode: 200,
-      headers: corsHeaders,
-      body: { token: authToken },
-    }).as('login')
-
+  it('deve autenticar com credenciais validas', () => {
     cy.get(selectors.username).clear().type(credentials.username)
     cy.get(selectors.password).clear().type(credentials.password, { log: false })
-    cy.get(selectors.loginButton).scrollIntoView().should('be.visible').and('be.enabled').click()
+    cy.get(selectors.loginButton).should('be.visible').and('be.enabled').click()
 
-    cy.wait('@login').then(({ request }) => {
-      const body = typeof request.body === 'string'
-        ? JSON.parse(request.body)
-        : request.body
-
-      expect(body).to.deep.equal(credentials)
-    })
-
-    cy.assertPath('/home')
-    cy.window().then((win) => {
-      expect(win.localStorage.getItem('auth_token')).to.eq(authToken)
-      expect(JSON.parse(win.localStorage.getItem('user_data'))).to.deep.eq({
-        username: credentials.username,
-      })
-    })
+    cy.location('pathname').should('eq', '/secure')
+    cy.get(selectors.flash).should('contain.text', 'You logged into a secure area!')
+    cy.contains('h2', 'Secure Area').should('be.visible')
+    cy.get(selectors.logout).should('be.visible')
   })
 
   it('nao deve salvar sessao quando a autenticacao falha', () => {
-    cy.intercept('POST', authUrl, {
-      statusCode: 401,
-      headers: corsHeaders,
-      body: { error: 'Invalid username or password' },
-    }).as('loginFailed')
-
     cy.get(selectors.username).clear().type('usuario_invalido')
     cy.get(selectors.password).clear().type('senha_invalida', { log: false })
-    cy.get(selectors.loginButton).scrollIntoView().should('be.visible').and('be.enabled').click()
+    cy.get(selectors.loginButton).should('be.visible').and('be.enabled').click()
 
-    cy.wait('@loginFailed')
-    cy.assertPath('/login')
-    cy.window().then((win) => {
-      expect(win.localStorage.getItem('auth_token')).to.be.null
-      expect(win.localStorage.getItem('user_data')).to.be.null
-    })
+    cy.location('pathname').should('eq', '/login')
+    cy.get(selectors.flash).should('contain.text', 'Your username is invalid!')
   })
 })

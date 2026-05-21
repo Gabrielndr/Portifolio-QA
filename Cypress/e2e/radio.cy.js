@@ -1,60 +1,46 @@
-const radioPageUrl = '/radio'
-
 const selectors = {
-  pageTitle: 'h1.title',
-  yes: '#yes',
-  no: '#no',
-  one: '#one',
-  two: '#two',
-  noBug: '#nobug',
-  bug: '#bug',
-  foo: '#foo',
-  notFoo: '#notfoo',
-  going: '#going',
-  notGoing: '#notG',
-  maybe: '#maybe',
-  rememberMe: '.field:contains("Find if the checkbox is selected?") input[type="checkbox"]',
-  terms: '.field:contains("Accept the T&C") input[type="checkbox"]',
+  checkedRadio: '#my-radio-1',
+  defaultRadio: '#my-radio-2',
+  checkedCheckbox: '#my-check-1',
+  defaultCheckbox: '#my-check-2',
+  cheese: '#cheese',
+  peas: '#peas',
+  cheeseAndPeas: '#cheese_and_peas',
+  disabledSnack: '#nothing',
+  disabledSelectedRadio: '#lone_disabled_selected_radio',
 }
 
-describe('LetCode - radio buttons e checkboxes', () => {
+describe('Selenium Web Form - radio buttons e checkboxes', () => {
   beforeEach(() => {
-    cy.visitLetCode(radioPageUrl)
-    cy.get(selectors.pageTitle).should('contain.text', 'Radio & Checkbox')
+    cy.visitSeleniumPage('web-form.html')
+    cy.contains('h1', 'Web form').should('be.visible')
   })
 
-  it('deve selecionar uma opcao no primeiro grupo', () => {
-    cy.get(selectors.yes).check().should('be.checked')
-    cy.get(selectors.no).should('not.be.checked')
+  it('deve permitir apenas uma opcao no grupo de radios', () => {
+    cy.get(selectors.checkedRadio).should('be.checked')
+    cy.get(selectors.defaultRadio).should('not.be.checked')
+
+    cy.get(selectors.defaultRadio).check().should('be.checked')
+    cy.get(selectors.checkedRadio).should('not.be.checked')
   })
 
-  it('deve permitir apenas uma opcao no grupo de radio buttons', () => {
-    cy.get(selectors.one).check().should('be.checked')
-    cy.get(selectors.two).should('not.be.checked')
+  it('deve alternar checkboxes sem afetar radios', () => {
+    cy.get(selectors.checkedCheckbox).should('be.checked').uncheck().should('not.be.checked')
+    cy.get(selectors.defaultCheckbox).should('not.be.checked').check().should('be.checked')
 
-    cy.get(selectors.two).check().should('be.checked')
-    cy.get(selectors.one).should('not.be.checked')
+    cy.get(selectors.checkedRadio).should('be.checked')
   })
 
-  it('deve evidenciar o bug de agrupamento no bloco Find the bug', () => {
-    cy.get(selectors.noBug).check().should('be.checked')
-    cy.get(selectors.bug).check().should('be.checked')
+  it('deve identificar radio pre-selecionado e opcoes desabilitadas', () => {
+    cy.visitSeleniumPage('formPage.html')
 
-    cy.get(selectors.noBug).should('be.checked')
-    cy.get(selectors.bug).should('be.checked')
-  })
-
-  it('deve identificar radio pre-selecionado e opcao desabilitada', () => {
-    cy.get(selectors.foo).should('not.be.checked')
-    cy.get(selectors.notFoo).should('be.checked')
-
-    cy.get(selectors.going).should('be.enabled')
-    cy.get(selectors.notGoing).should('be.enabled')
-    cy.get(selectors.maybe).should('be.disabled')
-  })
-
-  it('deve validar checkboxes marcados e permitir aceitar os termos', () => {
-    cy.get(selectors.rememberMe).should('be.checked')
-    cy.get(selectors.terms).should('not.be.checked').check().should('be.checked')
+    cy.get(selectors.cheeseAndPeas).should('be.checked')
+    cy.get(selectors.peas).check().should('be.checked')
+    cy.get(selectors.cheeseAndPeas).should('not.be.checked')
+    cy.get(selectors.cheese).should('not.be.checked')
+    cy.get(selectors.disabledSnack).should('be.disabled')
+    cy.get(selectors.disabledSelectedRadio)
+      .should('be.disabled')
+      .and('be.checked')
   })
 })

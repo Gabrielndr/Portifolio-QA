@@ -1,60 +1,57 @@
-const DROPDOWN_PAGE = '/dropdowns'
-
 const selectors = {
-  fruits: '#fruits',
-  superHeroes: '#superheros',
-  language: '#lang',
-  country: '#country',
+  select: 'select[name="my-select"]',
+  datalist: 'input[name="my-datalist"]',
+  datalistOptions: '#my-options option',
+  multiSelect: '#selectWithMultipleLongList',
 }
 
 const selectedOptions = (selector) => cy.get(selector).find('option:selected')
 
-describe('LetCode - dropdowns', () => {
+describe('Selenium Web Form - dropdowns', () => {
   beforeEach(() => {
-    cy.visitLetCode(DROPDOWN_PAGE)
-    cy.contains('h1', 'Dropdown').should('be.visible')
+    cy.visitSeleniumPage('web-form.html')
+    cy.contains('h1', 'Web form').should('be.visible')
   })
 
-  it('deve selecionar uma fruta pelo texto visivel', () => {
-    cy.get(selectors.fruits)
+  it('deve selecionar uma opcao pelo texto visivel', () => {
+    cy.get(selectors.select)
       .should('be.visible')
-      .select('Mango')
-      .should('have.value', '1')
+      .select('Two')
+      .should('have.value', '2')
 
-    selectedOptions(selectors.fruits).should('have.text', 'Mango')
+    selectedOptions(selectors.select).should('have.text', 'Two')
   })
 
-  it('deve permitir selecao multipla de super-herois', () => {
-    const heroes = ['The Avengers', 'Batman', 'Iron Man']
+  it('deve preencher um datalist com opcao conhecida', () => {
+    cy.get(selectors.datalistOptions)
+      .should('have.length', 5)
+      .then(($options) => {
+        const values = [...$options].map((option) => option.value)
 
-    cy.get(selectors.superHeroes)
+        expect(values).to.include.members(['San Francisco', 'New York', 'Seattle'])
+      })
+
+    cy.get(selectors.datalist)
+      .clear()
+      .type('Seattle')
+      .should('have.value', 'Seattle')
+  })
+
+  it('deve permitir selecao multipla em componente dedicado', () => {
+    const selectedItems = ['one', 'three', 'five']
+
+    cy.visitSeleniumPage('selectPage.html')
+
+    cy.get(selectors.multiSelect)
       .should('be.visible')
       .and('have.attr', 'multiple')
 
-    cy.get(selectors.superHeroes)
-      .select(['ta', 'bt', 'im'])
+    cy.get(selectors.multiSelect).select(selectedItems)
 
-    selectedOptions(selectors.superHeroes).then(($options) => {
-      const selectedLabels = [...$options].map((option) => option.text.trim())
+    selectedOptions(selectors.multiSelect).then(($options) => {
+      const values = [...$options].map((option) => option.text.trim())
 
-      expect(selectedLabels).to.include.members(heroes)
-      expect(selectedLabels).to.have.length(heroes.length)
+      expect(values).to.deep.eq(selectedItems)
     })
-  })
-
-  it('deve selecionar a ultima linguagem e o pais pelo valor correto', () => {
-    cy.get(selectors.language)
-      .should('be.visible')
-      .select('sharp')
-      .should('have.value', 'sharp')
-
-    selectedOptions(selectors.language).should('have.text', 'C#')
-
-    cy.get(selectors.country)
-      .should('be.visible')
-      .select('India')
-      .should('have.value', 'India')
-
-    selectedOptions(selectors.country).should('have.text', 'India')
   })
 })

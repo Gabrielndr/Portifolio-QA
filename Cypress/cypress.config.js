@@ -2,7 +2,7 @@ const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: 'https://letcode.in',
+    baseUrl: 'https://www.selenium.dev/selenium/web',
     specPattern: 'e2e/**/*.cy.js',
     supportFile: 'support/e2e.js',
     fixturesFolder: 'fixtures',

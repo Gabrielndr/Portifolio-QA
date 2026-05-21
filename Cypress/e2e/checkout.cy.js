@@ -1,96 +1,83 @@
-const STORE_PAGE = '/home'
-const PRODUCTS_API = 'https://fakestoreapi.com/products'
+const STORE_PAGE = 'https://www.saucedemo.com/'
 
 const product = {
-  id: 1,
-  cardTitle: 'Fjallraven - Foldsack No. 1 Ba',
-  fullTitle: 'Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops',
-  price: '109.95',
+  name: 'Sauce Labs Backpack',
+  price: '$29.99',
 }
 
-const openFirstProduct = () => {
-  cy.contains('.card', product.cardTitle)
-    .should('be.visible')
-
-  cy.visitLetCode(`/product/${product.id}`)
-  cy.assertPath(`/product/${product.id}`)
-  cy.contains('.title', product.fullTitle).should('be.visible')
+const selectors = {
+  username: '#user-name',
+  password: '#password',
+  login: '#login-button',
+  inventoryTitle: '.title',
+  productName: '[data-test="inventory-item-name"]',
+  productPrice: '[data-test="inventory-item-price"]',
+  addBackpack: '[data-test="add-to-cart-sauce-labs-backpack"]',
+  cartBadge: '[data-test="shopping-cart-badge"]',
+  cartLink: '[data-test="shopping-cart-link"]',
+  checkout: '[data-test="checkout"]',
+  firstName: '[data-test="firstName"]',
+  lastName: '[data-test="lastName"]',
+  postalCode: '[data-test="postalCode"]',
+  continue: '[data-test="continue"]',
+  finish: '[data-test="finish"]',
+  completeHeader: '[data-test="complete-header"]',
 }
 
-const addProductToCart = () => {
-  openFirstProduct()
+const login = () => {
+  cy.visit(STORE_PAGE)
+  cy.get(selectors.username).type('standard_user')
+  cy.get(selectors.password).type('secret_sauce', { log: false })
+  cy.get(selectors.login).click()
 
-  cy.contains('button', 'Add to Cart')
+  cy.location('pathname').should('include', 'inventory.html')
+  cy.get(selectors.inventoryTitle).should('have.text', 'Products')
+}
+
+const addBackpackToCart = () => {
+  cy.contains(selectors.productName, product.name).should('be.visible')
+  cy.contains(selectors.productPrice, product.price).should('be.visible')
+
+  cy.get(selectors.addBackpack)
     .should('be.visible')
-    .and('not.be.disabled')
+    .and('be.enabled')
     .click()
 
-  cy.window().then((win) => {
-    const cart = JSON.parse(win.localStorage.getItem('cart_items') || '[]')
-
-    expect(cart, 'itens no carrinho').to.have.length(1)
-    expect(cart[0]).to.include({
-      id: product.id,
-      title: product.fullTitle,
-      quantity: 1,
-    })
-  })
-
-  cy.get('app-cartvalue .tag.is-success').should('contain.text', '1')
+  cy.get(selectors.cartBadge).should('have.text', '1')
 }
 
 const goToCart = () => {
-  cy.get('app-cartvalue')
-    .find('.fa-cart-shopping')
-    .parents('button')
-    .should('be.visible')
-    .click()
+  cy.get(selectors.cartLink).click()
 
-  cy.assertPath('/cart')
-  cy.contains('h2', 'Shopping Cart').should('be.visible')
+  cy.location('pathname').should('include', 'cart.html')
+  cy.contains(selectors.productName, product.name).should('be.visible')
 }
 
-describe('LetCode - fluxo de compra', () => {
+describe('SauceDemo - fluxo de compra', () => {
   beforeEach(() => {
-    cy.fixture('products').then((products) => {
-      cy.intercept('GET', PRODUCTS_API, products).as('getProducts')
-      cy.intercept('GET', `${PRODUCTS_API}/${product.id}`, products[0]).as('getProduct')
-    })
-
-    cy.visitLetCode(STORE_PAGE, {
-      onBeforeLoad(win) {
-        win.localStorage.clear()
-      },
-    })
-    cy.contains('h1', 'Fake Store').should('be.visible')
-    cy.contains('h2', 'Products').should('be.visible')
+    login()
   })
 
   it('deve abrir produto, adicionar ao carrinho e exibir badge com quantidade', () => {
-    addProductToCart()
+    addBackpackToCart()
   })
 
   it('deve exibir o produto no carrinho e finalizar checkout com sucesso', () => {
-    addProductToCart()
+    addBackpackToCart()
     goToCart()
 
-    cy.contains('td', product.fullTitle).should('be.visible')
-    cy.contains('td', `$${product.price}`).should('be.visible')
+    cy.get(selectors.checkout).click()
+    cy.get(selectors.firstName).type('Gabriel')
+    cy.get(selectors.lastName).type('Andrade')
+    cy.get(selectors.postalCode).type('03554150')
+    cy.get(selectors.continue).click()
 
-    cy.on('window:alert', (message) => {
-      expect(message).to.eq('Checkout Successful!')
-    })
+    cy.location('pathname').should('include', 'checkout-step-two.html')
+    cy.contains(selectors.productName, product.name).should('be.visible')
+    cy.contains(selectors.productPrice, product.price).should('be.visible')
 
-    cy.contains('button', 'Checkout')
-      .should('be.visible')
-      .and('not.be.disabled')
-      .click()
-
-    cy.contains('Your cart is empty').should('be.visible')
-    cy.contains('button', 'Continue Shopping').should('be.visible')
-
-    cy.window().then((win) => {
-      expect(win.localStorage.getItem('cart_items')).to.be.null
-    })
+    cy.get(selectors.finish).click()
+    cy.location('pathname').should('include', 'checkout-complete.html')
+    cy.get(selectors.completeHeader).should('have.text', 'Thank you for your order!')
   })
 })

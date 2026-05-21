@@ -28,10 +28,5 @@ beforeEach(() => {
 })
 
 Cypress.on('uncaught:exception', (error) => {
-  // LetCode occasionally throws this during Angular hydration. It is unrelated to the user flow under test.
-  const isKnownLetCodeBootError = error.message.includes(
-    "Cannot read properties of null (reading 'document')",
-  )
-
-  return !isKnownLetCodeBootError
+  return !error.message.includes('ResizeObserver loop completed with undelivered notifications')
 })

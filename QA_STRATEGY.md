@@ -46,13 +46,13 @@ Neste portfólio, a base de critérios fica nos arquivos BDD. A validação auto
 | Regressão visual/comportamental | Estados de botão, campos disabled/readonly, dropdowns | Cypress e Robot |
 | Falha em erro esperado | 401, 404, 500 controlado | Postman e K6 |
 | Performance básica | Latência e comportamento sob carga leve/stress | K6 |
-| Instabilidade de ambiente externo | APIs de terceiros e site real | Intercepts, mocks e smoke controlado |
+| Instabilidade de ambiente externo | APIs de terceiros e site real | Mocks, bloqueio de ruídos externos e alvos públicos desenhados para automação |
 
 ## Tipos de Teste
 
 **Smoke**
 
-Suíte curta para responder rapidamente se o ambiente e o fluxo principal estão saudáveis. No Cypress, o CI executa um smoke estável com fluxos menos dependentes de páginas externas instáveis. No Robot, existe um cenário smoke para validação rápida, mas o CI publica a suíte completa no Allure. No K6, o smoke valida GET, POST de sucesso, erro esperado e fallback.
+Suíte curta para responder rapidamente se o ambiente e o fluxo principal estão saudáveis. No Robot, existe um cenário smoke para validação rápida, mas o CI publica a suíte completa no Allure. No K6, o smoke valida GET, POST de sucesso, erro esperado e fallback.
 
 **Regressão**
 
@@ -70,7 +70,7 @@ Validação de tempo de resposta, estabilidade sob carga e comportamento em cen�
 
 | Suíte | Critério de sucesso |
 |---|---|
-| Cypress | Smoke E2E estável passa e relatório Allure é gerado |
+| Cypress | Suíte E2E completa passa e relatório Allure é gerado |
 | Robot | Suíte completa headless passa e gera resultados Allure |
 | Postman/Newman | Collection passa com 0 falhas e gera artefatos |
 | K6/WireMock | Smoke/carga curta passam com thresholds e artefatos publicados |
@@ -81,7 +81,7 @@ Validação de tempo de resposta, estabilidade sob carga e comportamento em cen�
 - Relatórios e resultados de execução ficam fora do versionamento.
 - Dados dinâmicos são usados para evitar conflito entre execuções.
 - Testes de UI priorizam seletores e validações estáveis.
-- A regressão Cypress completa fica disponível localmente, enquanto o CI prioriza smoke confiável para não depender de instabilidade de terceiros.
+- Cypress evita páginas voláteis e prioriza alvos públicos criados para prática de automação.
 - Mocks são usados quando o objetivo é previsibilidade.
 - Workflows são separados por suíte para facilitar diagnóstico.
 - O comando `run-all.ps1` centraliza a execução local sem substituir os comandos específicos de cada ferramenta.

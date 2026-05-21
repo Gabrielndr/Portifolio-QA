@@ -97,18 +97,18 @@ Documentação complementar: [BDD/README.md](BDD/README.md)
 
 ## Cypress - Testes E2E
 
-Automação End-to-End com **Cypress 14**, configuração centralizada, comandos customizados, fixtures, interceptação de APIs externas e geração de relatório Allure.
+Automação End-to-End com **Cypress 14**, configuração centralizada, comandos customizados, alvos públicos estáveis para automação e geração de relatório Allure.
 
 | Spec | Cobertura |
 |---|---|
-| `Cypress/e2e/auth.cy.js` | Login válido, inválido e persistência de token com `cy.intercept()` |
-| `Cypress/e2e/button.cy.js` | Botões, estados, navegação e validações visuais |
-| `Cypress/e2e/forms.cy.js` | Formulário válido, campos obrigatórios e email inválido |
-| `Cypress/e2e/dropdown.cy.js` | Dropdown simples, múltiplo e seleção por valor |
-| `Cypress/e2e/inputs.cy.js` | Campos de texto, foco, readonly, disabled e limpeza |
-| `Cypress/e2e/checkout.cy.js` | Produto, carrinho e checkout com fixture |
-| `Cypress/e2e/radio.cy.js` | Radio buttons, checkboxes e bug conhecido documentado |
-| `Cypress/e2e/sortable.cy.js` | Drag and drop |
+| `Cypress/e2e/auth.cy.js` | Login válido e inválido no The Internet |
+| `Cypress/e2e/button.cy.js` | Criação e remoção de botões dinâmicos |
+| `Cypress/e2e/forms.cy.js` | Preenchimento, envio e validação de query string no Selenium Web Form |
+| `Cypress/e2e/dropdown.cy.js` | Select, datalist e múltipla seleção no Selenium Web Form |
+| `Cypress/e2e/inputs.cy.js` | Texto, password, textarea, readonly, disabled, data e range |
+| `Cypress/e2e/checkout.cy.js` | Login, carrinho e checkout no SauceDemo |
+| `Cypress/e2e/radio.cy.js` | Radio buttons, checkboxes e opções desabilitadas |
+| `Cypress/e2e/sortable.cy.js` | Drag and drop no CommitQuality |
 
 Execução local:
 
@@ -121,7 +121,7 @@ npm run cy:run:allure
 npm run cy:run:ci
 ```
 
-No GitHub Actions, o Cypress executa uma suíte smoke estável com `auth`, `button`, `checkout` e `sortable`. A regressão completa continua disponível em `npm run cy:run:allure` para execução local/manual, incluindo cenários LetCode mais sensíveis a instabilidade externa.
+No GitHub Actions, `npm run cy:run:ci` executa a suíte Cypress completa com Allure. Os cenários foram migrados para alvos mais previsíveis, como Selenium Web Form, The Internet, SauceDemo e CommitQuality, reduzindo a instabilidade causada por páginas externas com anúncios ou scripts voláteis.
 
 Relatório publicado: [Cypress Allure](https://gabrielndr.github.io/Portifolio-QA/cypress)
 
@@ -238,7 +238,7 @@ Pipelines configurados para execução automatizada e publicação de relatório
 
 | Workflow | Objetivo |
 |---|---|
-| `.github/workflows/cypress-allure.yml` | Executa smoke Cypress estável e publica relatório Allure |
+| `.github/workflows/cypress-allure.yml` | Executa a suíte Cypress completa e publica relatório Allure |
 | `.github/workflows/robot-allure.yml` | Executa a suíte Robot completa em headless e publica relatório Allure |
 | `.github/workflows/postman-newman.yml` | Executa a collection Postman com Newman e publica artefatos |
 | `.github/workflows/k6-wiremock.yml` | Executa a suíte K6 em perfil de CI com WireMock |
@@ -270,7 +270,7 @@ Push ou pull request
 
 - Separação dos testes por camada e ferramenta.
 - Nomenclatura de arquivos mais clara e orientada ao comportamento.
-- Uso de fixtures, comandos customizados e interceptações no Cypress.
+- Uso de comandos customizados, seletores estáveis e bloqueio de ruídos externos no Cypress.
 - Collection Postman versionada com environment e execução Newman.
 - Mocks WireMock com prioridades para evitar conflitos de matching.
 - Relatórios gerados fora do versionamento.

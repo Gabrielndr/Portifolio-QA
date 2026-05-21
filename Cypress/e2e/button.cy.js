@@ -1,54 +1,48 @@
-const BUTTON_PAGE = '/button'
+const BUTTON_PAGE = 'https://the-internet.herokuapp.com/add_remove_elements/'
 
 const selectors = {
-  home: '#home',
-  position: '#position',
-  color: '#color',
-  property: '#property',
-  disabled: '#isDisabled',
+  addButton: 'button',
+  deleteButton: '.added-manually',
 }
 
-describe('LetCode - botoes', () => {
-  beforeEach(() => {
-    cy.visitLetCode(BUTTON_PAGE)
-  })
-
-  it('deve navegar para a home e voltar para a pagina de botoes', () => {
-    cy.get(selectors.home)
+const addElements = (quantity) => {
+  Cypress._.times(quantity, () => {
+    cy.contains(selectors.addButton, 'Add Element')
       .should('be.visible')
-      .and('not.be.disabled')
+      .and('be.enabled')
       .click()
+  })
+}
 
-    cy.location('pathname').should('not.eq', '/button')
-
-    cy.visitLetCode(BUTTON_PAGE)
-    cy.assertPath('/button')
-    cy.get(selectors.home).should('be.visible')
+describe('The Internet - botoes dinamicos', () => {
+  beforeEach(() => {
+    cy.visit(BUTTON_PAGE)
+    cy.contains('h3', 'Add/Remove Elements').should('be.visible')
   })
 
-  it('deve exibir posicao, cor e dimensoes esperadas dos botoes', () => {
-    cy.get(selectors.position).should(($button) => {
-      const { x, y } = $button[0].getBoundingClientRect()
+  it('deve criar um botao Delete ao acionar Add Element', () => {
+    addElements(1)
 
-      expect(x, 'posicao horizontal').to.be.greaterThan(0)
-      expect(y, 'posicao vertical').to.be.greaterThan(0)
-    })
-
-    cy.get(selectors.color)
-      .should('be.visible')
-      .and('have.css', 'background-color', 'rgb(42, 157, 144)')
-
-    cy.get(selectors.property).should(($button) => {
-      const { width, height } = $button[0].getBoundingClientRect()
-
-      expect(width, 'largura').to.be.greaterThan(0)
-      expect(height, 'altura').to.be.greaterThan(0)
-    })
+    cy.get(selectors.deleteButton)
+      .should('have.length', 1)
+      .and('contain.text', 'Delete')
   })
 
-  it('deve manter o botao desabilitado sem permitir clique do usuario', () => {
-    cy.get(selectors.disabled)
-      .should('be.visible')
-      .and('be.disabled')
+  it('deve criar multiplos botoes sem sobrescrever os existentes', () => {
+    addElements(3)
+
+    cy.get(selectors.deleteButton)
+      .should('have.length', 3)
+      .each(($button) => {
+        expect($button.text().trim()).to.eq('Delete')
+      })
+  })
+
+  it('deve remover apenas o botao clicado', () => {
+    addElements(3)
+
+    cy.get(selectors.deleteButton).eq(1).click()
+
+    cy.get(selectors.deleteButton).should('have.length', 2)
   })
 })

@@ -1,5 +1,9 @@
-Cypress.Commands.add('visitLetCode', (path, options = {}) => {
-  cy.visit(path, {
+const SELENIUM_WEB_BASE_URL = 'https://www.selenium.dev/selenium/web'
+
+Cypress.Commands.add('visitSeleniumPage', (page, options = {}) => {
+  const normalizedPage = page.replace(/^\/+/, '')
+
+  cy.visit(`${SELENIUM_WEB_BASE_URL}/${normalizedPage}`, {
     retryOnNetworkFailure: true,
     retryOnStatusCodeFailure: true,
     timeout: 120000,
