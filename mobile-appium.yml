@@ -1,0 +1,158 @@
+name: Mobile Appium Tests + Allure Report
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Mobile/**'
+      - '.github/workflows/mobile-appium.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'Mobile/**'
+      - '.github/workflows/mobile-appium.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mobile-appium-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  APK_URL: https://github.com/saucelabs/my-demo-app-android/releases/download/2.2.0/mda-2.2.0-25.apk
+  APK_PATH: Mobile/apps/my-demo-app.apk
+  API_LEVEL: 30
+
+jobs:
+  mobile-tests:
+    name: Run Robot Framework + Appium on Android Emulator
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Enable KVM for the emulator
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Appium and UiAutomator2 driver
+        run: |
+          npm install -g appium@3.9.0
+          appium driver install uiautomator2@8.7.3
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r Mobile/requirements.txt
+
+      - name: Download My Demo App APK
+        run: curl --fail --location --silent --show-error --output "$APK_PATH" "$APK_URL"
+
+      - name: Prepare result directories
+        run: |
+          rm -rf Mobile/results Mobile/allure-report
+          mkdir -p Mobile/results/allure-results Mobile/allure-report
+
+      - name: Start Appium server
+        run: |
+          nohup appium --address 127.0.0.1 --port 4723 > Mobile/results/appium.log 2>&1 &
+
+          for attempt in {1..30}; do
+            if curl --silent --fail http://127.0.0.1:4723/status > /dev/null; then
+              echo "Appium is ready"
+              exit 0
+            fi
+            sleep 1
+          done
+
+          echo "Appium did not become ready"
+          cat Mobile/results/appium.log
+          exit 1
+
+      - name: AVD cache
+        uses: actions/cache@v4
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-${{ env.API_LEVEL }}-google_apis-x86_64
+
+      - name: Create AVD snapshot for cache
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ env.API_LEVEL }}
+          target: google_apis
+          arch: x86_64
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          script: echo "Generated AVD snapshot for caching."
+
+      - name: Run Robot Framework tests on the emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ env.API_LEVEL }}
+          target: google_apis
+          arch: x86_64
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: robot --listener allure_robotframework:Mobile/results/allure-results --outputdir Mobile/results Mobile/tests
+
+      - name: Check Allure result files
+        if: always()
+        run: |
+          find Mobile/results/allure-results -maxdepth 1 -type f -print
+          result_count="$(find Mobile/results/allure-results -maxdepth 1 -type f | wc -l)"
+          test "$result_count" -gt 0
+
+      - name: Generate Allure report
+        if: always()
+        uses: simple-elf/allure-report-action@master
+        with:
+          allure_results: Mobile/results/allure-results
+          allure_report: Mobile/allure-report
+          keep_reports: 20
+
+      - name: Upload Mobile artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-appium-results
+          path: |
+            Mobile/allure-report
+            Mobile/results
+          retention-days: 30
+
+      - name: Publish Allure report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main' && always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: Mobile/allure-report
+          destination_dir: mobile
