@@ -14,7 +14,9 @@ O objetivo é demonstrar organização de suíte, clareza de cenários, boas pr�
 
 ## Sobre Mim
 
-Sou **Gabriel da Silva**, QA Engineer com mais de 5 anos de experiência em qualidade de software. Atuei em projetos de grande escala nos setores financeiro e de aviação, garantindo qualidade em aplicações mobile, web e APIs, com destaque para projetos como **Smiles**, **GOL App** e **Cielo POS/TEF**.
+Sou **Gabriel da Silva**, QA Engineer com mais de 6 anos de experiência em qualidade de software. Atualmente atuo como **Analista de Teste - QA Pleno** no projeto do cliente **Amil**, do setor de saúde, com testes funcionais, regressivos, de integração e exploratórios em aplicações web, mobile e APIs REST, em times ágeis e com testes integrados a pipelines de CI/CD.
+
+Antes disso, atuei em projetos de grande escala nos setores financeiro e de aviação, com destaque para **Smiles**, **GOL App** e **Cielo POS/TEF**.
 
 Minha missão é contribuir para entregas mais confiáveis por meio de estratégia de testes, automação robusta, análise crítica e cultura de qualidade.
 
@@ -283,8 +285,9 @@ Push ou pull request
 
 ## Experiência Profissional
 
-| Empresa | Cargo | Período | Projetos |
+| Empresa / Cliente | Cargo | Período | Projetos |
 |---|---|---|---|
+| Cliente Amil | Analista de Teste - QA Pleno | Atual | Aplicações web, mobile e APIs do setor de saúde |
 | Level 4 Consulting | Analista de QA | 07/2021 - 03/2025 | Smiles App, GOL App |
 | Grupo HDI | Analista de QA | 03/2020 - 06/2021 | Cielo POS/TEF |
 
