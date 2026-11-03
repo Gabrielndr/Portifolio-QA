@@ -3,9 +3,12 @@ Resource    common.resource
 
 
 *** Variables ***
-# Flutter não expõe identificador em TextField, então os campos são localizados pelo tipo nativo do iOS.
-${CAMPO_USUARIO}         chain=**/XCUIElementTypeTextField
-${CAMPO_SENHA}           chain=**/XCUIElementTypeSecureTextField
+# Flutter não expõe identificador em TextField, então os campos são localizados pela posição.
+# O campo de senha nem sempre aparece como SecureTextField no iOS, por isso o filtro aceita os dois tipos.
+${CAMPO_TEXTO}           XCUIElementTypeAny[`type == 'XCUIElementTypeTextField' OR type == 'XCUIElementTypeSecureTextField'`]
+# A barra antes do colchete evita que o Robot interprete [1] como acesso a item da variável.
+${CAMPO_USUARIO}         chain=**/${CAMPO_TEXTO}\[1]
+${CAMPO_SENHA}           chain=**/${CAMPO_TEXTO}\[2]
 ${BOTAO_ENTRAR}          accessibility_id=botao_entrar
 ${TITULO_TAREFAS}        accessibility_id=titulo_tarefas
 ${SAUDACAO}              accessibility_id=saudacao

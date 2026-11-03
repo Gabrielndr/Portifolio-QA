@@ -49,12 +49,17 @@ Ele usa `Semantics(identifier: ...)`, que no iOS vira o `accessibilityIdentifier
 ${BOTAO_ENTRAR}    accessibility_id=botao_entrar
 ```
 
-Os campos de texto não têm identificador no Flutter, então são localizados pelo tipo nativo do iOS com class chain:
+Os campos de texto não têm identificador no Flutter, então são localizados pelo tipo nativo do iOS e pela posição, com class chain:
 
 ```robot
-${CAMPO_USUARIO}    chain=**/XCUIElementTypeTextField
-${CAMPO_SENHA}      chain=**/XCUIElementTypeSecureTextField
+${CAMPO_TEXTO}      XCUIElementTypeAny[`type == 'XCUIElementTypeTextField' OR type == 'XCUIElementTypeSecureTextField'`]
+${CAMPO_USUARIO}    chain=**/${CAMPO_TEXTO}\[1]
+${CAMPO_SENHA}      chain=**/${CAMPO_TEXTO}\[2]
 ```
+
+A barra em `\[1]` é necessária: sem ela, o Robot entende `${CAMPO_TEXTO}[1]` como "pegar o caractere 1 da variável".
+
+O filtro aceita os dois tipos porque o campo de senha do Flutter (`obscureText: true`) não aparece como `XCUIElementTypeSecureTextField` no iOS. Isso foi descoberto na primeira execução no CI.
 
 Essa abordagem usa o driver XCUITest padrão. Não depende do Appium Flutter Driver nem de mudanças no build do app.
 

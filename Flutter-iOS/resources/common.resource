@@ -22,6 +22,7 @@ Abrir App
     ...    appium:automationName=XCUITest
     ...    appium:app=${APP_PATH}
     ...    appium:wdaLaunchTimeout=${240000}
+    ...    appium:simulatorStartupTimeout=${300000}
     ...    appium:newCommandTimeout=${120}
     IF    $UDID    Set To Dictionary    ${capacidades}    appium:udid=${UDID}
     Open Application    ${APPIUM_URL}    &{capacidades}
@@ -29,6 +30,8 @@ Abrir App
     Wait Until Element Is Visible    ${TITULO_LOGIN}    ${DEFAULT_TIMEOUT}
 
 Fechar App
+    # Em caso de falha, registra a árvore de elementos no log para ajudar a ajustar seletores.
+    Run Keyword If Test Failed    Run Keyword And Ignore Error    Log Source
     Close All Applications
 
 Aguardar E Clicar
