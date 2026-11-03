@@ -7,7 +7,8 @@ ${PRODUTO}               Sauce Labs Backpack
 
 # Na lista, só a imagem abre o produto; por isso o XPath parte do título até a imagem do mesmo card.
 ${IMAGEM_PRODUTO}        xpath=//android.widget.TextView[@text="${PRODUTO}"]/../android.widget.ImageView[@content-desc="Product Image"]
-${TITULO_PRODUTO}        id=${APP_ID}:id/productTV
+# A lista e a tela do produto usam o mesmo id no título; filtrar pelo texto evita pegar o título da lista que está saindo da tela.
+${TITULO_PRODUTO}        xpath=//*[@resource-id="${APP_ID}:id/productTV" and @text="${PRODUTO}"]
 ${AUMENTAR_QUANTIDADE}   android=new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().resourceId("${APP_ID}:id/plusIV"))
 ${ADICIONAR_CARRINHO}    android=new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().resourceId("${APP_ID}:id/cartBt"))
 
