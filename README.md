@@ -3,6 +3,8 @@
 [![Cypress](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/cypress-allure.yml/badge.svg)](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/cypress-allure.yml)
 [![Robot Framework](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/robot-allure.yml/badge.svg)](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/robot-allure.yml)
 [![Postman Newman](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/postman-newman.yml/badge.svg)](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/postman-newman.yml)
+[![Mobile Android](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/mobile-appium.yml/badge.svg)](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/mobile-appium.yml)
+[![Flutter iOS](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/flutter-ios-appium.yml/badge.svg)](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/flutter-ios-appium.yml)
 [![K6 WireMock](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/k6-wiremock.yml/badge.svg)](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/k6-wiremock.yml)
 [![GitHub Pages](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/deploy-index.yml/badge.svg)](https://github.com/Gabrielndr/Portifolio-QA/actions/workflows/deploy-index.yml)
 
@@ -28,7 +30,9 @@ Minha missão é contribuir para entregas mais confiáveis por meio de estratég
 Portifolio-QA/
 |-- BDD/              # Cenários BDD em Gherkin
 |-- Cypress/          # Testes E2E automatizados com Cypress
+|-- Flutter-iOS/      # App Flutter e testes iOS com Robot Framework e Appium
 |-- K6 + Mock/        # Testes de performance com K6 e WireMock
+|-- Mobile/           # Testes Android com Robot Framework e Appium
 |-- Postman/          # Testes de API REST com Postman e Newman
 |-- Robot/            # Testes web com Robot Framework e SeleniumLibrary
 |-- .github/workflows # Pipelines de CI/CD
@@ -47,9 +51,11 @@ Portifolio-QA/
 | Postman + Newman | API REST | Collection automatizada da ServeRest com fluxo positivo, negativo, token e execução em CI |
 | K6 + WireMock | Performance / contrato | Smoke, carga, erro esperado e stress sobre API mockada |
 | Robot Framework | UI / BDD | SeleniumLibrary com recursos reutilizáveis e cenários organizados por domínio |
+| Robot + Appium (Android) | Mobile | UiAutomator2 no My Demo App: login e carrinho em emulador Android |
+| Robot + Appium (iOS) + Flutter | Mobile | XCUITest em app Flutter próprio: login e lista de tarefas em simulador de iPhone |
 | Gherkin | BDD | Critérios de aceite em português para web, API e performance |
-| GitHub Actions | CI/CD | Execução automatizada de Cypress, Robot, Postman/Newman e K6, além da publicação do portal |
-| Allure Report | Relatórios | Publicação de relatórios de Cypress e Robot no GitHub Pages |
+| GitHub Actions | CI/CD | Execução automatizada de Cypress, Robot, Appium (Android e iOS), Postman/Newman e K6, além da publicação do portal |
+| Allure Report | Relatórios | Publicação de relatórios de Cypress, Robot e Appium no GitHub Pages |
 
 ---
 
@@ -234,6 +240,31 @@ Documentação complementar: [Robot/Robot_README.md](Robot/Robot_README.md)
 
 ---
 
+## Mobile - Robot Framework + Appium
+
+Automação mobile com **Robot Framework** e **AppiumLibrary** em duas plataformas, cada uma com workflow próprio no GitHub Actions.
+
+| Suíte | Plataforma | App | Cenários |
+|---|---|---|---:|
+| `Mobile/` | Android (UiAutomator2, emulador) | My Demo App da Sauce Labs | 7 |
+| `Flutter-iOS/` | iOS (XCUITest, simulador) | QA Tarefas, app Flutter próprio | 9 + 2 widget tests |
+
+No app Flutter, os widgets recebem identificadores com `Semantics(identifier: ...)`, que viram `accessibility_id` no iOS. Assim os testes usam seletores estáveis sem depender de driver específico de Flutter.
+
+Execução local da suíte Android:
+
+```powershell
+robot --outputdir Mobile/results Mobile/tests
+```
+
+A suíte iOS precisa de macOS e Xcode, por isso roda no GitHub Actions em runner macOS.
+
+Relatórios publicados: [Android Allure](https://gabrielndr.github.io/Portifolio-QA/mobile) · [Flutter iOS Allure](https://gabrielndr.github.io/Portifolio-QA/flutter-ios)
+
+Documentação complementar: [Mobile/Mobile_README.md](Mobile/Mobile_README.md) · [Flutter-iOS/Flutter_iOS_README.md](Flutter-iOS/Flutter_iOS_README.md)
+
+---
+
 ## CI/CD - GitHub Actions
 
 Pipelines configurados para execução automatizada e publicação de relatórios:
@@ -242,6 +273,8 @@ Pipelines configurados para execução automatizada e publicação de relatório
 |---|---|
 | `.github/workflows/cypress-allure.yml` | Executa a suíte Cypress completa e publica relatório Allure |
 | `.github/workflows/robot-allure.yml` | Executa a suíte Robot completa em headless e publica relatório Allure |
+| `.github/workflows/mobile-appium.yml` | Executa a suíte Android em emulador e publica relatório Allure |
+| `.github/workflows/flutter-ios-appium.yml` | Compila o app Flutter, executa a suíte iOS em simulador e publica relatório Allure |
 | `.github/workflows/postman-newman.yml` | Executa a collection Postman com Newman e publica artefatos |
 | `.github/workflows/k6-wiremock.yml` | Executa a suíte K6 em perfil de CI com WireMock |
 | `.github/workflows/deploy-index.yml` | Publica a página inicial do portfólio no GitHub Pages |
@@ -264,6 +297,8 @@ Push ou pull request
 | Portal do portfólio | [Acessar GitHub Pages](https://gabrielndr.github.io/Portifolio-QA) |
 | Cypress | [Ver relatório Allure](https://gabrielndr.github.io/Portifolio-QA/cypress) |
 | Robot Framework | [Ver relatório Allure](https://gabrielndr.github.io/Portifolio-QA/robot) |
+| Mobile Android | [Ver relatório Allure](https://gabrielndr.github.io/Portifolio-QA/mobile) |
+| Flutter iOS | [Ver relatório Allure](https://gabrielndr.github.io/Portifolio-QA/flutter-ios) |
 | Repositório | [GitHub - Gabrielndr/Portifolio-QA](https://github.com/Gabrielndr/Portifolio-QA) |
 
 ---

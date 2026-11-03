@@ -1,0 +1,169 @@
+name: Flutter iOS Appium Tests + Allure Report
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Flutter-iOS/**'
+      - '.github/workflows/flutter-ios-appium.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'Flutter-iOS/**'
+      - '.github/workflows/flutter-ios-appium.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: flutter-ios-appium-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  flutter-ios-tests:
+    name: Run Robot Framework + Appium on iOS Simulator
+    runs-on: macos-15
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Generate iOS project files
+        working-directory: Flutter-iOS/app
+        run: flutter create --platforms=ios --org dev.portfolio --project-name qa_tarefas .
+
+      - name: Run Flutter widget tests
+        working-directory: Flutter-iOS/app
+        run: flutter test
+
+      - name: Build app for iOS Simulator
+        working-directory: Flutter-iOS/app
+        run: flutter build ios --simulator --debug
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Appium and XCUITest driver
+        run: |
+          npm install -g appium@3.9.0
+          appium driver install xcuitest
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r Flutter-iOS/requirements.txt
+
+      - name: Boot iOS Simulator
+        run: |
+          UDID="$(xcrun simctl list devices available --json | python3 -c '
+          import json, sys
+          devices = json.load(sys.stdin)["devices"]
+          for runtime in sorted(devices, reverse=True):
+              if "iOS" not in runtime:
+                  continue
+              for device in devices[runtime]:
+                  if device["name"].startswith("iPhone"):
+                      print(device["udid"])
+                      sys.exit(0)
+          sys.exit("No iPhone simulator available")
+          ')"
+          echo "Using simulator $UDID"
+          xcrun simctl boot "$UDID" || true
+          xcrun simctl bootstatus "$UDID" -b
+          echo "SIMULATOR_UDID=$UDID" >> "$GITHUB_ENV"
+
+      - name: Prepare result directories
+        run: |
+          rm -rf Flutter-iOS/results
+          mkdir -p Flutter-iOS/results/allure-results
+
+      - name: Start Appium server
+        run: |
+          nohup appium --address 127.0.0.1 --port 4723 > Flutter-iOS/results/appium.log 2>&1 &
+
+          for attempt in {1..30}; do
+            if curl --silent --fail http://127.0.0.1:4723/status > /dev/null; then
+              echo "Appium is ready"
+              exit 0
+            fi
+            sleep 1
+          done
+
+          echo "Appium did not become ready"
+          cat Flutter-iOS/results/appium.log
+          exit 1
+
+      - name: Run Robot Framework tests on the simulator
+        run: |
+          robot \
+            --variable "UDID:$SIMULATOR_UDID" \
+            --listener allure_robotframework:Flutter-iOS/results/allure-results \
+            --outputdir Flutter-iOS/results \
+            Flutter-iOS/tests
+
+      - name: Upload Robot results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter-ios-appium-results
+          path: Flutter-iOS/results
+          retention-days: 30
+
+  # A action do Allure roda em Docker, que não existe nos runners macOS.
+  allure-report:
+    name: Generate and Publish Allure Report
+    needs: flutter-ios-tests
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Download Robot results
+        uses: actions/download-artifact@v4
+        with:
+          name: flutter-ios-appium-results
+          path: Flutter-iOS/results
+
+      - name: Check Allure result files
+        run: |
+          find Flutter-iOS/results/allure-results -maxdepth 1 -type f -print
+          result_count="$(find Flutter-iOS/results/allure-results -maxdepth 1 -type f | wc -l)"
+          test "$result_count" -gt 0
+
+      - name: Generate Allure report
+        uses: simple-elf/allure-report-action@master
+        with:
+          allure_results: Flutter-iOS/results/allure-results
+          allure_report: Flutter-iOS/allure-report
+          keep_reports: 20
+
+      - name: Upload Allure artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter-ios-allure-report
+          path: Flutter-iOS/allure-report
+          retention-days: 30
+
+      - name: Publish Allure report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main' && always()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: Flutter-iOS/allure-report
+          destination_dir: flutter-ios

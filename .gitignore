@@ -19,3 +19,10 @@ Postman/reports/
 Mobile/results/
 Mobile/allure-report/
 Mobile/apps/*.apk
+Flutter-iOS/results/
+Flutter-iOS/allure-report/
+Flutter-iOS/app/build/
+Flutter-iOS/app/ios/
+Flutter-iOS/app/.dart_tool/
+Flutter-iOS/app/.flutter-plugins*
+Flutter-iOS/app/pubspec.lock
